@@ -1,0 +1,70 @@
+[{
+	"Land1": "PH",
+	"Area": "NCR",
+	"Province": "Metro Manila",
+	"City": "Mandaluyong",
+	"Zip": "00000",
+	"Barangay": "Barangka Ilaya"
+}, {
+	"Land1": "PH",
+	"Area": "NCR",
+	"Province": "Metro Manila",
+	"City": "Taguig",
+	"Zip": "00000",
+	"Barangay": "Addition Hills"
+}, {
+	"Land1": "PH",
+	"Area": "NCR",
+	"Province": "Manila",
+	"City": "Manila",
+	"Zip": "00000",
+	"Barangay": "Rizal"
+}, {
+	"Land1": "PH",
+	"Area": "Visayas",
+	"Province": "Cebu",
+	"City": "Cebu City",
+	"Barangay": "Hills"
+}, {
+	"Land1": "PH",
+	"Area": "Visayas",
+	"Province": "Cebu",
+	"City": "Danao",
+	"Barangay": "Naga"
+}, {
+	"Land1": "PH",
+	"Area": "Visayas",
+	"Province": "Cebu",
+	"City": "Naga",
+	"Barangay": "High Hills"
+}, {
+	"Land1": "PH",
+	"Area": "Luzon",
+	"Province": "Bulacan",
+	"City": "Malolos",
+	"Barangay": "Mojon"
+}, {
+	"Area": "Luzon",
+	"Land1": "PH",
+	"Province": "Bulacan",
+	"City": "San Jose Del Monte",
+	"Barangay": "Santiago"
+}, {
+	"Land1": "PH",
+	"Area": "Luzon",
+	"Province": "Pampanga",
+	"City": "Apalit",
+	"Barangay": "Calumpit"
+}, {
+	"Land1": "PH",
+	"Area": "Mindanao",
+	"Province": "Davao",
+	"City": "Davao",
+	"Barangay": "Baga"
+}, {
+	"Land1": "PH",
+	"Area": "Mindanao",
+	"Province": "Davao",
+	"City": "Gabi",
+	"Barangay": "Naga"
+}]

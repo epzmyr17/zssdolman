@@ -1,0 +1,87 @@
+/* Enter your custom styles here */
+.imageContent {
+    width: 100%;
+}
+
+.dtd-customPanel {
+    background-color: white;
+    border: 1px solid #bfbfbf;
+    border-radius: 5px;
+    box-shadow: 0 0px 8px 0 rgb(0 0 0 / 6%), 0 0px 7px 0 rgb(0 0 0 / 5%);
+}
+
+.dtd-customHeaderColor {
+    background-color: #eff4f9;
+}
+
+.dtd-smallContentPadding .sapUiBlockCellContent {
+    padding: 1.5rem;
+}
+
+.dtd-custom-no-border-button .sapMBtnInner {
+    background-color: transparent;
+    border: none;
+}
+
+.dtd-custom-no-border-button .sapMBtnInner .sapMBtnIcon {
+    margin-left: 0;
+}
+
+.dtd-bold-title {
+    font-weight: 600 !important;
+}
+
+.dtd-custom-title-size {
+    font-size: 1.2rem;
+}
+
+.dtd-form .sapUiFormTitle {
+    color: #4a719f;
+    font-weight: 550;
+}
+
+.dtd-icon-tab-no-border-bottom .sapMITH {
+    border-bottom: none;
+    box-shadow: none;
+    background: none;
+}
+
+.dtd-icon-tab-no-border-bottom .sapMITBContent {
+    border-bottom: none;
+}
+
+.dtd-icon-tab-no-margin .sapMITBScrollContainer {
+    margin-left: 0 !important;
+}
+
+.dtd-dynamic-page-header.sapFDynamicPageHeader.sapFDynamicPageHeaderPinnable {
+    padding-bottom: 0;
+}
+
+.dtd-daterange-input-disable input {
+    pointer-events: none;
+}
+
+.dtd-blue-title {
+    color: #4a719f;
+}
+
+.dtd-custom-border-bottom {
+    border-bottom: 1px solid #bfbfbf;
+}
+
+.dtd-custom-border-top {
+    border-top: 1px solid #bfbfbf;
+}
+
+.dtd-icon-size1 {
+    font-size: 2.5rem;
+}
+
+.dtd-custom-item-title-size {
+    font-size: 1rem;
+}
+
+.dtd-custom-text-size {
+    font-size: 0.8rem;
+}

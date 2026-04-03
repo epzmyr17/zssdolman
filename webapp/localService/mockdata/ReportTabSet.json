@@ -1,0 +1,17 @@
+[{
+	"TabId": "T1",
+	"Application": "R",
+	"TabDesc": "For Action"
+}, {
+	"TabId": "T2",
+	"Application": "R",
+	"TabDesc": "For Approval"
+}, {
+	"TabId": "T3",
+	"Application": "R",
+	"TabDesc": "For Processing"
+}, {
+	"TabId": "T4",
+	"Application": "R",
+	"TabDesc": "Completed"
+}]

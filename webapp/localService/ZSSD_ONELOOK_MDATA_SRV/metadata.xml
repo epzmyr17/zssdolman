@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+	xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+	<edmx:DataServices m:DataServiceVersion="2.0">
+		<Schema Namespace="ZSSD_ONELOOK_MDATA_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+			<EntityType Name="ZSSD_PICKUP_LOC" sap:content-version="1">
+				<Key><PropertyRef Name="PICKUP_LOC"/></Key><Property Name="PICKUP_LOC" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Pick-up Location"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="PICKUP_DESC" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="Pick-up Location Desc"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="ZSSD_TRANS_TYPE" sap:content-version="1">
+				<Key><PropertyRef Name="TRANS_TYPE"/></Key><Property Name="TRANS_TYPE" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Transaction Type"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="TRANS_DESC" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="Transaction Type Description"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="ZSSD_ITEM_TYPE" sap:content-version="1">
+				<Key><PropertyRef Name="ItemType"/></Key><Property Name="ItemType" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="Item Type" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="TransType" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Transaction Type"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ItemDesc" Type="Edm.String" Nullable="false" MaxLength="25" sap:unicode="false" sap:label="Item Type Desc"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="ZSSD_DELIVERY_TYPE" sap:content-version="1">
+				<Key><PropertyRef Name="DELIVERY_TYPE"/></Key><Property Name="DELIVERY_TYPE" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Delivery Type"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="DELIVERY_DESC" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="Delivery Type Description"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="ZSSD_ACTIVITIES" sap:content-version="1">
+				<Key><PropertyRef Name="ActivityId"/></Key><Property Name="ActivityId" Type="Edm.String" Nullable="false" MaxLength="7" sap:unicode="false" sap:label="Activity ID"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Segment" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="Segment/Order"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ActivityDesc" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Activity"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="ZSSD_COST_CENTER" sap:content-version="1">
+				<Key><PropertyRef Name="Kostldesc"/></Key><Property Name="Kostldesc" Type="Edm.String" Nullable="false" MaxLength="53" sap:unicode="false" sap:label="KOSTLDESC" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Kostl" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Cost Center" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Ltext" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Description" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Spras" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Language" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="ZSSD_BARANGAY" sap:content-version="1">
+				<Key><PropertyRef Name="CityCode"/><PropertyRef Name="BarangayCode"/></Key><Property Name="CityCode" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="City Code" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="BarangayCode" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Barangay Code"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="BarangayText" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:label="Barangay Description"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ZipCode" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Zip Code" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="ZSSD_CITY" sap:content-version="1">
+				<Key><PropertyRef Name="ProvinceCode"/><PropertyRef Name="CityCode"/></Key><Property Name="ProvinceCode" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Province Code"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="CityCode" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="City Code" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="CityDesc" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:label="City Description"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="ZSSD_PROVINCE" sap:content-version="1">
+				<Key><PropertyRef Name="Area"/><PropertyRef Name="Region"/><PropertyRef Name="ProvinceCode"/></Key><Property Name="Area" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Area" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Region" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Region" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ProvinceCode" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Province Code"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ProvinceDesc" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Province Description"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="ZSSD_AREA" sap:content-version="1">
+				<Key><PropertyRef Name="AreaCode"/></Key><Property Name="AreaCode" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Area Code" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="AreaDesc" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="Area Desc" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="ZSSD_ADDRESSES" sap:content-version="1">
+				<Key><PropertyRef Name="AddressId"/></Key><Property Name="AddressId" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="Address ID" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="PickupLoc" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Pick-up Location"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="TransType" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Transaction Type"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Name" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Prefix" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Prefix" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ContactPerson" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Contact Person Name"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ContactNumber" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Contact Number"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ContactEmail" Type="Edm.String" Nullable="false" MaxLength="241" sap:unicode="false" sap:label="E-Mail Address"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="HouseNum" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="House Number"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="UnitNum" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Unit Number" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Street" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="Street" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Subdivision" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="Subdivision"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Area" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Area" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ProvinceCode" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Province Code"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ProvinceDesc" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Province Description"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="CityCode" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="City Code" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="CityDesc" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:label="City Description"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Barangay" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Barangay Code"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="BarangayDesc" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:label="Barangay Description"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ZipCode" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Zip Code" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Address" Type="Edm.String" Nullable="false" MaxLength="250" sap:unicode="false" sap:label="Address" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Regular" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Use in Regular Req"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Service" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Use in Service"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="CreatedBy" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="Created By"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="CreatedDate" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Created on" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="UpdatedBy" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="Changed by"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="UpdatedDate" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Changed On" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="ZSSD_APPROVER" sap:content-version="1">
+				<Key><PropertyRef Name="Bname"/></Key><Property Name="Bname" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="User" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="NameFirst" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="First name"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="NameLast" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Last name" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="SmtpAddr" Type="Edm.String" Nullable="false" MaxLength="241" sap:unicode="false" sap:label="E-Mail Address"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Approvertype" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Approver Type"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="ZSSD_USER_TYPE" sap:content-version="1">
+				<Key><PropertyRef Name="UserType"/></Key><Property Name="UserType" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="OneLook User Type"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="UserTypeDesc" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="OneLook User Type Desc"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="ZSSD_SEGMENT_ORDER" sap:content-version="1">
+				<Key><PropertyRef Name="SEGMENT"/></Key><Property Name="SEGMENT" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="SEGMENT_DESC" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="ZSSD_SEGMENT_TYPE" sap:content-version="1">
+				<Key><PropertyRef Name="SEGMENT_TYPE"/></Key><Property Name="SEGMENT_TYPE" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="SEGMENT_TYPE_DESC" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="ZSSD_CHANNEL" sap:content-version="1">
+				<Key><PropertyRef Name="ChannelId"/></Key><Property Name="ChannelId" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="Channel ID" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="SegmentOrder" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Segment/Order"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="SegmentType" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Segment/Order Type"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ActivityDesc" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Activity"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="ZSSD_OL_STATUS_TAB" sap:content-version="1">
+				<Key><PropertyRef Name="StatusTab"/></Key><Property Name="StatusTab" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Status Tab" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="StatusTabDesc" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="Short Descript."
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ApplicationId" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Application ID"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="ZSSD_OL_STATUS_ID" sap:content-version="1">
+				<Key><PropertyRef Name="StatusId"/></Key><Property Name="StatusTab" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Status Tab" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="StatusId" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Status ID" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="StatusIdDesc" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="Short Descript."
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ApplicationId" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Application ID"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityContainer Name="ZSSD_ONELOOK_MDATA_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx"><EntitySet Name="ZSSD_PICKUP_LOCSet" EntityType="ZSSD_ONELOOK_MDATA_SRV.ZSSD_PICKUP_LOC" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="ZSSD_TRANS_TYPESet" EntityType="ZSSD_ONELOOK_MDATA_SRV.ZSSD_TRANS_TYPE" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="ZSSD_ITEM_TYPESet" EntityType="ZSSD_ONELOOK_MDATA_SRV.ZSSD_ITEM_TYPE" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="ZSSD_DELIVERY_TYPESet" EntityType="ZSSD_ONELOOK_MDATA_SRV.ZSSD_DELIVERY_TYPE" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="ZSSD_ACTIVITIESSet" EntityType="ZSSD_ONELOOK_MDATA_SRV.ZSSD_ACTIVITIES" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="ZSSD_COST_CENTERSet" EntityType="ZSSD_ONELOOK_MDATA_SRV.ZSSD_COST_CENTER" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="ZSSD_BARANGAYSet" EntityType="ZSSD_ONELOOK_MDATA_SRV.ZSSD_BARANGAY" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="ZSSD_CITYSet" EntityType="ZSSD_ONELOOK_MDATA_SRV.ZSSD_CITY" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="ZSSD_PROVINCESet" EntityType="ZSSD_ONELOOK_MDATA_SRV.ZSSD_PROVINCE" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="ZSSD_AREASet" EntityType="ZSSD_ONELOOK_MDATA_SRV.ZSSD_AREA" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="ZSSD_ADDRESSESSet" EntityType="ZSSD_ONELOOK_MDATA_SRV.ZSSD_ADDRESSES" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="ZSSD_APPROVERSet" EntityType="ZSSD_ONELOOK_MDATA_SRV.ZSSD_APPROVER" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="ZSSD_USER_TYPESet" EntityType="ZSSD_ONELOOK_MDATA_SRV.ZSSD_USER_TYPE" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="ZSSD_SEGMENT_ORDERSet" EntityType="ZSSD_ONELOOK_MDATA_SRV.ZSSD_SEGMENT_ORDER" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="ZSSD_SEGMENT_TYPESet" EntityType="ZSSD_ONELOOK_MDATA_SRV.ZSSD_SEGMENT_TYPE" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="ZSSD_CHANNELSet" EntityType="ZSSD_ONELOOK_MDATA_SRV.ZSSD_CHANNEL" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="ZSSD_OL_STATUS_TABSet" EntityType="ZSSD_ONELOOK_MDATA_SRV.ZSSD_OL_STATUS_TAB" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="ZSSD_OL_STATUS_IDSet" EntityType="ZSSD_ONELOOK_MDATA_SRV.ZSSD_OL_STATUS_ID" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/></EntityContainer><atom:link rel="self"
+				href="https://webidecp-zz1qtpwp2i.dispatcher.ap1.hana.ondemand.com/destinations/fid_system1_regular/sap/opu/odata/sap/ZSSD_ONELOOK_MDATA_SRV/$metadata"
+				xmlns:atom="http://www.w3.org/2005/Atom"/><atom:link rel="latest-version"
+				href="https://webidecp-zz1qtpwp2i.dispatcher.ap1.hana.ondemand.com/destinations/fid_system1_regular/sap/opu/odata/sap/ZSSD_ONELOOK_MDATA_SRV/$metadata"
+				xmlns:atom="http://www.w3.org/2005/Atom"/></Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

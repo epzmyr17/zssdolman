@@ -1,0 +1,259 @@
+{
+	"_version": "1.8.0",
+	"sap.app": {
+		"id": "com.globe.OneLook_CreateDTDRequest",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"sourceTemplate": {
+			"id": "servicecatalog.connectivityComponentForManifest",
+			"version": "0.0.0"
+		},
+		"dataSources": {
+			"ZSSD_ONELOOK_MDATA_SRV": {
+				"uri": "/sap/opu/odata/sap/ZSSD_ONELOOK_MDATA_SRV/",
+				"type": "OData",
+				"settings": {
+					"localUri": "localService/ZSSD_ONELOOK_MDATA_SRV/metadata.xml"
+				}
+			},
+			"ZSSD_REPORT_SRV": {
+				"uri": "/sap/opu/odata/sap/ZSSD_ONELOOK_MDATA_SRV/",
+				"type": "OData",
+				"settings": {
+					"localUri": "localService/metadata.xml"
+				}
+			},
+			"ZSSD_ONELOOK_TRANS_SRV": {
+				"uri": "/sap/opu/odata/sap/ZSSD_ONELOOK_TRANS_SRV/",
+				"type": "OData",
+				"settings": {
+					"localUri": "localService/ZSSD_ONELOOK_TRANS_SRV/metadata.xml"
+				}
+			},
+			"ZSSD_ONELOOK_BULK_UPLD_SRV": {
+				"uri": "/sap/opu/odata/sap/ZSSD_ONELOOK_BULK_UPLD_SRV/",
+				"type": "OData",
+				"settings": {
+					"localUri": "localService/ZSSD_ONELOOK_BULK_UPLD_SRV/metadata.xml"
+				}
+			}
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": [
+			"sap_hcb",
+			"sap_bluecrystal"
+		]
+	},
+	"sap.ui5": {
+		"handleValidation": true,
+		"rootView": {
+			"viewName": "com.globe.OneLook_CreateDTDRequest.view.App",
+			"type": "XML",
+			"async": true,
+			"id": "App"
+		},
+		"dependencies": {
+			"minUI5Version": "1.52.18",
+			"libs": {
+				"sap.m": {},
+				"sap.ui.core": {},
+				"sap.ui.layout": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "com.globe.OneLook_CreateDTDRequest.i18n.i18n"
+				}
+			},
+			"LocalMasterData": {
+				"type": "sap.ui.model.json.JSONModel",
+				"settings": {},
+				"uri": "model/Data/LocalMasterData.json",
+				"preload": true
+			},
+			"ZSSD_ONELOOK_MDATA_SRV": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneWay",
+					"defaultCountMode": "Request"
+				},
+				"dataSource": "ZSSD_ONELOOK_MDATA_SRV",
+				"preload": true
+			},
+			"": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneWay",
+					"defaultCountMode": "Request"
+				},
+				"dataSource": "ZSSD_ONELOOK_TRANS_SRV",
+				"preload": true
+			},
+			"ZSSD_ONELOOK_BULK_UPLD_SRV": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneWay",
+					"defaultCountMode": "Request"
+				},
+				"dataSource": "ZSSD_ONELOOK_BULK_UPLD_SRV",
+				"preload": true
+			}
+		},
+		"resources": {
+			"css": [
+				{
+					"uri": "css/style.css"
+				}
+			]
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"async": true,
+				"viewPath": "com.globe.OneLook_CreateDTDRequest.view",
+				"controlAggregation": "pages",
+				"controlId": "app",
+				"clearControlAggregation": false,
+				"bypassed": {
+					"target": "NotFound"
+				}
+			},
+			"routes": [
+				{
+					"name": "Report",
+					"pattern": "",
+					"target": [
+						"Report"
+					]
+				},
+				{
+					"name": "Dashboard",
+					"pattern": "Dashboard",
+					"target": [
+						"Dashboard"
+					]
+				},
+				{
+					"name": "CreateRequest",
+					"pattern": "CreateRequest/{RequestType}/:AccountType:",
+					"target": [
+						"CreateRequest"
+					]
+				},
+				{
+					"name": "CreateBulkRequest",
+					"pattern": "CreateBulkRequest/{RequestType}",
+					"target": [
+						"CreateBulkRequest"
+					]
+				},
+				{
+					"name": "ViewRequest",
+					"pattern": "ViewRequest/{Recnum}",
+					"target": [
+						"ViewRequest"
+					]
+				},
+				{
+					"name": "EditRequest",
+					"pattern": "EditRequest/{Recnum}",
+					"target": [
+						"EditRequest"
+					]
+				},
+				{
+					"name": "Review",
+					"pattern": "Review/{RequestType}",
+					"target": [
+						"Review"
+					]
+				}
+			],
+			"targets": {
+				"Report": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "Report"
+				},
+				"Dashboard": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "Dashboard"
+				},
+				"CreateRequest": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "CreateRequest"
+				},
+				"CreateBulkRequest": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "CreateBulkRequest"
+				},
+				"ViewRequest": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "ViewRequest"
+				},
+				"EditRequest": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "EditRequest"
+				},
+				"Review": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "ReviewPackage"
+				},
+				"NotFound": {
+					"viewType": "XML",
+					"transition": "show",
+					"clearControlAggregation": false,
+					"viewId": "NotFound",
+					"viewName": "NotFound"
+				}
+			}
+		}
+	},
+	"sap.platform.abap": {
+		"uri": "/sap/bc/ui5_ui5/sap/zssd_ol_man/webapp",
+		"_version": "1.1.0"
+	}
+}

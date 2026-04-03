@@ -1,0 +1,34 @@
+[{
+	"Id": "G1",
+	"Description": "Equipment",
+	"TransactionType": "NonTrade"
+}, {
+	"TransactionType": "NonTrade",
+	"Id": "G2",
+	"Description": "Gencar"
+}, {
+	"TransactionType": "NonTrade",
+	"Description": "Spares",
+	"Id": "G3"
+}, {
+	"TransactionType": "NonTrade",
+	"Description": "Item for disposal",
+	"Id": "G4"
+}, {
+	"TransactionType": "NonTrade",
+	"Description": "Rolling Cargo",
+	"Id": "G5"
+}, {
+	"TransactionType": "NonTrade",
+	"Description": "Documents for storage",
+	"Id": "G6"
+}, {
+	"Description": "E-waste zero",
+	"Id": "G7"
+}, {
+	"Description": "Service Unit",
+	"Id": "G8"
+}, {
+	"Description": "Service Laptop",
+	"Id": "G9"
+}]

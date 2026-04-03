@@ -1,0 +1,31 @@
+[{
+	"StatusId": "S01",
+	"StatusDesc": "Draft",
+	"Application": "R",
+	"TabId": "T1"
+}, {
+	"StatusDesc": "Returned",
+	"StatusId": "S02",
+	"TabId": "T1",
+	"Application": "R"
+}, {
+	"StatusDesc": "For approval",
+	"StatusId": "S03",
+	"Application": "R",
+	"TabId": "T2"
+}, {
+	"StatusDesc": "For processing",
+	"StatusId": "S04",
+	"Application": "R",
+	"TabId": "T3"
+}, {
+	"StatusDesc": "Completed",
+	"StatusId": "S21",
+	"Application": "R",
+	"TabId": "T4"
+}, {
+	"TabId": "T3",
+	"Application": "R",
+	"StatusDesc": "Submitted to courier",
+	"StatusId": "S5"
+}]

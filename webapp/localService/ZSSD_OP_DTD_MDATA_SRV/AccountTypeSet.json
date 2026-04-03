@@ -1,0 +1,7 @@
+[{
+	"AccountType": "CS",
+	"AcoountTypeDesc": "Consumer"
+}, {
+	"AccountType": "CO",
+	"AcoountTypeDesc": "Corporate"
+}]

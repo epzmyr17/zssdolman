@@ -1,0 +1,9 @@
+[{
+	"LaneId": 0,
+	"state": "Critical",
+	"value": "30"
+}, {
+	"LaneId": 0,
+	"state": "Positive",
+	"value": "70"
+}]

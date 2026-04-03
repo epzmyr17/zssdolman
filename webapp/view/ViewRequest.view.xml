@@ -1,0 +1,66 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="com.globe.OneLook_CreateDTDRequest.controller.ViewRequest"
+	xmlns:sf="sap.ui.layout.form" xmlns:f="sap.f" xmlns:layout="sap.ui.layout" height="100%" xmlns:core="sap.ui.core">
+	<f:DynamicPage headerExpanded="true">
+		<!-- DynamicPage Title -->
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:breadcrumbs>
+					<Breadcrumbs currentLocationText="{viewConfig>/Recnum}">
+						<Link text="{i18n>Home}" press="onPressBreadCrumbs">
+							<customData>
+								<core:CustomData key="route" value="#"/>
+							</customData>
+						</Link>
+						<Link text="{i18n>DTDReqCreated}" press="onPressBreadCrumbs">
+							<customData>
+								<core:CustomData key="route" value="Report"/>
+							</customData>
+						</Link>
+					</Breadcrumbs>
+				</f:breadcrumbs>
+				<f:heading>
+					<Title text="{viewConfig>/Recnum}" level="H1" class="dtd-bold-title sapUiSmallMarginTop sapUiSmallMarginBottom"/>
+				</f:heading>
+			</f:DynamicPageTitle>
+		</f:title>
+		<f:content>
+			<VBox>
+				<!--Rate courier -->
+				<MessageStrip text="{RateCourierText}" type="Success" showIcon="false" showCloseButton="false" visible="{IsRateCourier}"
+					class="sapUiSmallMarginBottom" enableFormattedText="true">
+					<link>
+						<Link text="{i18n>RateExperience}" press="onRateExperience"/>
+					</link>
+				</MessageStrip>
+				<!-- Request/Header Details -->
+				<core:Fragment fragmentName="com.globe.OneLook_CreateDTDRequest.fragment.ViewRequest.RequestDetails" type="XML"/>
+				<!-- Status Logs Details -->
+				<core:Fragment fragmentName="com.globe.OneLook_CreateDTDRequest.fragment.ViewRequest.StatusLogs" type="XML"/>
+				<!-- Subscriber Details -->
+				<core:Fragment fragmentName="com.globe.OneLook_CreateDTDRequest.fragment.ViewRequest.SubscriberDetails" type="XML"/>
+				<!--Start of insert MS223343 - PAL-2023-002-->
+				<!--Courier details -->
+				<core:Fragment fragmentName="com.globe.OneLook_CreateDTDRequest.fragment.ViewRequest.CourierDetails" type="XML"/>
+				<!--Pickup details -->
+				<core:Fragment fragmentName="com.globe.OneLook_CreateDTDRequest.fragment.ViewRequest.PickUpDetails" type="XML"/>
+				<!--Delivery details -->
+				<core:Fragment fragmentName="com.globe.OneLook_CreateDTDRequest.fragment.ViewRequest.DeliveryDetails" type="XML"/>
+				<!--End of insert MS223343 - PAL-2023-002-->
+				<!-- Package/Item Details-->
+				<core:Fragment fragmentName="com.globe.OneLook_CreateDTDRequest.fragment.ViewRequest.PackageDetails" type="XML"/>
+				<!-- Additional Info Details -->
+				<core:Fragment fragmentName="com.globe.OneLook_CreateDTDRequest.fragment.ViewRequest.AdditionalInfo" type="XML"/>
+			</VBox>
+		</f:content>
+		<!-- DynamicPage Footer -->
+		<f:footer>
+			<OverflowToolbar>
+				<Button icon="sap-icon://message-popup" text="{/messagesLength}" type="Emphasized" press="onMessageButtonPress"
+					visible="{= !!${/messagesLength}}"/>
+				<ToolbarSpacer/>
+				<Button type="Accept" text="Accept"/>
+				<Button type="Reject" text="Reject"/>
+			</OverflowToolbar>
+		</f:footer>
+	</f:DynamicPage>
+</mvc:View>

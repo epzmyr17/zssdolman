@@ -1,0 +1,7 @@
+<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc"  controllerName="com.globe.OneLook_CreateDTDRequest.controller.NotFound">
+	<MessagePage showHeader="false" text="{i18n>NotFoundTitle}" showNavButton="true" navButtonPress="onNavBack">
+		<customDescription>
+			<Link text="{i18n>GoToDashboard}" press="onPressLink"/>
+		</customDescription>
+	</MessagePage>
+</mvc:View>

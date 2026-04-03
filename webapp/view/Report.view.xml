@@ -1,0 +1,174 @@
+<mvc:View controllerName="com.globe.OneLook_CreateDTDRequest.controller.Report" xmlns:mvc="sap.ui.core.mvc" xmlns:fb="sap.ui.comp.filterbar"
+	xmlns:f="sap.f" displayBlock="true" xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:smartTable="sap.ui.comp.smarttable"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<f:DynamicPage id="dynamicPageId" class="sapUiNoContentPadding">
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<Title text="{i18n>MySubmitReq}"/>
+				</f:heading>
+				<f:breadcrumbs>
+					<Breadcrumbs currentLocationText="{i18n>MySubmitReq}">
+						<Link text="{i18n>Home}" press="onPressBreadCrumbs">
+							<customData>
+								<core:CustomData key="route" value="#"/>
+							</customData>
+						</Link>
+					</Breadcrumbs>
+				</f:breadcrumbs>
+				<f:actions></f:actions>
+				<f:navigationActions>
+					<Button type="Transparent" text="{i18n>ClearFilter}" press="onClearFilter"/>
+					<Button type="Emphasized" text="{i18n>NewRequest}" press="onPressNewRequest" class="sapUiSmallMarginEnd"/>
+				</f:navigationActions>
+			</f:DynamicPageTitle>
+		</f:title>
+		<f:header>
+			<f:DynamicPageHeader pinnable="true" class="dtd-dynamic-page-header">
+				<f:content>
+					<fb:FilterBar reset="onReset" search="onChangeFilterBar" showFilterConfiguration="true" useToolbar="false" showRestoreButton="false"
+						showClearButton="false" showGoOnFB="true">
+						<fb:filterItems>
+							<fb:FilterItem name="RefNo" label="{i18n>ReferenceNo}">
+								<fb:control>
+									<Input id="idRefNoFilter" value="{ReportFilter>Recnum}" liveChange="onChangeFieldValue">
+										<customData>
+											<core:CustomData value="{/#OLHeaderSet/StatusId/@name}"/>
+										</customData>
+									</Input>
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="DateSubmitted" label="{i18n>DateSubmitted}">
+								<fb:control>
+									<DateRangeSelection id="idDateSubmittedFilter" change="onChangeFieldValue" class="dtd-daterange-input-disable" dateValue="{ReportFilter>FromDate}"
+										secondDateValue="{ReportFilter>ToDate}"/>
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="TransType" label="{i18n>TransType}">
+								<fb:control>
+									<Select forceSelection="false" items="{ path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_TRANS_TYPESet' }" selectedKey="{ReportFilter>TransType}">
+										<core:Item text="{ZSSD_ONELOOK_MDATA_SRV>TRANS_DESC}" key="{ZSSD_ONELOOK_MDATA_SRV>TRANS_TYPE}"/>
+									</Select>
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="Status" label="{i18n>Status}">
+								<fb:control>
+									<Select id="idSelectStatus" forceSelection="false" items="{ path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_OL_STATUS_IDSet',
+										filters: [{path: 'ApplicationId', operator: 'EQ', value1: 'R'}]}" selectedKey="{ReportFilter>Status}">
+										<core:Item text="{ZSSD_ONELOOK_MDATA_SRV>StatusIdDesc}" key="{ZSSD_ONELOOK_MDATA_SRV>StatusId}"/>
+									</Select>
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="BssCase" label="{i18n>BssCase}" visibleInFilterBar="false">
+								<fb:control>
+									<Input value="{ReportFilter>BssCase}"/>
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="Sto" label="{i18n>Sto}" visibleInFilterBar="false">
+								<fb:control>
+									<Input value="{ReportFilter>Sto}"/>
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="DelOrder" label="{i18n>DelOrder}" visibleInFilterBar="false">
+								<fb:control>
+									<Input value="{ReportFilter>DeliveryOrder}"/>
+								</fb:control>
+							</fb:FilterItem>
+						</fb:filterItems>
+					</fb:FilterBar>
+					<!--<IconTabBar id="idIconTabFilter" select="onSelectTabStatus" showOverflowSelectList="true" headerMode="Inline" upperCase="false"-->
+					<!--	expanded="true" expandable="false" applyContentPadding="false" class="dtd-icon-tab-no-margin dtd-icon-tab-no-border-bottom"-->
+					<!--	items="{ path: '/ReportTabSet', filters: [{path: 'Application', operator: 'EQ', value1: 'R'}], parameters: { expand: 'NavTo_ReportTab_Status'},-->
+					<!--		events : {dataReceived: '.onReportTabDataReceived'}}">-->
+					<!--	<items>-->
+					<!--		<IconTabFilter text="{TabDesc}" key="{TabId}"/>-->
+					<!--	</items>-->
+					<!--</IconTabBar>-->
+					<IconTabBar id="idIconTabFilter" select="onSelectTabStatus" showOverflowSelectList="true" headerMode="Inline" upperCase="false"
+						expanded="true" expandable="false" applyContentPadding="false" class="dtd-icon-tab-no-margin dtd-icon-tab-no-border-bottom"
+						items="{ path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_OL_STATUS_TABSet', filters: [{path: 'ApplicationId', operator: 'EQ', value1: 'R'}]}">
+						<items>
+							<IconTabFilter text="{ZSSD_ONELOOK_MDATA_SRV>StatusTabDesc}" key="{ZSSD_ONELOOK_MDATA_SRV>StatusTab}"/>
+						</items>
+					</IconTabBar>
+				</f:content>
+			</f:DynamicPageHeader>
+		</f:header>
+		<f:content>
+			<VBox>
+				<smartTable:SmartTable id="idSmartTableReport" entitySet="OLHeaderSet" smartFilterId="smartFilterBar" tableType="ResponsiveTable"
+					useExportToExcel="false" useVariantManagement="false" useTablePersonalisation="false" header="Line Items" showRowCount="true"
+					persistencyKey="OneLook_Request_Report" enableAutoBinding="true" editTogglable="false" beforeRebindTable="onBeforeRebindTable"
+					initiallyVisibleFields="TransTypeDesc,Status,DaysElapsed,BssCase,Sto,DeliveryOrder" demandPopin="true"
+					requestAtLeastFields="TransTypeDesc,Status,DaysElapsed,BssCase,Sto,DeliveryOrder,StatusId">
+					<!--layout data used to make the table growing but the filter bar fixed -->
+					<smartTable:layoutData>
+						<FlexItemData growFactor="1" baseSize="0%"/>
+					</smartTable:layoutData>
+					<Table growing="true" growingThreshold="20">
+						<columns>
+							<Column width="17%">
+								<customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "RefNo,DateSubmitted", "leadingProperty": "RefNo,DateSubmitted", "columnIndex": 0}'/>
+								</customData>
+								<Text text="{i18n>ReferenceNo2}"></Text>
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem>
+								<ObjectIdentifier titleActive="true" title="{RefNo}"
+									text="{path: 'DateSubmitted', type:'sap.ui.model.type.Date', formatOptions:{pattern: 'MMM dd, yyyy', UTC: true, strictParsing: true}}"
+									titlePress="onPressDTDRequest" app:StatusId="{StatusId}"/>
+							</ColumnListItem>
+						</items>
+					</Table>
+				</smartTable:SmartTable>
+				<!--<Table id="idSmartTableReport" inset="false" updateFinished="onUpdateFinished" mode="None"-->
+				<!--	items="{ path: '/MRFHeaderSet', events: {dataReceived: '.onDataReceivedTable'}, sorter: { path: 'CreatedOn', descending : true }, parameters:{expand: 'NavTo_MRFHeader_Items'} }"-->
+				<!--	growing="true">-->
+				<!--	<headerToolbar>-->
+				<!--		<OverflowToolbar design="Transparent">-->
+				<!--			<Title titleStyle="Auto" level="Auto" text="{i18n>lineItem} ({viewConfig>/lineItemCount})"/>-->
+				<!--			<ToolbarSpacer/>-->
+				<!--			<Button type="Transparent" icon="sap-icon://sort" text="{i18n>sortByDate}" press="onClickSort" enabled="{viewConfig>/editable}"/>-->
+				<!--			<Button type="Transparent" icon="sap-icon://excel-attachment" text="{i18n>exportToExcel}" press="onPressExport"-->
+				<!--				enabled="{viewConfig>/editable}"/>-->
+				<!--		</OverflowToolbar>-->
+				<!--	</headerToolbar>-->
+				<!--	<columns>-->
+				<!--		<Column>-->
+				<!--			<Text text="{i18n>referenceNo}"/>-->
+				<!--		</Column>-->
+				<!--		<Column minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline">-->
+				<!--			<Text text="{i18n>commodity}"/>-->
+				<!--		</Column>-->
+				<!--		<Column minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline">-->
+				<!--			<Text text="{i18n>dateSubmitted}"/>-->
+				<!--		</Column>-->
+				<!--		<Column minScreenWidth="Tablet" demandPopin="true" hAlign="End" popinDisplay="Inline">-->
+				<!--			<Text text="{i18n>daysElapsed}"/>-->
+				<!--		</Column>-->
+				<!--		<Column minScreenWidth="Tablet" demandPopin="true" hAlign="End" popinDisplay="Inline">-->
+				<!--			<Text text="{i18n>totalWithCurrency}"/>-->
+				<!--		</Column>-->
+				<!--		<Column minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline">-->
+				<!--			<Text text="{i18n>status}"/>-->
+				<!--		</Column>-->
+				<!--	</columns>-->
+				<!--	<items>-->
+				<!--		<ColumnListItem type="Navigation" press="onPressMRFRequest">-->
+				<!--			<cells>-->
+				<!--				<Link text="{Recnum}" press="onPressMRFRequest"/>-->
+				<!--				<Text text="{Atwrt}"/>-->
+				<!--				<Text text="{path: 'CreatedOn', type: 'sap.ui.model.type.Date', formatOptions:{pattern: 'MMM dd, yyyy', UTC: true, strictParsing: true}}"/>-->
+				<!--				<Text text="{DaysElapsed}"/>-->
+				<!--				<Text text="{path: 'Amount', type:'sap.ui.model.odata.type.Decimal', constraints: {scale: 2}}"/>-->
+				<!--				<ObjectStatus state="{path: 'Status', formatter: '.formatter.formatRequestStatus'}" text="{Status}"/>-->
+				<!--			</cells>-->
+				<!--		</ColumnListItem>-->
+				<!--	</items>-->
+				<!--</Table>-->
+			</VBox>
+		</f:content>
+	</f:DynamicPage>
+</mvc:View>

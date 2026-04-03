@@ -1,0 +1,25 @@
+[{
+	"Recnum": "REC-0102-3002",
+	"Linenum": "0001",
+	"MimeType": "application/vnd.ms-excel",
+	"FileSize": 3590,
+	"FileName": "Attachment1.xlxs"
+}, {
+	"Recnum": "REC-0102-3002",
+	"Linenum": "0002",
+	"MimeType": "image/jpeg",
+	"FileSize": 2344,
+	"FileName": "Attachment2.jpeg"
+}, {
+	"Recnum": "REC-0102-3002",
+	"Linenum": "0003",
+	"MimeType": "image/jpeg",
+	"FileSize": 4467,
+	"FileName": "Attachment3.jpg"
+}, {
+	"Recnum": "REC-0102-3003",
+	"Linenum": "0001",
+	"FileName": "Attachment1.jpg",
+	"MimeType": "image/jpeg",
+	"FileSize": 1356
+}]

@@ -1,0 +1,50 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="com.globe.OneLook_CreateDTDRequest.controller.CreateBulkRequest"
+	xmlns:sf="sap.ui.layout.form" xmlns:f="sap.f" xmlns:layout="sap.ui.layout" height="100%" xmlns:core="sap.ui.core">
+	<f:DynamicPage headerExpanded="true" showFooter="true" id="idBulkDynamicPage">
+		<!-- DynamicPage Title -->
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:breadcrumbs>
+					<!-- {path: 'viewModel>/TransactionType', formatter: '.formatter.formatBulkRequestTitle'}  -->
+					<Breadcrumbs currentLocationText="{i18n>BulkTransactRequest}">
+						<Link text="{i18n>Home}" press="onPressBreadCrumbs">
+							<customData>
+								<core:CustomData key="route" value="#"/>
+							</customData>
+						</Link>
+						<Link text="{i18n>CreateDTDRequest}" press="onPressBreadCrumbs">
+							<customData>
+								<core:CustomData key="route" value="Dashboard"/>
+							</customData>
+						</Link>
+					</Breadcrumbs>
+				</f:breadcrumbs>
+				<f:heading>
+					<Title text="{i18n>BulkTransactRequest}" level="H1" class="dtd-bold-title sapUiSmallMarginTop sapUiSmallMarginBottom"/>
+				</f:heading>
+			</f:DynamicPageTitle>
+		</f:title>
+		<f:content>
+			<VBox binding="{bulkRequestModel>/}">
+				<!-- 1. Download Template section -->
+				<core:Fragment fragmentName="com.globe.OneLook_CreateDTDRequest.fragment.CreateBulkRequest.DownloadTemplate" type="XML"/>
+				<!-- 2. Transaction type -->
+				<core:Fragment fragmentName="com.globe.OneLook_CreateDTDRequest.fragment.CreateBulkRequest.TransactionType" type="XML"/>
+				<!---2. Form and Upload Documents -->
+				<core:Fragment fragmentName="com.globe.OneLook_CreateDTDRequest.fragment.CreateBulkRequest.FormUploadDocuments" type="XML"/>
+			</VBox>
+		</f:content>
+		<!-- DynamicPage Footer -->
+		<f:footer>
+			<OverflowToolbar>
+				<ToolbarSpacer/>
+				<Button type="Emphasized" text="{i18n>SubmitBtn}" press="onSubmit"/>
+				<Button text="{i18n>CancelBtn}" press="onPressBreadCrumbs">
+					<customData>
+						<core:CustomData key="route" value="Dashboard"/>
+					</customData>
+				</Button>
+			</OverflowToolbar>
+		</f:footer>
+	</f:DynamicPage>
+</mvc:View>

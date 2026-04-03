@@ -1,0 +1,28 @@
+[{
+	"Mandt": "300",
+	"ItemType": "Equipment"
+}, {
+	"Mandt": "300",
+	"ItemType": "Gencar"
+}, {
+	"Mandt": "300",
+	"ItemType": "Spares"
+}, {
+	"Mandt": "300",
+	"ItemType": "Item for disposal"
+}, {
+	"ItemType": "Rolling Cargo",
+	"Mandt": "300"
+}, {
+	"ItemType": "Documents for storage",
+	"Mandt": "300"
+}, {
+	"ItemType": "E-waste zero",
+	"Mandt": "300"
+}, {
+	"ItemType": "Service Unit",
+	"Mandt": "300"
+}, {
+	"ItemType": "Service Laptop",
+	"Mandt": "300"
+}]

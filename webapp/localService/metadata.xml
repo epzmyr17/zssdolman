@@ -1,0 +1,328 @@
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+	<edmx:DataServices xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:DataServiceVersion="2.0">
+		<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:sap="http://www.sap.com/Protocols/SAPData"
+			Namespace="ZMM_OP_DTD_MDATA_SRV">
+			<EntityContainer Name="default" m:IsDefaultEntityContainer="true">
+				<EntitySet Name="OLHeaderSet" EntityType="ZMM_OP_DTD_MDATA_SRV.OLHeader"/>
+				<EntitySet Name="OLItemSet" EntityType="ZMM_OP_DTD_MDATA_SRV.OLItem"/>
+				<EntitySet Name="StatusSet" EntityType="ZMM_OP_DTD_MDATA_SRV.Status"/>
+				<EntitySet Name="ReportTabSet" EntityType="ZMM_OP_DTD_MDATA_SRV.ReportTab"/>
+				<EntitySet Name="AttachmentSet" EntityType="ZMM_OP_DTD_MDATA_SRV.Attachment"/>
+				<EntitySet Name="OLProcessNodeSet" EntityType="ZMM_OP_DTD_MDATA_SRV.OLProcessNode"/>
+				<!--<EntitySet Name="OLChildrenSet" EntityType="ZMM_OP_DTD_MDATA_SRV.OLChildren"/>-->
+				<EntitySet Name="OLProcessLaneSet" EntityType="ZMM_OP_DTD_MDATA_SRV.OLProcessLane"/>
+				<EntitySet Name="OLStateSet" EntityType="ZMM_OP_DTD_MDATA_SRV.OLState"/>
+				<AssociationSet Name="OLHeader_ItemsSet" Association="ZMM_OP_DTD_MDATA_SRV.OLHeader_Items" sap:creatable="false" sap:updatable="false"
+					sap:deletable="false" sap:content-version="1">
+					<End EntitySet="OLHeaderSet" Role="FromRole_OLHeader_Items"/>
+					<End EntitySet="OLItemSet" Role="ToRole_OLHeader_Items"/>
+				</AssociationSet>
+				<AssociationSet Name="OLHeader_AttachmentSet" Association="ZMM_OP_DTD_MDATA_SRV.OLHeader_Attachments" sap:creatable="false" sap:updatable="false"
+					sap:deletable="false" sap:content-version="1">
+					<End EntitySet="OLHeaderSet" Role="FromRole_OLHeader_Attachments"/>
+					<End EntitySet="AttachmentSet" Role="ToRole_OLHeader_Attachments"/>
+				</AssociationSet>
+				<AssociationSet Name="OLHeader_ProcessNode" Association="ZMM_OP_DTD_MDATA_SRV.OLHeader_ProcessNode" sap:creatable="false" sap:updatable="false"
+					sap:deletable="false" sap:content-version="1">
+					<End EntitySet="OLHeaderSet" Role="FromRole_OLHeader_ProcessNode"/>
+					<End EntitySet="OLProcessNodeSet" Role="ToRole_OLHeader_ProcessNode"/>
+				</AssociationSet>
+				<AssociationSet Name="OLHeader_ProcessLane" Association="ZMM_OP_DTD_MDATA_SRV.OLHeader_ProcessLane" sap:creatable="false" sap:updatable="false"
+					sap:deletable="false" sap:content-version="1">
+					<End EntitySet="OLHeaderSet" Role="FromRole_OLHeader_ProcessLane"/>
+					<End EntitySet="OLProcessLaneSet" Role="ToRole_OLHeader_ProcessLane"/>
+				</AssociationSet>
+				<AssociationSet Name="ReportTab_Status" Association="ZMM_OP_DTD_MDATA_SRV.ReportTab_Status" sap:creatable="false" sap:updatable="false"
+					sap:deletable="false" sap:content-version="1">
+					<End EntitySet="ReportTabSet" Role="FromRole_ReportTab_Status"/>
+					<End EntitySet="StatusSet" Role="ToRole_ReportTab_Status"/>
+				</AssociationSet>
+				<!--<AssociationSet Name="OLProcessNode_Children" Association="ZMM_OP_DTD_MDATA_SRV.OLProcessNode_Children" sap:creatable="false" sap:updatable="false"-->
+				<!--	sap:deletable="false" sap:content-version="1">-->
+				<!--	<End EntitySet="OLProcessNodeSet" Role="FromRole_OLProcessNode_Children"/>-->
+				<!--	<End EntitySet="OLChildrenSet" Role="ToRole_OLProcessNode_Children"/>-->
+				<!--</AssociationSet>-->
+				<AssociationSet Name="OLProcessLane_State" Association="ZMM_OP_DTD_MDATA_SRV.OLProcessLane_State" sap:creatable="false" sap:updatable="false"
+					sap:deletable="false" sap:content-version="1">
+					<End EntitySet="OLProcessLaneSet" Role="FromRole_OLProcessLane_State"/>
+					<End EntitySet="OLStateSet" Role="ToRole_OLProcessLane_State"/>
+				</AssociationSet>
+			</EntityContainer>
+			<EntityType Name="OLHeader">
+				<Key>
+					<PropertyRef Name="Recnum"/>
+				</Key>
+				<Property Name="Recnum" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Reference #"></Property>
+				<Property Name="DaysElapsed" Type="Edm.Int16" Nullable="false" sap:label="Days Elapsed"></Property>
+				<Property Name="CourierRate" Type="Edm.Int16" Nullable="false" sap:label="Courier Rate"></Property>
+				<Property Name="CourierRateRemarks" Type="Edm.String" MaxLength="250" Nullable="false" sap:label="Days Elapsed"></Property>
+				<Property Name="Courier" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Days Elapsed"></Property>
+				<Property Name="CourierDesc" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Days Elapsed"></Property>
+				<Property Name="isRateCourier" Type="Edm.Boolean" Nullable="false" sap:label="Rate Courier Allowed"></Property>
+				<Property Name="RateCourierText" Type="Edm.String" MaxLength="30" Nullable="false" sap:label="Rate Courier text"></Property>
+				<Property Name="ItemTypeDesc" Type="Edm.String" MaxLength="60" Nullable="false" sap:label="Item type and description"></Property>
+				<Property Name="Status" Type="Edm.String" MaxLength="30" Nullable="false" sap:label="Status"></Property>
+				<Property Name="StatusId" Type="Edm.String" MaxLength="30" Nullable="false" sap:label="Status"></Property>
+				<Property Name="RequestorName" Type="Edm.String" MaxLength="30" Nullable="false" sap:label="Requestor Name"></Property>
+				<Property Name="Requestor" Type="Edm.String" MaxLength="30" Nullable="false" sap:label="Requestor ID"></Property>
+				<Property Name="Approver" Type="Edm.String" MaxLength="30" Nullable="false" sap:label="ApproverID"></Property>
+				<Property Name="ApproverEmail" Type="Edm.String" MaxLength="30" Nullable="false" sap:label="Approver Email"></Property>
+				<Property Name="Sto" Type="Edm.String" Nullable="false" sap:label="STO"></Property>
+				<Property Name="BssCase" Type="Edm.String" Nullable="false" sap:label="BSS case"></Property>
+				<Property Name="DeliveryOrder" Type="Edm.String" MaxLength="30" Nullable="false" sap:label="D/O"></Property>
+				<Property Name="TransType" Type="Edm.String" MaxLength="30" Nullable="false" sap:label="Transaction Type"></Property>
+				<Property Name="TransTypeDesc" Type="Edm.String" MaxLength="30" Nullable="false" sap:label="Transaction Type"></Property>
+				<Property Name="Instructions" Type="Edm.String" MaxLength="250" Nullable="false" sap:label="Instructions"></Property>
+				<Property Name="TotalEstimatedCost" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Total estimated cost(PHP)"></Property>
+				<Property Name="WbsCode" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="WBS code"></Property>
+				<Property Name="CostCenter" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Cost center code"></Property>
+				<Property Name="CompanyCode" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Company code"></Property>
+				<Property Name="CompanyDesc" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Company code"></Property>
+				<Property Name="PaymentMode" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Mode of payment"></Property>
+				<Property Name="PaymentModeDesc" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Mode of payment"></Property>
+				<Property Name="Cashout" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Amount to cashout"></Property>
+				<Property Name="CashoutCurrency" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Currency"></Property>
+				<Property Name="Company" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Company"></Property>
+				<Property Name="SegmentOrder" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Segment/oder"></Property>
+				<Property Name="SegmentOrderDesc" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Segment/oder description"></Property>
+				<Property Name="SegmentOrderType" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Segment/oder type"></Property>
+				<Property Name="SegmentOrderTypeDesc" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Segment/oder type description"></Property>
+				<Property Name="Activity" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Activity"></Property>
+				<Property Name="ActivityDesc" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Activity description"></Property>
+				<Property Name="AccountNo" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Account number"></Property>
+				<Property Name="RecipientName" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Recipient name"></Property>
+				<Property Name="MobileNo" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Mobile number"></Property>
+				<Property Name="SubscriberName" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="SubscriberName"></Property>
+				<Property Name="AccountType" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Account Type"></Property>
+				<Property Name="DateSubmitted" Type="Edm.DateTime" Nullable="false" sap:label="Date Submitted"></Property>
+				<NavigationProperty Name="NavTo_OLHeader_Items" Relationship="ZMM_OP_DTD_MDATA_SRV.OLHeader_Items" FromRole="FromRole_OLHeader_Items"
+					ToRole="ToRole_OLHeader_Items"/>
+				<NavigationProperty Name="NavTo_OLHeader_Attachments" Relationship="ZMM_OP_DTD_MDATA_SRV.OLHeader_Attachments" FromRole="FromRole_OLHeader_Attachments"
+					ToRole="ToRole_OLHeader_Attachments"/>
+				<NavigationProperty Name="NavTo_OLHeader_ProcessNode" Relationship="ZMM_OP_DTD_MDATA_SRV.OLHeader_ProcessNode" FromRole="FromRole_OLHeader_ProcessNode"
+					ToRole="ToRole_OLHeader_ProcessNode"/>
+				<NavigationProperty Name="NavTo_OLHeader_ProcessLane" Relationship="ZMM_OP_DTD_MDATA_SRV.OLHeader_ProcessLane" FromRole="FromRole_OLHeader_ProcessLane"
+					ToRole="ToRole_OLHeader_ProcessLane"/>
+			</EntityType>
+			<EntityType Name="OLItem">
+				<Key>
+					<PropertyRef Name="Recnum"/>
+					<PropertyRef Name="ItemNum"/>
+				</Key>
+				<Property Name="ItemNum" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Item #"></Property>
+				<Property Name="PackageNo" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Package Number"></Property>
+				<Property Name="Recnum" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Reference #"></Property>
+				<Property Name="ItemType" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Item type"></Property>
+				<Property Name="ItemTypeDesc" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Item type descripiton"></Property>
+				<Property Name="ItemDescription" Type="Edm.String" MaxLength="250" Nullable="false" sap:label="Item description"></Property>
+				<Property Name="MateriaType" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Material Type"></Property>
+				<Property Name="MaterialTypeDesc" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Material type descripiton"></Property>
+				<Property Name="MaterialDescription" Type="Edm.String" MaxLength="250" Nullable="false" sap:label="Material description"></Property>
+				<Property Name="Quantity" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Quantity"></Property>
+				<Property Name="Length" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Length"></Property>
+				<Property Name="Width" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Width"></Property>
+				<Property Name="Height" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Height"></Property>
+				<Property Name="Weight" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Weight"></Property>
+				<Property Name="Currency" Type="Edm.String" MaxLength="5" Nullable="false" sap:label="Currency"></Property>
+				<Property Name="Amount" Type="Edm.Int16" Nullable="false" sap:label="Declared value"></Property>
+				<Property Name="AssetNo" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Asset number"></Property>
+				<Property Name="SerialNo" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Serial number"></Property>
+				<Property Name="MaterialDoc" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Material Document"></Property>
+				<Property Name="EstimatedCost" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Estimated Cost"></Property>
+				<Property Name="Courier" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Courier"></Property>
+				<!-- Pickup Details-->
+				<Property Name="PickupDate" Type="Edm.DateTime" Nullable="false" sap:label="Pick-up date"></Property>
+				<Property Name="PickupTime" Type="Edm.DateTime" Nullable="false" sap:label="Pick-up date"></Property>
+				<Property Name="DeliveryType" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Delivery type"></Property>
+				<Property Name="DeliveryTypeDesc" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Delivery type"></Property>
+				<Property Name="PickupOrigin" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="PickupOrigin"></Property>
+				<Property Name="PickupOriginDesc" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="PickupOrigin"></Property>
+				<Property Name="PickupLocation" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Pick-up location"></Property>
+				<Property Name="PickupLocationDesc" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Pick-up location"></Property>
+				<Property Name="PickupSpecLoc" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Specific location"></Property>
+				<Property Name="PickupUnitNo" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Pickup Unit No"></Property>
+				<Property Name="PickupHouseNo" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Pickup House No"></Property>
+				<Property Name="PickupStreet" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Pickup Street"></Property>
+				<Property Name="PickupSubdivision" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Pickup Subdivision"></Property>
+				<Property Name="PickupArea" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Pickup Area"></Property>
+				<Property Name="PickupProvince" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Pickup Province"></Property>
+				<Property Name="PickupCity" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Pickup City"></Property>
+				<Property Name="PickupBarangay" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Pickup Barangay"></Property>
+				<Property Name="PickupZipcode" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Pickup Zipcode"></Property>
+				<Property Name="PickupContactPerson" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Contact person"></Property>
+				<Property Name="PickupContactNumber" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Contact number"></Property>
+				<Property Name="PickupContactEmail" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Email address"></Property>
+				<Property Name="PickupAltContactPerson" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Alternate contact person"></Property>
+				<Property Name="PickupAltContactNumber" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Contact number"></Property>
+				<Property Name="PickupAltContactEmail" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Email address"></Property>
+				 <!--Delivery Details-->
+				<Property Name="DeliveryOrigin" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Delivery Origin"></Property>
+				<Property Name="DeliveryOriginDesc" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Delivery Origin Description"></Property>
+				<Property Name="DeliveryLocation" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Delivery location"></Property>
+				<Property Name="DeliveryLocationDesc" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Delivery location"></Property>
+				<Property Name="DeliverySpecLoc" Type="Edm.String" MaxLength="50" Nullable="true" sap:label="Specific location"></Property>
+				<Property Name="TransportMode" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Mode of Transport"></Property>
+				<Property Name="TransportModeDesc" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Mode of Transport Description"></Property>
+				<Property Name="DeliveryUnitNo" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Delivery Unit No"></Property>
+				<Property Name="DeliveryHouseNo" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Delivery HouseNo"></Property>
+				<Property Name="DeliveryStreet" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Delivery Street"></Property>
+				<Property Name="DeliverySubdivision" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Delivery Subdivision"></Property>
+				<Property Name="DeliveryArea" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Deliver yArea"></Property>
+				<Property Name="DeliveryProvince" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Delivery Province"></Property>
+				<Property Name="DeliveryCity" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Delivery City"></Property>
+				<Property Name="DeliveryBarangay" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Delivery Barangay"></Property>
+				<Property Name="DeliveryZipcode" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Delivery Zipcode"></Property>
+				<Property Name="DeliveryDate" Type="Edm.DateTime" Nullable="false" sap:label="Delivery date"></Property>
+				<Property Name="DeliveryTime" Type="Edm.DateTime" Nullable="false" sap:label="Delivery date"></Property>
+				<Property Name="ContainerType" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Container type"></Property>
+				<Property Name="ContainerTypeDesc" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Container type"></Property>
+				<Property Name="TruckType" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Truck type"></Property>
+				<Property Name="TruckTypeDesc" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Truck type"></Property>
+				<Property Name="DeliveryContactPerson" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Authorized recipient"></Property>
+				<Property Name="DeliveryContactNumber" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Contact number"></Property>
+				<Property Name="DeliveryContactEmail" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Email address"></Property>
+				<Property Name="DeliveryAltContactPerson" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Alternate authorized recipient"></Property>
+				<Property Name="DeliveryAltContactNumber" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Contact number"></Property>
+				<Property Name="DeliveryAltContactEmail" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Email address"></Property>
+			</EntityType>
+			<EntityType Name="Attachment" m:HasStream="true" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="Recnum"/>
+					<PropertyRef Name="Linenum"/>
+				</Key>
+				<Property Name="Recnum" Type="Edm.String" Nullable="false" MaxLength="15" sap:unicode="false" sap:label="Reference #" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+				<Property Name="Linenum" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="Item Number" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+				<Property Name="FileName" Type="Edm.String" Nullable="false" MaxLength="255" sap:unicode="false" sap:label="File Name" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+				<Property Name="MimeType" Type="Edm.String" Nullable="false" MaxLength="64" sap:unicode="false" sap:label="MIME type" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+				<Property Name="FileSize" Type="Edm.Int64" Nullable="false" sap:unicode="false" sap:label="Filesize" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+			</EntityType>
+			<EntityType Name="OLProcessNode">
+				<Key>
+					<PropertyRef Name="Recnum"/>
+					<PropertyRef Name="NodeId"/>
+				</Key>
+				<Property Name="LaneId" Type="Edm.Int16" Nullable="false" sap:label="Lane ID"></Property>
+				<Property Name="Recnum" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Reference #"></Property>
+				<Property Name="Title" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Title"></Property>
+				<Property Name="NodeId" Type="Edm.Int16" Nullable="false" sap:label="Node ID"></Property>
+				<Property Name="TitleAbbreviation" Type="Edm.String" MaxLength="20" Nullable="false" sap:label="Title abbreviation"></Property>
+				<Property Name="State" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="State"></Property>
+				<Property Name="StateText" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="State Text"></Property>
+				<Property Name="Texts" Type="Edm.String" MaxLength="250" Nullable="false" sap:label="Texts"></Property>
+			<!--	<NavigationProperty Name="NavTo_OLProcessNode_Children" Relationship="ZMM_OP_DTD_MDATA_SRV.OLProcessNode_Children" FromRole="FromRole_OLProcessNode_Children"-->
+			<!--		ToRole="ToRole_OLProcessNode_Children"/>-->
+			<!--</EntityType>-->
+			<!--<EntityType Name="OLChildren">-->
+			<!--	<Key>-->
+			<!--		<PropertyRef Name="NodeId"/>-->
+			<!--	</Key>-->
+			<!--	<Property Name="NodeId" Type="Edm.Int16" Nullable="false" sap:label="Node ID"></Property>-->
+			<!--	<Property Name="ChildId" Type="Edm.Int16" Nullable="false" sap:label="Children ID"></Property>-->
+			</EntityType>
+			<EntityType Name="OLProcessLane">
+				<Key>
+					<PropertyRef Name="Recnum"/>
+					<PropertyRef Name="LaneId"/>
+				</Key>
+				<Property Name="LaneId" Type="Edm.Int16" Nullable="false" sap:label="Lane ID"></Property>
+				<Property Name="Recnum" Type="Edm.String" Nullable="false" sap:label="Reference #"></Property>
+				<Property Name="Icon" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Icon src"></Property>
+				<Property Name="ProcessLabel" Type="Edm.String" MaxLength="50" Nullable="false" sap:label="Process description"></Property>
+				<Property Name="Position" Type="Edm.Int16" Nullable="false" sap:label="Position"></Property>
+				<NavigationProperty Name="NavTo_OLProcessLane_State" Relationship="ZMM_OP_DTD_MDATA_SRV.OLProcessLane_State" FromRole="FromRole_OLProcessLane_State"
+					ToRole="ToRole_OLProcessLane_State"/>
+			</EntityType>
+			<EntityType Name="OLState">
+				<Key>
+					<PropertyRef Name="LaneId"/>
+					<PropertyRef name="State"/>
+				</Key>
+				<Property Name="LaneId" Type="Edm.Int16" Nullable="false" sap:label="Lane ID"></Property>
+				<Property Name="state" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="State"></Property>
+				<Property Name="value" Type="Edm.String" MaxLength="16" Nullable="false" sap:label="Value"></Property>
+			</EntityType>
+			<EntityType Name="Status">
+				<Key>
+					<PropertyRef Name="StatusId"/>
+					<PropertyRef Name="Application"/>
+					<PropertyRef Name="TabId"/>
+				</Key>
+				<Property Name="StatusId" Type="Edm.String" Nullable="false" sap:label="Status Id"></Property>
+				<Property Name="StatusDesc" Type="Edm.String" Nullable="false" sap:label="Status Description"></Property>
+				<Property Name="Application" Type="Edm.String" Nullable="false" sap:label="Application"></Property>
+				<Property Name="TabId" Type="Edm.String" Nullable="false" sap:label="Tab ID"></Property>
+			</EntityType>
+			<EntityType Name="ReportTab">
+				<Key>
+					<PropertyRef Name="Application"/>
+					<PropertyRef Name="TabId"/>
+				</Key>
+				<Property Name="TabDesc" Type="Edm.String" Nullable="false" sap:label="Tab Description"></Property>
+				<Property Name="Application" Type="Edm.String" Nullable="false" sap:label="Application"></Property>
+				<Property Name="TabId" Type="Edm.String" Nullable="false" sap:label="Tab ID"></Property>
+				<NavigationProperty Name="NavTo_ReportTab_Status" Relationship="ZMM_OP_DTD_MDATA_SRV.ReportTab_Status" FromRole="FromRole_ReportTab_Status"
+					ToRole="ToRole_ReportTab_Status"/>
+			</EntityType>
+			<Association Name="ReportTab_Status" sap:content-version="1">
+				<End Type="ZMM_OP_DTD_MDATA_SRV.ReportTab" Multiplicity="1" Role="FromRole_ReportTab_Status"/>
+				<End Type="ZMM_OP_DTD_MDATA_SRV.Status" Multiplicity="*" Role="ToRole_ReportTab_Status"/>
+				<ReferentialConstraint>
+					<Principal Role="FromRole_ReportTab_Status"><PropertyRef Name="TabId"/><PropertyRef Name="Application"/></Principal>
+					<Dependent Role="ToRole_ReportTab_Status"><PropertyRef Name="TabId"/><PropertyRef Name="Application"/></Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="OLHeader_Items" sap:content-version="1">
+				<End Type="ZMM_OP_DTD_MDATA_SRV.OLHeader" Multiplicity="1" Role="FromRole_OLHeader_Items"/>
+				<End Type="ZMM_OP_DTD_MDATA_SRV.OLItem" Multiplicity="*" Role="ToRole_OLHeader_Items"/>
+				<ReferentialConstraint>
+					<Principal Role="FromRole_OLHeader_Items"><PropertyRef Name="Recnum"/></Principal>
+					<Dependent Role="ToRole_OLHeader_Items"><PropertyRef Name="Recnum"/></Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="OLHeader_Attachments" sap:content-version="1">
+				<End Type="ZMM_OP_DTD_MDATA_SRV.OLHeader" Multiplicity="1" Role="FromRole_OLHeader_Attachments"/>
+				<End Type="ZMM_OP_DTD_MDATA_SRV.Attachment" Multiplicity="*" Role="ToRole_OLHeader_Attachments"/>
+				<ReferentialConstraint>
+					<Principal Role="FromRole_OLHeader_Attachments"><PropertyRef Name="Recnum"/></Principal>
+					<Dependent Role="ToRole_OLHeader_Attachments"><PropertyRef Name="Recnum"/></Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<!--<Association Name="OLProcessNode_Children" sap:content-version="1">-->
+			<!--	<End Type="ZMM_OP_DTD_MDATA_SRV.OLProcessNode" Multiplicity="1" Role="FromRole_OLProcessNode_Children"/>-->
+			<!--	<End Type="ZMM_OP_DTD_MDATA_SRV.OLChildren" Multiplicity="*" Role="ToRole_OLProcessNode_Children"/>-->
+			<!--	<ReferentialConstraint>-->
+			<!--		<Principal Role="FromRole_OLProcessNode_Children"><PropertyRef Name="NodeId"/></Principal>-->
+			<!--		<Dependent Role="ToRole_OLProcessNode_Children"><PropertyRef Name="NodeId"/></Dependent>-->
+			<!--	</ReferentialConstraint>-->
+			<!--</Association>-->
+			<Association Name="OLHeader_ProcessLane" sap:content-version="1">
+				<End Type="ZMM_OP_DTD_MDATA_SRV.OLHeader" Multiplicity="1" Role="FromRole_OLHeader_ProcessLane"/>
+				<End Type="ZMM_OP_DTD_MDATA_SRV.OLProcessLane" Multiplicity="*" Role="ToRole_OLHeader_ProcessLane"/>
+				<ReferentialConstraint>
+					<Principal Role="FromRole_OLHeader_ProcessLane"><PropertyRef Name="Recnum"/></Principal>
+					<Dependent Role="ToRole_OLHeader_ProcessLane"><PropertyRef Name="Recnum"/></Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="OLHeader_ProcessNode" sap:content-version="1">
+				<End Type="ZMM_OP_DTD_MDATA_SRV.OLHeader" Multiplicity="1" Role="FromRole_OLHeader_ProcessNode"/>
+				<End Type="ZMM_OP_DTD_MDATA_SRV.OLProcessNode" Multiplicity="*" Role="ToRole_OLHeader_ProcessNode"/>
+				<ReferentialConstraint>
+					<Principal Role="FromRole_OLHeader_ProcessNode"><PropertyRef Name="Recnum"/></Principal>
+					<Dependent Role="ToRole_OLHeader_ProcessNode"><PropertyRef Name="Recnum"/></Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="OLProcessLane_State" sap:content-version="1">
+				<End Type="ZMM_OP_DTD_MDATA_SRV.OLProcessLane" Multiplicity="1" Role="FromRole_OLProcessLane_State"/>
+				<End Type="ZMM_OP_DTD_MDATA_SRV.OLState" Multiplicity="*" Role="ToRole_OLProcessLane_State"/>
+				<ReferentialConstraint>
+					<Principal Role="FromRole_OLProcessLane_State"><PropertyRef Name="LaneId"/></Principal>
+					<Dependent Role="ToRole_OLProcessLane_State"><PropertyRef Name="LaneId"/></Dependent>
+				</ReferentialConstraint>
+			</Association>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

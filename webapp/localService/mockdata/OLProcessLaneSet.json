@@ -1,0 +1,37 @@
+[{
+	"Recnum": "REC-0102-3004",
+	"LaneId": 0,
+	"ProcessLabel": "Processing",
+	"Position": 0,
+	"Icon": "sap-icon://document-text"
+}, {
+	"Recnum": "REC-0102-3004",
+	"LaneId": 1,
+	"ProcessLabel": "Shipping",
+	"Position": 1,
+	"Icon": "sap-icon://shipping-status"
+}, {
+	"Recnum": "REC-0102-3004",
+	"LaneId": 2,
+	"ProcessLabel": "Delivered",
+	"Position": 2,
+	"Icon": "sap-icon://product"
+},{
+	"Recnum": "REC-0101-3000",
+	"LaneId": 0,
+	"ProcessLabel": "Processing",
+	"Position": 0,
+	"Icon": "sap-icon://document-text"
+}, {
+	"Recnum": "REC-0101-3000",
+	"LaneId": 1,
+	"ProcessLabel": "Shipping",
+	"Position": 1,
+	"Icon": "sap-icon://shipping-status"
+}, {
+	"Recnum": "REC-0101-3000",
+	"LaneId": 2,
+	"ProcessLabel": "Delivered",
+	"Position": 2,
+	"Icon": "sap-icon://product"
+}]

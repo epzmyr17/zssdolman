@@ -1,0 +1,62 @@
+<mvc:View controllerName="com.globe.OneLook_CreateDTDRequest.controller.Dashboard" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:html="http://www.w3.org/1999/xhtml" displayBlock="true" xmlns="sap.m" xmlns:f="sap.f" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core">
+	<f:DynamicPage id="dynamicPageId" preserveHeaderStateOnScroll="true" headerExpanded="true" toggleHeaderOnTitleClick="false"
+		class="sapUiContentPadding">
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:breadcrumbs>
+					<Breadcrumbs currentLocationText="{i18n>CreateDTDRequest}">
+						<Link text="{i18n>Home}" press="onPressHome"/>
+					</Breadcrumbs>
+				</f:breadcrumbs>
+				<f:heading>
+					<Title text="{i18n>CreateRequestTtl}" level="H1" class="dtd-bold-title sapUiSmallMarginTop sapUiSmallMarginBottom"/>
+				</f:heading>
+				<f:expandedContent>
+					<Text text="{i18n>CreateRequestDesciptionHdr}" class="sapUiSmallMarginBottom"/>
+				</f:expandedContent>
+				<f:snappedContent>
+					<Text text="{i18n>CreateRequestDesciptionHdr}" class="sapUiSmallMarginBottom"/>
+				</f:snappedContent>
+			</f:DynamicPageTitle>
+		</f:title>
+		<f:content>
+			<VBox>
+				<l:HorizontalLayout allowWrapping="true">
+					<GenericTile id="SingleTradeTile" header="{i18n>TradeRequestTtl}" subheader="{i18n>TradeDescTxt}" frameType="TwoByOne"
+						press="onSingleRequest" class="sapUiSmallMarginBegin sapUiSmallMarginTop">
+						<TileContent>
+							<ImageContent src="sap-icon://iphone" class="imageContent"/>
+						</TileContent>
+					</GenericTile>
+					<GenericTile id="SingleNonTradeTile" header="{i18n>NonTradeRequestsTtl}" frameType="TwoByOne" subheader="{i18n>NonTradeDescTxt}"
+						press="onSingleRequest" class="sapUiSmallMarginBegin sapUiSmallMarginTop">
+						<TileContent>
+							<ImageContent src="sap-icon://sap-box" class="imageContent"/>
+						</TileContent>
+					</GenericTile>
+					<GenericTile id="SingleDocTitle" header="{i18n>DocRequestTtl}" subheader="{i18n>DocRequestDesc}" press="onSingleRequest"
+						frameType="TwoByOne" class="sapUiSmallMarginBegin sapUiSmallMarginTop">
+						<TileContent>
+							<ImageContent src="sap-icon://document" class="imageContent"/>
+						</TileContent>
+					</GenericTile>
+					<GenericTile id="BulkTradeTile" header="{i18n>BulkTransactRequest}" subheader="{i18n>BulkTransactType}" press="onBulkRequest"
+						frameType="TwoByOne" class="sapUiSmallMarginBegin sapUiSmallMarginTop">
+						<TileContent>
+							<ImageContent src="sap-icon://sap-box" class="imageContent"/>
+						</TileContent>
+						<customData>
+							<core:CustomData key="BulkRequestType" value="TT"/>
+						</customData>
+					</GenericTile>
+				</l:HorizontalLayout>
+				<l:VerticalLayout class="sapUiSmallMarginBegin sapUiLargeMarginTop sapUiSmallMarginBottom">
+					<Title text="{i18n>HowToCreateRequest}" class="dtd-bold-title dtd-custom-title-size"/>
+					<Text text="{i18n>SampleGuideDescription}" class="sapUiTinyMarginBottom"/>
+					<Link text="{i18n>ReadinessMaterial}" press="onPressSampleGuide"/>
+				</l:VerticalLayout>
+			</VBox>
+		</f:content>
+	</f:DynamicPage>
+</mvc:View>

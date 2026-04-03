@@ -1,0 +1,111 @@
+<mvc:View controllerName="com.globe.OneLook_CreateDTDRequest.controller.EditRequest" xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+	xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:sf="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns:u="sap.ui.unified"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<NavContainer id="EditContainer">
+		<pages>
+			<f:DynamicPage id="editDynamicPage" headerExpanded="true" toggleHeaderOnTitleClick="false" class="sapUiContentPadding" showFooter="true">
+				<f:title>
+					<f:DynamicPageTitle>
+						<f:breadcrumbs>
+							<Breadcrumbs currentLocationText="{path: 'editOLRequest>/RefNo'}">
+								<Link text="{i18n>Home}" press="onPressBreadCrumbs">
+									<customData>
+										<core:CustomData key="route" value="#"/>
+									</customData>
+								</Link>
+								<Link text="{i18n>MySubmitReq}" press="onPressBreadCrumbs">
+									<customData>
+										<core:CustomData key="route" value="Report"/>
+									</customData>
+								</Link>
+							</Breadcrumbs>
+						</f:breadcrumbs>
+						<f:heading>
+							<Title text="{path: 'editOLRequest>/RefNo'}" level="H1" class="dtd-bold-title sapUiSmallMarginTop sapUiSmallMarginBottom"/>
+						</f:heading>
+					</f:DynamicPageTitle>
+				</f:title>
+				<f:content>
+					<VBox id="editPackageContent">
+						<Text text="{i18n>RequestForm}" class="dtd-bold-title dtd-custom-title-size sapUiMediumMarginBottom"/>
+						<!--Subscriber details -->
+						<core:Fragment fragmentName="com.globe.OneLook_CreateDTDRequest.fragment.EditRequest.SubscriberDetails" type="XML"/>
+						<!--Start of insert MS223343 - PAL-2023-002-->
+						<!--Pickup details -->
+						<core:Fragment fragmentName="com.globe.OneLook_CreateDTDRequest.fragment.EditRequest.EditPickUpDetails" type="XML"/>
+						<!--Delivery details -->
+						<core:Fragment fragmentName="com.globe.OneLook_CreateDTDRequest.fragment.EditRequest.EditDeliveryDetails" type="XML"/>
+						<!--End of insert MS223343 - PAL-2023-002-->
+						<!-- Package Details -->
+						<core:Fragment fragmentName="com.globe.OneLook_CreateDTDRequest.fragment.EditRequest.EditPackage" type="XML"/>
+						<!-- Add Package Button -->
+						<Button text="{i18n>AddPackageBtn}" press="onAddPackage" width="100%" type="Emphasized" class="sapUiMediumMarginBottom"
+							visible="{= ${viewModel>/PackageCount} >= 10 ? false : true }"/>
+					</VBox>
+				</f:content>
+				<f:footer>
+					<OverflowToolbar>
+						<ToolbarSpacer/>
+						<Button text="{i18n>NextBtn}" type="Emphasized" press="onPressNext"/>
+						<Button text="{i18n>CancelBtn}" press="onCancel"/>
+					</OverflowToolbar>
+				</f:footer>
+			</f:DynamicPage>
+			<f:DynamicPage id="reviewDynamicPage" headerExpanded="true" toggleHeaderOnTitleClick="false" class="sapUiContentPadding" showFooter="true">
+				<f:title>
+					<f:DynamicPageTitle>
+						<f:breadcrumbs>
+							<Breadcrumbs currentLocationText="{path: 'editOLRequest>/RefNo'}">
+								<Link text="{i18n>Home}" press="onPressBreadCrumbs">
+									<customData>
+										<core:CustomData key="route" value="#"/>
+									</customData>
+								</Link>
+								<Link text="{i18n>DTDReqCreated}" press="onPressBreadCrumbs">
+									<customData>
+										<core:CustomData key="route" value="Report"/>
+									</customData>
+								</Link>
+							</Breadcrumbs>
+						</f:breadcrumbs>
+						<f:heading>
+							<Title text="{path: 'editOLRequest>/RefNo'}" level="H1" class="dtd-bold-title sapUiSmallMarginTop sapUiSmallMarginBottom"/>
+						</f:heading>
+					</f:DynamicPageTitle>
+				</f:title>
+				<f:content>
+					<VBox id="ReviewPackageContent">
+						<Title text="{i18n>ReviewSummary}" class="dtd-bold-title sapUiSmallMarginBottom dtd-custom-title-size"/>
+						<Text
+							text="{parts: [{path: 'editOLRequest>/TransType'}, {path: 'UserType>/UserType'}], formatter: '.formatter.formatRequiredAdditionalDetails'}"
+							class="sapUiMediumMarginBottom" renderWhitespace="true"/>
+						<!-- Total cost and Request details -->
+						<core:Fragment fragmentName="com.globe.OneLook_CreateDTDRequest.fragment.EditRequest.ReviewRequest.RequestDetails" type="XML"/>
+						<!-- Subscriber Details -->
+						<core:Fragment fragmentName="com.globe.OneLook_CreateDTDRequest.fragment.EditRequest.ReviewRequest.ReviewSubscriberDetails" type="XML"/>
+						<!--Start of insert MS223343 - PAL-2023-002-->
+						<!--Courier details -->
+						<core:Fragment fragmentName="com.globe.OneLook_CreateDTDRequest.fragment.EditRequest.ReviewRequest.CourierDetails" type="XML"/>
+						<!--Pickup details -->
+						<core:Fragment fragmentName="com.globe.OneLook_CreateDTDRequest.fragment.EditRequest.ReviewRequest.ReviewPickUpDetails" type="XML"/>
+						<!--Delivery details -->
+						<core:Fragment fragmentName="com.globe.OneLook_CreateDTDRequest.fragment.EditRequest.ReviewRequest.ReviewDeliveryDetails" type="XML"/>
+						<!--End of insert MS223343 - PAL-2023-002-->
+						<!-- Package details and courier details -->
+						<core:Fragment fragmentName="com.globe.OneLook_CreateDTDRequest.fragment.EditRequest.ReviewRequest.ReviewPackage" type="XML"/>
+						<!-- Additional info -->
+						<core:Fragment fragmentName="com.globe.OneLook_CreateDTDRequest.fragment.EditRequest.ReviewRequest.AdditionalInfo" type="XML"/>
+					</VBox>
+				</f:content>
+				<f:footer>
+					<OverflowToolbar>
+						<ToolbarSpacer/>
+						<Button text="{i18n>PreviousBtn}" press="onPrevious"/>
+						<Button text="{i18n>SubmitBtn}" type="Emphasized" press="onSave" app:SaveType="Submit"/>
+						<Button text="{i18n>CancelBtn}" press="onCancel"/>
+					</OverflowToolbar>
+				</f:footer>
+			</f:DynamicPage>
+		</pages>
+	</NavContainer>
+</mvc:View>

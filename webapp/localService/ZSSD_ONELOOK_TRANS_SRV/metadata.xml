@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+	xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+	<edmx:DataServices m:DataServiceVersion="2.0">
+		<Schema Namespace="ZSSD_ONELOOK_TRANS_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+			<EntityType Name="Attachment" m:HasStream="true" sap:content-version="1">
+				<Key><PropertyRef Name="RefNo"/><PropertyRef Name="DocItem"/></Key><Property Name="RefNo" Type="Edm.String" Nullable="false" MaxLength="25" sap:unicode="false" sap:label="DTD Ref. No." sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="DocItem" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="Doc. Item" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="FileName" Type="Edm.String" Nullable="false" MaxLength="255" sap:unicode="false" sap:label="File Name" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="MimeType" Type="Edm.String" Nullable="false" MaxLength="128" sap:unicode="false" sap:label="MIME type" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="FileSize" Type="Edm.Int64" Nullable="false" sap:unicode="false" sap:label="Filesize" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Icon" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Icon" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="FreightCostResult" sap:content-version="1">
+				<Key><PropertyRef Name="PackageNo"/></Key><Property Name="PackageNo" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="Package Number"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="FreightCost" Type="Edm.Decimal" Nullable="false" Precision="14" Scale="3" sap:unicode="false" sap:label="Freight Cost"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="MessageText" Type="Edm.String" Nullable="false" MaxLength="220" sap:unicode="false" sap:label="Message Text"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="OLResults" sap:content-version="1">
+				<Key><PropertyRef Name="RefNos"/></Key><Property Name="RefNos" Type="Edm.String" Nullable="false" MaxLength="512" sap:unicode="false" sap:label="Character 512"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="MsgV1" Type="Edm.String" Nullable="false" MaxLength="100" sap:unicode="false" sap:label="Text" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="MsgV2" Type="Edm.String" Nullable="false" MaxLength="100" sap:unicode="false" sap:label="Text" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="MsgType" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Message Type" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="OLHeader" sap:content-version="1">
+				<Key><PropertyRef Name="RefNo"/></Key><Property Name="RefNo" Type="Edm.String" Nullable="false" MaxLength="25" sap:unicode="false" sap:label="OneLook Refno" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="TransType" Type="Edm.String" MaxLength="2" sap:unicode="false" sap:label="Transaction Type" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="TransTypeDesc" Type="Edm.String" MaxLength="30" sap:unicode="false" sap:label="Transaction Type" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="AccountType" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Account Type" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="Instructions" Type="Edm.String" MaxLength="250" sap:unicode="false" sap:label="Special Inst." sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="TotalEstimatedCost" Type="Edm.Decimal" Precision="14" Scale="3" sap:unicode="false" sap:unit="CashoutCurrency"
+					sap:label="Total Est. Cost" sap:creatable="false" sap:updatable="false" sap:sortable="false"/><Property Name="WbsCode" Type="Edm.String" MaxLength="24" sap:unicode="false" sap:label="WBS Code" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="CostCenter" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Cost Center" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="CompanyCode" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Company Code" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="CompanyDesc" Type="Edm.String" MaxLength="25" sap:unicode="false" sap:label="Company Name" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="PaymentMode" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Payment Mode" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="PaymentModeDesc" Type="Edm.String" MaxLength="20" sap:unicode="false" sap:label="Description" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="Cashout" Type="Edm.Decimal" Precision="14" Scale="3" sap:unicode="false" sap:unit="CashoutCurrency" sap:label="Cashout"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false"/><Property Name="CashoutCurrency" Type="Edm.String" MaxLength="5" sap:unicode="false" sap:label="Currency" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:semantics="currency-code"/><Property Name="PaymentModeIndex" Type="Edm.Byte" sap:unicode="false" sap:label="Level Indicator" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="TradeCompanyName" Type="Edm.String" MaxLength="50" sap:unicode="false" sap:label="Explanation" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="ChannelId" Type="Edm.String" MaxLength="6" sap:unicode="false" sap:label="Channel ID" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="SegmentOrder" Type="Edm.String" MaxLength="30" sap:unicode="false" sap:label="Segment/Order" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="SegmentOrderType" Type="Edm.String" MaxLength="30" sap:unicode="false" sap:label="Segment/Order Type" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="Activity" Type="Edm.String" MaxLength="7" sap:unicode="false" sap:label="Activity ID" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="BssCase" Type="Edm.String" MaxLength="20" sap:unicode="false" sap:label="BSS Case" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryOrder" Type="Edm.String" MaxLength="50" sap:unicode="false" sap:label="D/O" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="AccountNo" Type="Edm.String" MaxLength="20" sap:unicode="false" sap:label="Description" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="RecipientName" Type="Edm.String" MaxLength="50" sap:unicode="false" sap:label="Explanation" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="MobileNo" Type="Edm.String" MaxLength="11" sap:unicode="false" sap:label="TEXT11Chars" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="SubscriberName" Type="Edm.String" MaxLength="50" sap:unicode="false" sap:label="Explanation" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DaysElapsed" Type="Edm.Int16" sap:unicode="false" sap:label="Days Elapsed" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false"/><Property Name="CourierRate" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Courier Rate" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="CourierRateRemarks" Type="Edm.String" MaxLength="250" sap:unicode="false" sap:label="Courier Remarks" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="Courier" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Courier" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false"/><Property Name="CourierDesc" Type="Edm.String" MaxLength="30" sap:unicode="false" sap:label="Courier Name" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="Status" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="Status" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false"/><Property Name="IsRateCourier" Type="Edm.Boolean" sap:unicode="false" sap:label="Indicator" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false"/><Property Name="RateCourierText" Type="Edm.String" MaxLength="50" sap:unicode="false" sap:label="Explanation" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="StatusId" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Status ID" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="Requestor" Type="Edm.String" MaxLength="12" sap:unicode="false" sap:label="User Name" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="RequestorName" Type="Edm.String" MaxLength="80" sap:unicode="false" sap:label="Full Name" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="Approver" Type="Edm.String" MaxLength="12" sap:unicode="false" sap:label="User Name" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="ApproverName" Type="Edm.String" MaxLength="80" sap:unicode="false" sap:label="Full Name" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="ApproverEmail" Type="Edm.String" MaxLength="241" sap:unicode="false" sap:label="E-Mail Address" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="Sto" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="STO" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false"/><Property Name="DateSubmitted" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Date" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="RefNos" Type="Edm.String" MaxLength="1024" sap:unicode="false" sap:label="Reference Numbers" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="MsgV1" Type="Edm.String" MaxLength="100" sap:unicode="false" sap:label="Message 1" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="MsgV2" Type="Edm.String" MaxLength="100" sap:unicode="false" sap:label="Message 2" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="MsgType" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Message Type" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><NavigationProperty Name="NAV_OLHeader_Attachment" Relationship="ZSSD_ONELOOK_TRANS_SRV.OLHeader_Attachment"
+					FromRole="FromRole_OLHeader_Attachment" ToRole="ToRole_OLHeader_Attachment"/><NavigationProperty Name="NAV_OLHeader_Item" Relationship="ZSSD_ONELOOK_TRANS_SRV.OLHeader_Item" FromRole="FromRole_OLHeader_Item"
+					ToRole="ToRole_OLHeader_Item"/><NavigationProperty Name="NAV_OLHeader_Result" Relationship="ZSSD_ONELOOK_TRANS_SRV.OLHeader_Result" FromRole="FromRole_OLHeader_Result"
+					ToRole="ToRole_OLHeader_Result"/><NavigationProperty Name="NAV_OLHeader_ProcessLane" Relationship="ZSSD_ONELOOK_TRANS_SRV.OLHeader_ProcessLane"
+					FromRole="FromRole_OLHeader_ProcessLane" ToRole="ToRole_OLHeader_ProcessLane"/><NavigationProperty Name="NAV_OLHeader_ProcessNode" Relationship="ZSSD_ONELOOK_TRANS_SRV.OLHeader_ProcessNode"
+					FromRole="FromRole_OLHeader_ProcessNode" ToRole="ToRole_OLHeader_ProcessNode"/></EntityType>
+			<EntityType Name="OLItem" sap:content-version="1">
+				<Key><PropertyRef Name="RefNo"/><PropertyRef Name="DtdItem"/></Key><Property Name="RefNo" Type="Edm.String" Nullable="false" MaxLength="25" sap:unicode="false" sap:label="OneLook Refno" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DtdItem" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="DTD Item" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="PackageNo" Type="Edm.String" MaxLength="12" sap:unicode="false" sap:label="Package Number" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="ItemType" Type="Edm.String" MaxLength="6" sap:unicode="false" sap:label="Item Type" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="ItemTypeDesc" Type="Edm.String" MaxLength="25" sap:unicode="false" sap:label="Item Type Desc" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="ItemDescription" Type="Edm.String" MaxLength="250" sap:unicode="false" sap:label="Item Desc." sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="MaterialType" Type="Edm.String" MaxLength="6" sap:unicode="false" sap:label="Material Type" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="MaterialTypeDesc" Type="Edm.String" MaxLength="25" sap:unicode="false" sap:label="Mat. Type Desc." sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="MaterialDescription" Type="Edm.String" MaxLength="250" sap:unicode="false" sap:label="Material Desc." sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="Quantity" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Quantity" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="Length" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Length" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false"/><Property Name="Width" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Width" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false"/><Property Name="Height" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Height" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false"/><Property Name="Weight" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Weight" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false"/><Property Name="Currency" Type="Edm.String" MaxLength="5" sap:unicode="false" sap:label="Currency" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:semantics="currency-code"/><Property Name="Amount" Type="Edm.Decimal" Precision="14" Scale="3" sap:unicode="false" sap:unit="Currency" sap:label="Amount"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false"/><Property Name="AssetNo" Type="Edm.String" MaxLength="20" sap:unicode="false" sap:label="Asset Number" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="SerialNo" Type="Edm.String" MaxLength="18" sap:unicode="false" sap:label="Serial Number" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="MaterialDoc" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Material Doc." sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="EstimatedCost" Type="Edm.Decimal" Precision="14" Scale="3" sap:unicode="false" sap:unit="Currency"
+					sap:label="Estimated Cost" sap:creatable="false" sap:updatable="false" sap:sortable="false"/><Property Name="Courier" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Courier" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false"/><Property Name="CourierDesc" Type="Edm.String" MaxLength="30" sap:unicode="false" sap:label="Courier Name" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="MaterialCode" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="Material" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="PickupDate" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Date" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="PickupTime" Type="Edm.Time" Precision="0" sap:unicode="false" sap:label="Field of type TIMS" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryType" Type="Edm.String" MaxLength="2" sap:unicode="false" sap:label="Delivery Type" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryTypeDesc" Type="Edm.String" MaxLength="20" sap:unicode="false" sap:label="Description" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="PickupOrigin" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Pick-up Location" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="PickupOriginDesc" Type="Edm.String" MaxLength="20" sap:unicode="false" sap:label="Description" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="PickupLocation" Type="Edm.String" MaxLength="8" sap:unicode="false" sap:label="Address ID" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="PickupLocationDesc" Type="Edm.String" MaxLength="30" sap:unicode="false" sap:label="Name" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="PickupUnitNo" Type="Edm.String" MaxLength="30" sap:unicode="false" sap:label="Unit Number" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="PickupHouseNo" Type="Edm.String" MaxLength="30" sap:unicode="false" sap:label="House Number" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="PickupStreet" Type="Edm.String" MaxLength="60" sap:unicode="false" sap:label="Street" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="PickupSubdivision" Type="Edm.String" MaxLength="60" sap:unicode="false" sap:label="Subdivision" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="PickupArea" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Area" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="PickupAreaDesc" Type="Edm.String" MaxLength="15" sap:unicode="false" sap:label="Text (15 characters)" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="PickupProvince" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Province Code" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="PickupProvinceDesc" Type="Edm.String" MaxLength="30" sap:unicode="false" sap:label="Province Description"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false"/><Property Name="PickupCity" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="City Code" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="PickupCityDesc" Type="Edm.String" MaxLength="50" sap:unicode="false" sap:label="City Description" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="PickupBarangay" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Barangay Code" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="PickupBarangayDesc" Type="Edm.String" MaxLength="50" sap:unicode="false" sap:label="Barangay Description"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false"/><Property Name="PickupZipcode" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Zip Code" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="PickupSpecLoc" Type="Edm.String" MaxLength="25" sap:unicode="false" sap:label="Text" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="PickupContactPerson" Type="Edm.String" MaxLength="30" sap:unicode="false" sap:label="Contact Person Name"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false"/><Property Name="PickupContactNumber" Type="Edm.String" MaxLength="30" sap:unicode="false" sap:label="Contact Number" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="PickupContactEmail" Type="Edm.String" MaxLength="241" sap:unicode="false" sap:label="E-Mail Address" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="PickupAltContactPerson" Type="Edm.String" MaxLength="30" sap:unicode="false" sap:label="Contact Person Name"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false"/><Property Name="PickupAltContactNumber" Type="Edm.String" MaxLength="30" sap:unicode="false" sap:label="Contact Number"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false"/><Property Name="PickupAltContactEmail" Type="Edm.String" MaxLength="241" sap:unicode="false" sap:label="E-Mail Address"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryOrigin" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Pick-up Location" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryOriginDesc" Type="Edm.String" MaxLength="20" sap:unicode="false" sap:label="Description" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryLocation" Type="Edm.String" MaxLength="8" sap:unicode="false" sap:label="Address ID" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryLocationDesc" Type="Edm.String" MaxLength="30" sap:unicode="false" sap:label="Name" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="TransportMode" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Mode of Transport" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="TransportModeDesc" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Text" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryUnitNo" Type="Edm.String" MaxLength="30" sap:unicode="false" sap:label="Unit Number" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryHouseNo" Type="Edm.String" MaxLength="30" sap:unicode="false" sap:label="House Number" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryStreet" Type="Edm.String" MaxLength="60" sap:unicode="false" sap:label="Street" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DeliverySubdivision" Type="Edm.String" MaxLength="60" sap:unicode="false" sap:label="Subdivision" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryArea" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Area" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryAreaDesc" Type="Edm.String" MaxLength="15" sap:unicode="false" sap:label="Text (15 characters)"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryProvince" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Province Code" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryProvinceDesc" Type="Edm.String" MaxLength="30" sap:unicode="false" sap:label="Province Description"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryCity" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="City Code" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryCityDesc" Type="Edm.String" MaxLength="50" sap:unicode="false" sap:label="City Description" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryBarangay" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Barangay Code" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryBarangayDesc" Type="Edm.String" MaxLength="50" sap:unicode="false" sap:label="Barangay Description"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryZipcode" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Zip Code" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryDate" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Date" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryTime" Type="Edm.Time" Precision="0" sap:unicode="false" sap:label="Field of type TIMS" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="ContainerType" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Container Type" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="ContainerTypeDesc" Type="Edm.String" MaxLength="20" sap:unicode="false" sap:label="Description" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="TruckType" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Truck Type" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="TruckTypeDesc" Type="Edm.String" MaxLength="20" sap:unicode="false" sap:label="Description" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DeliverySpecLoc" Type="Edm.String" MaxLength="25" sap:unicode="false" sap:label="Text" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryContactPerson" Type="Edm.String" MaxLength="30" sap:unicode="false" sap:label="Contact Person Name"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryContactNumber" Type="Edm.String" MaxLength="30" sap:unicode="false" sap:label="Contact Number" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryContactEmail" Type="Edm.String" MaxLength="241" sap:unicode="false" sap:label="E-Mail Address" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryAltContactPerson" Type="Edm.String" MaxLength="30" sap:unicode="false" sap:label="Contact Person Name"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryAltContactNumber" Type="Edm.String" MaxLength="30" sap:unicode="false" sap:label="Contact Number"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false"/><Property Name="DeliveryAltContactEmail" Type="Edm.String" MaxLength="241" sap:unicode="false" sap:label="E-Mail Address"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false"/></EntityType>
+			<EntityType Name="OLResult" sap:content-version="1">
+				<Key><PropertyRef Name="RefNo"/></Key><Property Name="RefNo" Type="Edm.String" Nullable="false" MaxLength="25" sap:unicode="false" sap:label="OneLook Refno" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="MsgV1" Type="Edm.String" MaxLength="100" sap:unicode="false" sap:label="Text" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="MsgV2" Type="Edm.String" MaxLength="100" sap:unicode="false" sap:label="Text" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/><Property Name="MsgType" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Message Type" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="ServiceableResult" sap:content-version="1">
+				<Key><PropertyRef Name="PackageNo"/><PropertyRef Name="Courier"/></Key><Property Name="PackageNo" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="Package Number"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Courier" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Courier" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="CourierDesc" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Courier Name"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="MessageText" Type="Edm.String" Nullable="false" MaxLength="220" sap:unicode="false" sap:label="Message Text"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="ProcessNode" sap:content-version="1">
+				<Key><PropertyRef Name="RefNo"/><PropertyRef Name="SeqNo"/></Key><Property Name="RefNo" Type="Edm.String" Nullable="false" MaxLength="25" sap:unicode="false" sap:label="DTD Ref. No." sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="SeqNo" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="Sequence No." sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ProcessLaneID" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Process Lane"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="StatusId" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Status ID" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="StatusText" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:label="OneLook Status Text"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="StatusAbbv" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Status ID" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="State" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="OneLook State" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="StateText" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:label="State Text"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="StateText1" Type="Edm.String" Nullable="false" MaxLength="100" sap:unicode="false" sap:label="State Text 1"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="StateText2" Type="Edm.String" Nullable="false" MaxLength="100" sap:unicode="false" sap:label="State Text 2"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="ProcessLane" sap:content-version="1">
+				<Key><PropertyRef Name="RefNo"/><PropertyRef Name="ProcessLaneId"/></Key><Property Name="RefNo" Type="Edm.String" Nullable="false" MaxLength="25" sap:unicode="false" sap:label="DTD Ref. No." sap:creatable="false"
+					sap:updatable="false" sap:sortable="false"/><Property Name="ProcessLaneId" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Process Lane"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false"/><Property Name="ProcessLaneDesc" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false"
+					sap:label="OneLook Process Lane Description" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ProcessLaneSeq" Type="Edm.Byte" sap:unicode="false" sap:label="OneLook Process Lane Sequence" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ProcessLaneIcon" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="OneLook Process Lane Icon"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<Association Name="OLHeader_ProcessLane" sap:content-version="1"><End Type="ZSSD_ONELOOK_TRANS_SRV.OLHeader" Multiplicity="1" Role="FromRole_OLHeader_ProcessLane"/><End Type="ZSSD_ONELOOK_TRANS_SRV.ProcessLane" Multiplicity="*" Role="ToRole_OLHeader_ProcessLane"/>
+				<ReferentialConstraint>
+					<Principal Role="FromRole_OLHeader_ProcessLane"><PropertyRef Name="RefNo"/></Principal>
+					<Dependent Role="ToRole_OLHeader_ProcessLane"><PropertyRef Name="RefNo"/></Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="OLHeader_ProcessNode" sap:content-version="1"><End Type="ZSSD_ONELOOK_TRANS_SRV.OLHeader" Multiplicity="1" Role="FromRole_OLHeader_ProcessNode"/><End Type="ZSSD_ONELOOK_TRANS_SRV.ProcessNode" Multiplicity="*" Role="ToRole_OLHeader_ProcessNode"/>
+				<ReferentialConstraint>
+					<Principal Role="FromRole_OLHeader_ProcessNode"><PropertyRef Name="RefNo"/></Principal>
+					<Dependent Role="ToRole_OLHeader_ProcessNode"><PropertyRef Name="RefNo"/></Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="OLHeader_Item" sap:content-version="1"><End Type="ZSSD_ONELOOK_TRANS_SRV.OLHeader" Multiplicity="1" Role="FromRole_OLHeader_Item"/><End Type="ZSSD_ONELOOK_TRANS_SRV.OLItem" Multiplicity="*" Role="ToRole_OLHeader_Item"/>
+				<ReferentialConstraint>
+					<Principal Role="FromRole_OLHeader_Item"><PropertyRef Name="RefNo"/></Principal>
+					<Dependent Role="ToRole_OLHeader_Item"><PropertyRef Name="RefNo"/></Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="OLHeader_Result" sap:content-version="1"><End Type="ZSSD_ONELOOK_TRANS_SRV.OLHeader" Multiplicity="1" Role="FromRole_OLHeader_Result"/><End Type="ZSSD_ONELOOK_TRANS_SRV.OLResult" Multiplicity="*" Role="ToRole_OLHeader_Result"/>
+				<ReferentialConstraint>
+					<Principal Role="FromRole_OLHeader_Result"><PropertyRef Name="RefNo"/></Principal>
+					<Dependent Role="ToRole_OLHeader_Result"><PropertyRef Name="RefNo"/></Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="OLHeader_Attachment" sap:content-version="1"><End Type="ZSSD_ONELOOK_TRANS_SRV.OLHeader" Multiplicity="1" Role="FromRole_OLHeader_Attachment"/><End Type="ZSSD_ONELOOK_TRANS_SRV.Attachment" Multiplicity="*" Role="ToRole_OLHeader_Attachment"/>
+				<ReferentialConstraint>
+					<Principal Role="FromRole_OLHeader_Attachment"><PropertyRef Name="RefNo"/></Principal>
+					<Dependent Role="ToRole_OLHeader_Attachment"><PropertyRef Name="RefNo"/></Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<EntityContainer Name="ZSSD_ONELOOK_TRANS_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx"><EntitySet Name="AttachmentSet" EntityType="ZSSD_ONELOOK_TRANS_SRV.Attachment" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="FreightCostResultSet" EntityType="ZSSD_ONELOOK_TRANS_SRV.FreightCostResult" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="OLResultsSet" EntityType="ZSSD_ONELOOK_TRANS_SRV.OLResults" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="OLHeaderSet" EntityType="ZSSD_ONELOOK_TRANS_SRV.OLHeader" sap:creatable="false" sap:updatable="false" sap:deletable="false"
+				sap:pageable="false" sap:content-version="1"/><EntitySet Name="OLItemSet" EntityType="ZSSD_ONELOOK_TRANS_SRV.OLItem" sap:creatable="false" sap:updatable="false" sap:deletable="false"
+				sap:pageable="false" sap:content-version="1"/><EntitySet Name="OLResultSet" EntityType="ZSSD_ONELOOK_TRANS_SRV.OLResult" sap:creatable="false" sap:updatable="false" sap:deletable="false"
+				sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="ServiceableResultSet" EntityType="ZSSD_ONELOOK_TRANS_SRV.ServiceableResult" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="ProcessNodeSet" EntityType="ZSSD_ONELOOK_TRANS_SRV.ProcessNode" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="ProcessLaneSet" EntityType="ZSSD_ONELOOK_TRANS_SRV.ProcessLane" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+				<AssociationSet Name="OLHeader_AttachmentSet" Association="ZSSD_ONELOOK_TRANS_SRV.OLHeader_Attachment" sap:creatable="false"
+					sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="OLHeaderSet" Role="FromRole_OLHeader_Attachment"/><End EntitySet="AttachmentSet" Role="ToRole_OLHeader_Attachment"/></AssociationSet>
+				<AssociationSet Name="OLHeader_ProcessLaneSet" Association="ZSSD_ONELOOK_TRANS_SRV.OLHeader_ProcessLane" sap:creatable="false"
+					sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="OLHeaderSet" Role="FromRole_OLHeader_ProcessLane"/><End EntitySet="ProcessLaneSet" Role="ToRole_OLHeader_ProcessLane"/></AssociationSet>
+				<AssociationSet Name="OLHeader_ProcessNodeSet" Association="ZSSD_ONELOOK_TRANS_SRV.OLHeader_ProcessNode" sap:creatable="false"
+					sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="OLHeaderSet" Role="FromRole_OLHeader_ProcessNode"/><End EntitySet="ProcessNodeSet" Role="ToRole_OLHeader_ProcessNode"/></AssociationSet>
+				<AssociationSet Name="OLHeader_ItemSet" Association="ZSSD_ONELOOK_TRANS_SRV.OLHeader_Item" sap:creatable="false" sap:updatable="false"
+					sap:deletable="false" sap:content-version="1"><End EntitySet="OLHeaderSet" Role="FromRole_OLHeader_Item"/><End EntitySet="OLItemSet" Role="ToRole_OLHeader_Item"/></AssociationSet>
+				<AssociationSet Name="OLHeader_ResultSet" Association="ZSSD_ONELOOK_TRANS_SRV.OLHeader_Result" sap:creatable="false" sap:updatable="false"
+					sap:deletable="false" sap:content-version="1"><End EntitySet="OLHeaderSet" Role="FromRole_OLHeader_Result"/><End EntitySet="OLResultSet" Role="ToRole_OLHeader_Result"/></AssociationSet>
+				<FunctionImport Name="Serviceable" ReturnType="Collection(ZSSD_ONELOOK_TRANS_SRV.ServiceableResult)" EntitySet="ServiceableResultSet"
+					m:HttpMethod="GET" sap:action-for="ZSSD_ONELOOK_TRANS_SRV.ServiceableResult"><Parameter Name="LINE10" Type="Edm.String" Mode="In" MaxLength="100"/><Parameter Name="LINE09" Type="Edm.String" Mode="In" MaxLength="100"/><Parameter Name="LINE08" Type="Edm.String" Mode="In" MaxLength="100"/><Parameter Name="LINE07" Type="Edm.String" Mode="In" MaxLength="100"/><Parameter Name="LINE06" Type="Edm.String" Mode="In" MaxLength="100"/><Parameter Name="LINE05" Type="Edm.String" Mode="In" MaxLength="100"/><Parameter Name="LINE04" Type="Edm.String" Mode="In" MaxLength="100"/><Parameter Name="LINE03" Type="Edm.String" Mode="In" MaxLength="100"/><Parameter Name="LINE02" Type="Edm.String" Mode="In" MaxLength="100"/><Parameter Name="LINE01" Type="Edm.String" Mode="In" MaxLength="100"/></FunctionImport>
+				<FunctionImport Name="FreightCostNonTrade" ReturnType="Collection(ZSSD_ONELOOK_TRANS_SRV.FreightCostResult)"
+					EntitySet="FreightCostResultSet" m:HttpMethod="GET" sap:action-for="ZSSD_ONELOOK_TRANS_SRV.FreightCostResult"><Parameter Name="LINE07" Type="Edm.String" Mode="In" MaxLength="120"/><Parameter Name="LINE05" Type="Edm.String" Mode="In" MaxLength="120"/><Parameter Name="LINE06" Type="Edm.String" Mode="In" MaxLength="120"/><Parameter Name="LINE10" Type="Edm.String" Mode="In" MaxLength="120"/><Parameter Name="LINE09" Type="Edm.String" Mode="In" MaxLength="120"/><Parameter Name="LINE04" Type="Edm.String" Mode="In" MaxLength="120"/><Parameter Name="LINE01" Type="Edm.String" Mode="In" MaxLength="120"/><Parameter Name="LINE03" Type="Edm.String" Mode="In" MaxLength="120"/><Parameter Name="LINE02" Type="Edm.String" Mode="In" MaxLength="120"/><Parameter Name="LINE08" Type="Edm.String" Mode="In" MaxLength="120"/></FunctionImport>
+				<FunctionImport Name="CreateFinalDTD" ReturnType="ZSSD_ONELOOK_TRANS_SRV.OLResults" EntitySet="OLResultsSet" m:HttpMethod="POST"
+					sap:action-for="ZSSD_ONELOOK_TRANS_SRV.OLResults"><Parameter Name="StatusId" Type="Edm.String" Mode="In" MaxLength="3"/><Parameter Name="RefNo" Type="Edm.String" Mode="In" MaxLength="25"/></FunctionImport>
+			</EntityContainer><atom:link rel="self"
+				href="https://webidecp-zz1qtpwp2i.dispatcher.ap1.hana.ondemand.com/destinations/fid_system1_regular/sap/opu/odata/sap/ZSSD_ONELOOK_TRANS_SRV/$metadata"
+				xmlns:atom="http://www.w3.org/2005/Atom"/><atom:link rel="latest-version"
+				href="https://webidecp-zz1qtpwp2i.dispatcher.ap1.hana.ondemand.com/destinations/fid_system1_regular/sap/opu/odata/sap/ZSSD_ONELOOK_TRANS_SRV/$metadata"
+				xmlns:atom="http://www.w3.org/2005/Atom"/></Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

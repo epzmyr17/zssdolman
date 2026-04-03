@@ -1,0 +1,61 @@
+[{
+	"RefNo": "RefNo 1",
+	"DocItem": "DocItem 1",
+	"FileName": "FileName 1",
+	"MimeType": "application/zip",
+	"FileSize": 6043,
+	"__metadata": {
+		"uri": "AttachmentSet(RefNo='RefNo%201',DocItem='DocItem%201')",
+		"type": "ZSSD_ONELOOK_TRANS_SRV.Attachment"
+	}
+}, {
+	"RefNo": "RefNo 1",
+	"DocItem": "DocItem 2",
+	"FileName": "FileName 2",
+	"MimeType": "application/pdf",
+	"FileSize": 4782,
+	"__metadata": {
+		"uri": "AttachmentSet(RefNo='RefNo%201',DocItem='DocItem%202')",
+		"type": "ZSSD_ONELOOK_TRANS_SRV.Attachment"
+	}
+}, {
+	"RefNo": "RefNo 2",
+	"DocItem": "DocItem 1",
+	"FileName": "FileName 1",
+	"MimeType": "application/pdf",
+	"FileSize": 4782,
+	"__metadata": {
+		"uri": "AttachmentSet(RefNo='RefNo%202',DocItem='DocItem%201')",
+		"type": "ZSSD_ONELOOK_TRANS_SRV.Attachment"
+	}
+}, {
+	"RefNo": "RefNo 3",
+	"DocItem": "DocItem 1",
+	"FileName": "FileName 1",
+	"MimeType": "application/pdf",
+	"FileSize": 8631,
+	"__metadata": {
+		"uri": "AttachmentSet(RefNo='RefNo%203',DocItem='DocItem%201')",
+		"type": "ZSSD_ONELOOK_TRANS_SRV.Attachment"
+	}
+}, {
+	"RefNo": "RefNo 4",
+	"DocItem": "DocItem 1",
+	"FileName": "FileName 1",
+	"MimeType": "application/pdf",
+	"FileSize": 6231,
+	"__metadata": {
+		"uri": "AttachmentSet(RefNo='RefNo%204',DocItem='DocItem%201')",
+		"type": "ZSSD_ONELOOK_TRANS_SRV.Attachment"
+	}
+}, {
+	"RefNo": "RefNo 5",
+	"DocItem": "DocItem 1",
+	"FileName": "FileName 1",
+	"MimeType": "application/pdf",
+	"FileSize": 3921,
+	"__metadata": {
+		"uri": "AttachmentSet(RefNo='RefNo%205',DocItem='DocItem%201')",
+		"type": "ZSSD_ONELOOK_TRANS_SRV.Attachment"
+	}
+}]

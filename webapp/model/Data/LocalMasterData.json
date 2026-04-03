@@ -1,0 +1,157 @@
+{
+	"TransactionType": [{
+		"id": "TT",
+		"Description": "Trade request"
+	}, {
+		"id": "NT",
+		"Description": "Non-trade request"
+	}, {
+		"id": "DT",
+		"Description": "Document request"
+	}],
+	"ModeOfTransport": [{
+		"TransType": "TT",
+		"id": "LAND",
+		"Description": "Land"
+	}, {
+		"TransType": "TT",
+		"id": "AIR",
+		"Description": "Air"
+	}, {
+		"TransType": "TT",
+		"id": "SEA",
+		"Description": "Sea"
+	}, {
+		"TransType": "TT",
+		"id": "RORO",
+		"Description": "Roro - Normal"
+	}, {
+		"TransType": "NT",
+		"id": "LAND",
+		"Description": "Land"
+	}, {
+		"TransType": "NT",
+		"id": "AIR",
+		"Description": "Air"
+	}, {
+		"TransType": "NT",
+		"id": "SEA",
+		"Description": "Sea"
+	}, {
+		"TransType": "NT",
+		"id": "RORO",
+		"Description": "Roro - Normal"
+	}, {
+		"TransType": "NT",
+		"id": "RORT",
+		"Description": "Roro - Truckload"
+	}, {
+		"TransType": "DT",
+		"id": "LAND",
+		"Description": "Land"
+	}, {
+		"TransType": "DT",
+		"id": "AIR",
+		"Description": "Air"
+	}],
+	"TruckType": [{
+		"id": "4W",
+		"Description": "4-wheeler"
+	}, {
+		"id": "6W",
+		"Description": "6-wheeler"
+	}, {
+		"id": "6WF",
+		"Description": "6-wheeler Forward"
+	}, {
+		"id": "10W",
+		"Description": "10-wheeler"
+	}],
+	"ContainerType": [{
+		"id": "LCL",
+		"Description": "Less Container Load"
+	}, {
+		"id": "10C",
+		"Description": "10'Container"
+	}, {
+		"id": "20C",
+		"Description": "20'Container"
+	}, {
+		"id": "40C",
+		"Description": "40'Container"
+	}],
+	"CompanyCode": [{
+		"id": "INOV",
+		"Description": "Innove Communications Inc"
+	}, {
+		"id": "GLOB",
+		"Description": "Globe Telecom Inc"
+	}, {
+		"id": "BAYN",
+		"Description": "Bayan Telecommunications"
+	}],
+	"DeliveryType": [{
+		"id": "00",
+		"Description": "Rush"
+	}, {
+		"id": "01",
+		"Description": "Normal"
+	}, {
+		"id": "02",
+		"Description": "Same day delivery"
+	}, {
+		"id": "03",
+		"Description": "Land Express"
+	}],
+	"Currency": [{
+		"id": "PHP",
+		"Description": "PHP"
+	}, {
+		"id": "USD",
+		"Description": "USD"
+	}],
+	"Area": [{
+		"id": "00",
+		"Description": "NCR"
+	}, {
+		"id": "01",
+		"Description": "Luzon"
+	}, {
+		"id": "02",
+		"Description": "Visayas"
+	}, {
+		"id": "02",
+		"Description": "Mindanao"
+	}],
+	"AccountTypeSet": [{
+		"AccountType": "CONS",
+		"AccountTypeDesc": "Consumer"
+	}, {
+		"AccountType": "CORP",
+		"AccountTypeDesc": "Corporate"
+	}],
+	"ModeOfPayment": [{
+		"PaymentMode": "CTB",
+		"PaymentModeDesc": "Others"
+	}, {
+		"PaymentMode": "COD",
+		"PaymentModeDesc": "Cash on delivery"
+	}],
+	"ReportTabFilter": [{
+		"TabId": "S01",
+		"Application": "R",
+		"TabDesc": "For action"
+	}, {
+		"TabId": "S03",
+		"Application": "R",
+		"TabDesc": "For approval"
+	}, {
+		"TabId": "S04",
+		"Application": "R",
+		"TabDesc": "For processing"
+	}, {
+		"TabId": "S05",
+		"Application": "R",
+		"TabDesc": "Completed"
+	}]
+}
