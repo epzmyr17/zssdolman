@@ -1,0 +1,26 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<Popover
+		title="{i18n>StatusLog}"
+		class="sapUiPopupWithPadding"
+		placement="Right">
+		<footer>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button
+					text="{i18n>Close}"
+					press="onClosePopover" />
+			</Toolbar>
+		</footer>
+		<VBox>
+		<Label text="{i18n>NodeStatus}"/>
+		<Text text="{viewOLRequest>StatusText}" class="sapUiSmallMarginBottom"/>
+		<Label text="{i18n>State}"/>
+		<Text text="{viewOLRequest>StateText}" class="sapUiTinyMarginBottom"/>
+		<Text text="{viewOLRequest>StateText1}" class="sapUiSmallMarginBottom"/>
+		<Label text="{i18n>Reason}" visible="{= ${viewOLRequest>StateText2} !== ''}"/>
+		<Text text="{viewOLRequest>StateText2}" visible="{= ${viewOLRequest>StateText2} !== ''}"/>
+		</VBox>
+	</Popover>
+</core:FragmentDefinition>

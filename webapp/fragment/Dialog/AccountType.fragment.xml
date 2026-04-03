@@ -1,0 +1,18 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<Dialog id="AccountTypeDialog" title="{i18n>CreateSingleTradeRequest}" class="sapUiContentPadding">
+		<content>
+			<Text text="{i18n>SelectAccountType}"/>
+			<List id="AccountTypeList"
+				items="{ path: 'LocalMasterData>/AccountTypeSet'}"
+				mode="SingleSelectLeft" includeItemInSelection="true">
+				<StandardListItem title="{LocalMasterData>AccountTypeDesc}"/>
+			</List>
+		</content>
+		<buttons>
+			<Button tooltip="{i18n>CancelBtn}" text="{i18n>CancelBtn}" press="onCancelCreate"/>
+			<Button tooltip="{i18n>SubmitBtn}" text="{i18n>SubmitBtn}" type="Emphasized" press="onPressCreate"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

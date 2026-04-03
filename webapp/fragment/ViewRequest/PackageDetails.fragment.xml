@@ -1,0 +1,304 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<VBox items="{path: 'viewOLRequest>NAV_OLHeader_Item', templateShareable:false}">
+		<Panel class="dtd-customPanel sapUiMediumMarginBottom">
+			<headerToolbar>
+				<Toolbar height="4rem" class="dtd-customHeaderColor">
+					<core:Icon src="{path: 'viewOLRequest>TransportMode', formatter: '.formatter.formatTransportModeIcon'}" tooltip="{i18n>TransportMode}"
+						class="dtd-icon-size1"/>
+					<VBox>
+						<Text
+							text="{parts: [{path: 'viewOLRequest>PackageNo'}, {path: 'viewOLRequest>ItemTypeDesc'}, {path: 'viewOLRequest>MaterialTypeDesc'}, {path: 'viewOLRequest>/TransType'}], formatter: '.formatter.formatPackageItemDetails'}"
+							class="dtd-bold-title"/>
+						<Text
+							text="{parts: [{path: 'viewOLRequest>DeliveryTypeDesc'}, {path: 'viewOLRequest>TransportMode'}], formatter: '.formatter.formatDeliveryDetails'}"/>
+					</VBox>
+					<ToolbarSpacer/>
+					<!--Start of edit MS223343 - PAL-2023-002-->
+					<VBox alignItems="End" visible="{= ${TransType} !== 'NT' }">
+						<Text text="{i18n>EstimatedCost}" class="dtd-bold-title" textAlign="Right"/>
+						<Text
+							text="{parts:[{path: 'viewOLRequest>EstimatedCost'},{path: 'viewOLRequest>Currency'}], type: 'sap.ui.model.type.Currency', formatOptions:{showMeasure:false}}"
+							textAlign="Right"/>
+					</VBox>
+					<!--End of edit MS223343 - PAL-2023-002-->
+				</Toolbar>
+			</headerToolbar>
+			<content>
+				<f:Form editable="false" class="dtd-form">
+					<f:layout>
+						<f:ResponsiveGridLayout labelSpanXL="5" labelSpanL="5" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+							emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+					</f:layout>
+					<f:formContainers>
+						<!-- Package Details -->
+						<f:FormContainer title="{i18n>PackageDetailsTtl}" visible="{viewOLRequest>bShowDetails}">
+							<f:formElements>
+								<f:FormElement label="{i18n>ItemTypeLbl}" visible="{=${TransType} !== 'TT'}">
+									<Text text="{viewOLRequest>ItemTypeDesc}"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>itemDescriptionLbl}" visible="{=${TransType} !== 'TT'}">
+									<Text text="{viewOLRequest>ItemDescription}" wrapping="true"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>MaterialType}" visible="{=${TransType} === 'TT'}">
+									<Text text="{viewOLRequest>MaterialTypeDesc}"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>MaterialDescription}" visible="{=${TransType} === 'TT'}">
+									<Text text="{viewOLRequest>MaterialDescription}" wrapping="true"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>AssetNoLbl}" visible="{=${TransType} === 'NT'}">
+									<Text text="{path: 'viewOLRequest>AssetNo', formatter: '.formatter.formatValue'}"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>MaterialCode}" visible="{= ${TransType} === 'TT'}">
+									<Text text="{path: 'viewOLRequest>MaterialCode', formatter: '.formatter.formatValue'}"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>SerialNoLbl}" visible="{=${TransType} === 'TT' || ${TransType} === 'NT'}">
+									<Text text="{path: 'viewOLRequest>SerialNo', formatter: '.formatter.formatValue'}"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>MatDocLbl}" visible="{=${TransType} === 'NT'}">
+									<Text text="{path: 'viewOLRequest>MaterialDoc', formatter: '.formatter.formatValue'}"/>
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+						<!-- Package attributes-->
+						<f:FormContainer title=" " visible="{viewOLRequest>bShowDetails}">
+							<f:formElements>
+								<!--Start of insert MS223343 - PAL-2023-002-->
+								<f:FormElement label="{i18n>manpowerServices}" visible="{= ${viewOLRequest>/TransType} === 'NT' || ${viewOLRequest>/TransType} === 'TT'}">
+									<HBox>
+										<Switch enabled="false" customTextOn=" " customTextOff=" " state="{viewOLRequest>ManpowerServices}"/>
+										<ComboBox enabled="false" selectedKey="{viewOLRequest>Manpower}"
+											items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_OL_MANPOWERSet', templateShareable: false}"
+											visible="{= ${viewOLRequest>ManpowerServices} === true}">
+											<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>Manpower}" text="{parts:['ZSSD_ONELOOK_MDATA_SRV>Manpower'], formatter:'.formatter.formatManpower'}"/>
+										</ComboBox>
+									</HBox>
+								</f:FormElement>
+								<f:FormElement label="{i18n>crateServices}" visible="{= ${viewOLRequest>/TransType} === 'NT' || ${viewOLRequest>/TransType} === 'TT'}">
+									<HBox>
+										<Switch enabled="false" customTextOn=" " customTextOff=" " state="{viewOLRequest>CratingServices}"/>
+										<ComboBox enabled="false" selectedKey="{viewOLRequest>Crate}"
+											items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_OL_CRATESet', templateShareable: false}" visible="{= ${viewOLRequest>CratingServices} === true}">
+											<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>Crate}" text="{ZSSD_ONELOOK_MDATA_SRV>CrateDescription}"/>
+										</ComboBox>
+									</HBox>
+								</f:FormElement>
+								<!--End of insert MS223343 - PAL-2023-002-->
+								<f:FormElement label="{i18n>QuantityLbl}">
+									<Text text="{ path: 'viewOLRequest>Quantity', formatter: '.formatter.formatStringToInt'}"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>WeightLbl}">
+									<Text text="{path: 'viewOLRequest>Weight', type: 'sap.ui.model.odata.type.Decimal', constraints: { scale: 3, nullable: false }}"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>Volume}" visible="{=${TransType} === 'NT'}">
+									<Text
+										text="{path: 'viewOLRequest>Length', type: 'sap.ui.model.odata.type.Decimal', constraints: { scale: 3, nullable: false }}{i18n>UoMCM} x {path: 'viewOLRequest>Width', type: 'sap.ui.model.odata.type.Decimal', constraints: { scale: 3, nullable: false }}{i18n>UoMCM} x {path: 'viewOLRequest>Height', type: 'sap.ui.model.odata.type.Decimal', constraints: { scale: 3, nullable: false }}{i18n>UoMCM}"/>
+								</f:FormElement>
+								<!--Start of insert MS223343 - PAL-2023-004 / 007-->
+								<f:FormElement label="{i18n>volumetricWeight}" visible="{= ${viewOLRequest>/TransType} === 'NT'}">
+									<Text text="{parts:['viewOLRequest>Length','viewOLRequest>Width','viewOLRequest>Height' ], formatter:'.formatter.formatVolumeMetricWeight'}"/>
+								</f:FormElement>
+								<!--End of insert MS223343 - PAL-2023-004 / 007-->
+								<!--Start of insert MS223343 - PAL-2023-002-->
+								<f:FormElement label="{i18n>cubicMeter}" visible="{= ${viewOLRequest>/TransType} === 'NT'}">
+									<Text text="{parts:['viewOLRequest>Length','viewOLRequest>Width','viewOLRequest>Height' ], formatter:'.formatter.formatCubicMeter'}"/>
+								</f:FormElement>
+								<!--End of insert MS223343 - PAL-2023-002-->
+								<f:FormElement label="{i18n>DeclaredValueLbl}" visible="{=${TransType} !== 'TT'}">
+									<Text
+										text="{parts:[{path: 'viewOLRequest>Amount'},{path: 'viewOLRequest>Currency'}], type: 'sap.ui.model.type.Currency', formatOptions:{showMeasure:true}}"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>Amount}" visible="{=${TransType} === 'TT'}">
+									<Text
+										text="{parts:[{path: 'viewOLRequest>Amount'},{path: 'viewOLRequest>Currency'}], type: 'sap.ui.model.type.Currency', formatOptions:{showMeasure:true}}"/>
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+						<!--Start of delete MS223343 - PAL-2023-002-->
+						<!--Pickup Details-->
+						<!--<f:FormContainer title="{i18n>PickUpTtl}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>DeliveryTypeLbl}" visible="{viewOLRequest>bShowDetails}">-->
+						<!--			<Text text="{viewOLRequest>DeliveryTypeDesc}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>PickUpLocationLbl}">-->
+						<!--			<Text text="{viewOLRequest>PickupOriginDesc}"/>-->
+						<!--		</f:FormElement>-->
+						<!--Address Details if origin is from O, warehouse, supplier & e waste-->
+						<!--		<f:FormElement label="{i18n>AdressLbl}"-->
+						<!--			visible="{= (${viewOLRequest>PickupOrigin} === 'O' || (${viewOLRequest>PickupOrigin} !== 'G' &amp;&amp; ${viewOLRequest>PickupOrigin} !== '')) &amp;&amp; ${viewOLRequest>PickupAddress} === ''}">-->
+						<!--			<Text-->
+						<!--				text="{viewOLRequest>PickupUnitNo} {viewOLRequest>PickupHouseNo} {viewOLRequest>PickupStreet} {viewOLRequest>PickupSubdivision} Brgy. {viewOLRequest>PickupBarangayDesc}, {viewOLRequest>PickupCityDesc}, {viewOLRequest>PickupProvinceDesc}, {viewOLRequest>PickupZipcode}"/>-->
+						<!--		</f:FormElement>-->
+						<!-- For complete pick-up address -->
+						<!--		<f:FormElement label="{i18n>AdressLbl}" visible="{= ${viewOLRequest>PickupAddress} !== ''}">-->
+						<!--			<Text text="{viewOLRequest>PickupAddress}"/>-->
+						<!--		</f:FormElement>-->
+						<!--Address Details if origin is from Globe-->
+						<!--		<f:FormElement label="{i18n>AdressLbl}" visible="{= ${viewOLRequest>PickupOrigin} === 'G' &amp;&amp; ${viewOLRequest>PickupAddress} === ''}">-->
+						<!--			<Text text="{viewOLRequest>PickupSpecLoc}, {viewOLRequest>PickupLocationDesc}"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!--<f:FormContainer title=" ">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement>-->
+						<!--			<f:label>-->
+						<!--				<Label text="{i18n>PickupDateLbl}"/>-->
+						<!--			</f:label>-->
+						<!--			<Text text="{path: 'viewOLRequest>PickupDate', formatter: '.formatter.formatDate'}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement>-->
+						<!--			<f:label>-->
+						<!--				<Label text="{i18n>PickupTime}"/>-->
+						<!--			</f:label>-->
+						<!--			<Text text="{path: 'viewOLRequest>PickupTime', type: 'sap.ui.model.odata.type.Time', formatOptions: { pattern : 'HH:mm' }}"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!--Pick up contact-->
+						<!--<f:FormContainer title="" visible="{viewOLRequest>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>ContactPersonLbl}">-->
+						<!--			<Text text="{viewOLRequest>PickupContactPerson}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactNoLbl}">-->
+						<!--			<Text text="{viewOLRequest>PickupContactNumber}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactEmailLbl}">-->
+						<!--			<Text text="{viewOLRequest>PickupContactEmail}"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!--<f:FormContainer title="" visible="{viewOLRequest>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>AlternateContactPersonLbl}">-->
+						<!--			<Text text="{path: 'viewOLRequest>PickupAltContactPerson' , formatter: '.formatter.formatValue'}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactNoLbl}">-->
+						<!--			<Text text="{path: 'viewOLRequest>PickupAltContactNumber', formatter: '.formatter.formatValue'}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactEmailLbl}">-->
+						<!--			<Text text="{path: 'viewOLRequest>PickupAltContactEmail', formatter: '.formatter.formatValue'}"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!--Delivery Details-->
+						<!--<f:FormContainer title="{i18n>DeliveryTtl}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>ModeOfTransportLbl}" visible="{viewOLRequest>bShowDetails}">-->
+						<!--			<Text text="{viewOLRequest>TransportMode}"/>-->
+						<!--		</f:FormElement>-->
+						<!-- if Land and RORO -->
+						<!--		<f:FormElement label="{i18n>TruckType}"-->
+						<!--			visible="{= ${viewOLRequest>bShowDetails} &amp;&amp; ${viewOLRequest>TransportMode} !== '' &amp;&amp; (${viewOLRequest>TransportMode} === 'RORO' || ${viewOLRequest>TransportMode} === 'LAND') &amp;&amp; ${viewOLRequest>/TransType} !== 'DT'}">-->
+						<!--			<Text text="{viewOLRequest>TruckTypeDesc}"/>-->
+						<!--		</f:FormElement>-->
+						<!-- if Sea -->
+						<!--		<f:FormElement label="{i18n>ContainerType}"-->
+						<!--			visible="{= ${viewOLRequest>TransportMode} !== '' &amp;&amp; ${viewOLRequest>TransportMode} === 'SEA' &amp;&amp; ${viewOLRequest>/TransType} !== 'DT'}">-->
+						<!--			<Text text="{viewOLRequest>ContainerTypeDesc}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>DeliveryLocationLbl}">-->
+						<!--			<Text text="{viewOLRequest>DeliveryOriginDesc}"/>-->
+						<!--		</f:FormElement>-->
+						<!--Address Details if origin is from O,warehouse, supplier and e-waste-->
+						<!--		<f:FormElement label="{i18n>AdressLbl}"-->
+						<!--			visible="{= (${viewOLRequest>DeliveryOrigin} === 'O' || (${viewOLRequest>DeliveryOrigin} !== 'G' &amp;&amp; ${viewOLRequest>DeliveryOrigin} !== '')) &amp;&amp; ${viewOLRequest>DeliveryAddress} === ''}">-->
+						<!--			<Text-->
+						<!--				text="{viewOLRequest>DeliveryUnitNo} {viewOLRequest>DeliveryHouseNo} {viewOLRequest>DeliveryStreet} {viewOLRequest>DeliverySubdivision} Brgy. {viewOLRequest>DeliveryBarangayDesc}, {viewOLRequest>DeliveryCityDesc}, {viewOLRequest>DeliveryProvinceDesc}, {viewOLRequest>DeliveryZipcode}"/>-->
+						<!--		</f:FormElement>-->
+						<!-- For complete delivery address -->
+						<!--		<f:FormElement label="{i18n>AdressLbl}" visible="{= ${viewOLRequest>DeliveryAddress} !== ''}">-->
+						<!--			<Text text="{viewOLRequest>DeliveryAddress}"/>-->
+						<!--		</f:FormElement>-->
+						<!--Address Details if origin is from Globe-->
+						<!--		<f:FormElement label="{i18n>AdressLbl}"-->
+						<!--			visible="{= ${viewOLRequest>DeliveryOrigin} === 'G' &amp;&amp; ${viewOLRequest>DeliveryAddress} === ''}">-->
+						<!--			<Text text="{viewOLRequest>DeliverySpecLoc}, {viewOLRequest>DeliveryLocationDesc}"/>-->
+						<!--		</f:FormElement>-->
+						<!--Address Details if origin is from O-->
+						<!--<f:FormElement label="{i18n>AdressLbl}"-->
+						<!--	visible="{=${viewOLRequest>DeliveryOrigin} !== 'O' &amp;&amp; ${viewOLRequest>DeliveryOrigin} !== 'G' &amp;&amp; ${viewOLRequest>DeliveryOrigin} !== '' }">-->
+						<!--	<Text-->
+						<!--		text="{viewOLRequest>DeliveryUnitNo} {viewOLRequest>DeliveryHouseNo} {viewOLRequest>DeliveryStreet} {viewOLRequest>DeliverySubdivision} Brgy. {viewOLRequest>DeliveryBarangayDesc}, {viewOLRequest>DeliveryCityDesc}, {viewOLRequest>DeliveryProvinceDesc}, {viewOLRequest>DeliveryZipcode}, {viewOLRequest>DeliveryLocationDesc}"-->
+						<!--		maxLines="4"/>-->
+						<!--</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!-- Delivery Date -->
+						<!--<f:FormContainer title=" ">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>DeliveryDate}">-->
+						<!--			<Text text="{path: 'viewOLRequest>DeliveryDate', formatter: '.formatter.formatDate'}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>DeliveryTime}">-->
+						<!--			<Text text="{path: 'viewOLRequest>DeliveryTime', type: 'sap.ui.model.odata.type.Time', formatOptions: { pattern : 'HH:mm' }}"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!-- Delivery contact person -->
+						<!--<f:FormContainer title="" visible="{viewOLRequest>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>AuthRecipient}">-->
+						<!--			<Text text="{viewOLRequest>DeliveryContactPerson}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactNoLbl}">-->
+						<!--			<Text text="{viewOLRequest>DeliveryContactNumber}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactEmailLbl}">-->
+						<!--			<Text text="{viewOLRequest>DeliveryContactEmail}"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!--<f:FormContainer title="" visible="{viewOLRequest>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>AltAutRecipient}">-->
+						<!--			<Text text="{path: 'viewOLRequest>DeliveryAltContactPerson', formatter: '.formatter.formatValue'}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactNoLbl}">-->
+						<!--			<Text text="{path: 'viewOLRequest>DeliveryAltContactNumber', formatter: '.formatter.formatValue'}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactEmailLbl}">-->
+						<!--			<Text text="{path: 'viewOLRequest>DeliveryAltContactEmail', formatter: '.formatter.formatValue'}"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!-- Courier and shipment details -->
+						<!--<f:FormContainer title="{i18n>CourierDetails}" visible="{= ${viewOLRequest>Courier} ? true : false}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>Courier}">-->
+						<!--			<Text text="{viewOLRequest>CourierDesc}"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!-- Shipment Details -->
+						<!--End of delete MS223343 - PAL-2023-002-->
+						<!--Start of edit MS223343 - PAL-2023-002-->
+						<!--Start of change MS223343 - PAL-2023-010-->
+						<f:FormContainer title="{i18n>Shipment}" visible="{=${TransType} === 'NT' || ${TransType} === 'TT'}">
+							<f:formElements>
+								<f:FormElement label="{i18n>EstimatedCost}" visible="{= ${TransType} !== 'NT' }">
+									<Text
+										text="{parts:[{path: 'viewOLRequest>EstimatedCost'},{path: 'viewOLRequest>Currency'}], type: 'sap.ui.model.type.Currency', formatOptions:{showMeasure:false}}"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>IssuingSloc}" visible="{=${TransType} === 'NT' || ${TransType} === 'TT'}">
+									<Text text="{path: 'viewOLRequest>IssuingStorageLocation', formatter: '.formatter.formatValue'}"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>ReceivingSloc}" visible="{=${TransType} === 'NT' || ${TransType} === 'TT'}">
+									<Text text="{path: 'viewOLRequest>ReceivingStorageLocation', formatter: '.formatter.formatValue'}"/>
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+						<!--End of change MS223343 - PAL-2023-010-->
+						<!--End of edit MS223343 - PAL-2023-002-->
+					</f:formContainers>
+				</f:Form>
+				<HBox justifyContent="Center" class="dtd-custom-border-top">
+					<Button text="{= ${viewOLRequest>bShowDetails} ? ${i18n>HideDetailsBtn} : ${i18n>ShowDetailsBtn} }" press="onTogglePackageDetails"
+						app:ItemNum="{viewOLRequest>ItemNum}" class="dtd-custom-no-border-button sapUiTinyMarginTop"/>
+				</HBox>
+			</content>
+		</Panel>
+	</VBox>
+</core:FragmentDefinition>

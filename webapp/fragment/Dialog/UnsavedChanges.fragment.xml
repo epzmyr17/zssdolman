@@ -1,0 +1,12 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<Dialog type="Message" state="Warning" title="{i18n>UnsavedChanges}">
+		<content>
+			<Text text="{i18n>CancelWarningMessage}" textAlign="Center"/>
+		</content>
+		<buttons>
+			<Button text="Cancel" press="onCloseDialog"/>
+			<Button text="{i18n>SaveDraftBtn}" press="onSave" app:SaveType="Draft"/>
+			<Button text="{i18n>ProceedBtn}" type="Emphasized" press="onNavBack" />
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

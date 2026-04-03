@@ -1,0 +1,43 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
+	xmlns:u="sap.ui.unified">
+	<VBox class="sapUiContentPadding dtd-customPanel sapUiMediumMarginBottom"
+		visible="{=${UserType>/UserType} === 'PA' || ${editOLRequest>/TransType} === 'DT' || ${editOLRequest>/TruckTypeVisibility} || ${items>/0/TransportMode} === 'SEA'}">
+		<f:Form editable="true" class="dtd-form">
+			<f:layout>
+				<f:ResponsiveGridLayout labelSpanXL="5" labelSpanL="5" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+					emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+			</f:layout>
+			<f:formContainers>
+				<!-- Courier Details- display only when user is Pre-Approved(PA)-->
+				<f:FormContainer title="{i18n>CourierDetails}"
+					visible="{=${UserType>/UserType} === 'PA' || ${DTDRequest>/TransType} === 'DT' || ${DTDRequest>/TruckTypeVisibility} || ${items>/0/TransportMode} === 'SEA'}">
+					<f:formElements>
+						<!-- if Sea, Containter type-->
+						<f:FormElement label="{i18n>ContainerType}" visible="{= ${items>/0/TransportMode} === 'SEA'}">
+							<ComboBox required="true" fieldGroupIds="NT,TT" placeholder="{i18n>SelContainerType}" selectedKey="{items>/0/ContainerType}"
+								items="{path: 'LocalMasterData>/ContainerType', templateShareable: false}" change="onContainerTypeChange"
+								visible="{= ${items>/0/TransportMode} !== '' &amp;&amp; ${items>/0/TransportMode} === 'SEA'}">
+								<core:Item key="{LocalMasterData>id}" text="{LocalMasterData>Description}"/>
+							</ComboBox>
+						</f:FormElement>
+						<f:FormElement label="{i18n>TruckType}" visible="{=${DTDRequest>/TruckTypeVisibility}}">
+							<ComboBox placeholder="{i18n>SelTruckType}" selectedKey="{items>/0/TruckType}" required="true" fieldGroupIds="NT,TT"
+								items="{path: 'LocalMasterData>/TruckType', templateShareable: false}" change="onTruckTypeChange"
+								visible="{=${DTDRequest>/TruckTypeVisibility}}">
+								<core:Item key="{LocalMasterData>id}" text="{LocalMasterData>Description}"/>
+							</ComboBox>
+						</f:FormElement>
+						<f:FormElement label="{i18n>Courier}" visible="{=${UserType>/UserType} === 'PA' || ${DTDRequest>/TransType} === 'DT'}">
+							<ComboBox placeholder="{i18n>SelCourier}" selectedKey="{items>/0/Courier}" required="true" fieldGroupIds="NT,DT,TT"
+								items="{items>/0/ValueHelps/Courier}" change="onCourierChange"
+								visible="{=${UserType>/UserType} === 'PA' || ${DTDRequest>/TransType} === 'DT'}">
+								<core:Item key="{items>Courier}" text="{items>CourierDesc}"/>
+							</ComboBox>
+							<!--<Text text="text"/>-->
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+	</VBox>
+</core:FragmentDefinition>

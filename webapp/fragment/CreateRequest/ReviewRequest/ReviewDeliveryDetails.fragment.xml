@@ -1,0 +1,93 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
+	xmlns:u="sap.ui.unified" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<VBox class="sapUiContentPadding dtd-customPanel sapUiMediumMarginBottom">
+		<f:Form editable="false" class="dtd-form">
+			<f:layout>
+				<f:ResponsiveGridLayout labelSpanXL="5" labelSpanL="5" labelSpanM="5" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+					emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+			</f:layout>
+			<f:formContainers>
+				<f:FormContainer title="{i18n>DeliveryTtl}">
+					<f:formElements>
+						<f:FormElement label="{i18n>DeliveryLocationLbl}">
+							<Text text="{items>/0/DeliveryOriginDesc}"/>
+						</f:FormElement>
+						<!--Address Details if origin is from O, warehouse, supplier and e-waste-->
+						<f:FormElement label="{i18n>AdressLbl}"
+							visible="{=${items>/0/DeliveryOrigin} === 'O' || (${items>/0/DeliveryOrigin} !== 'G' &amp;&amp; ${items>/0/DeliveryOrigin} !== '')}">
+							<Text
+								text="{items>/0/DeliveryUnitNo} {items>/0/DeliveryHouseNo} {items>/0/DeliveryStreet} {items>/0/DeliverySubdivision} Brgy. {items>/0/DeliveryBarangayDesc}, {items>/0/DeliveryCityDesc}, {items>/0/DeliveryProvinceDesc}, {items>/0/DeliveryZipcode}"/>
+						</f:FormElement>
+						<!--Address Details if origin is from Globe-->
+						<f:FormElement label="{i18n>AdressLbl}" visible="{= ${items>/0/DeliveryOrigin} === 'G'}">
+							<Text text="{items>/0/DeliverySpecLoc}, {items>/0/DeliveryLocationDesc}"/>
+						</f:FormElement>
+						<!--Address Details if origin is from O-->
+						<!--<f:FormElement label="{i18n>AdressLbl}"-->
+						<!--	visible="{=${items>/0/DeliveryOrigin} !== 'O' &amp;&amp; ${items>/0/DeliveryOrigin} !== 'G' &amp;&amp; ${items>/0/DeliveryOrigin} !== '' }">-->
+						<!--	<Text-->
+						<!--		text="{items>/0/DeliveryUnitNo} {items>/0/DeliveryHouseNo} {items>/0/DeliveryStreet} {items>/0/DeliverySubdivision} Brgy. {items>/0/DeliveryBarangayDesc}, {items>/0/DeliveryCityDesc}, {items>/0/DeliveryProvinceDesc}, {items>/0/DeliveryZipcode}, {items>/0/DeliveryLocationDesc}"-->
+						<!--		maxLines="4"/>-->
+						<!--</f:FormElement>-->
+						<f:FormElement label="{i18n>ModeOfTransportLbl}" visible="{items>/0/bShowDetails}">
+							<Text text="{items>/0/TransportModeDesc}"/>
+						</f:FormElement>
+						<!--if Land and RORO-->
+						<!--Start of edit MS223343 - PAL-2023-002-->
+						<f:FormElement label="{i18n>TruckType}"
+							visible="{= ${items>/0/bShowDetails} &amp;&amp; ${items>/0/TransportMode} !== '' &amp;&amp; ((${items>/0/TransportMode} === 'RORO' &amp;&amp; (${items>/0/Weight} > 500 || ((${items>/0/Length} * ${items>/0/Width} * ${items>/0/Height}) / 3500) > 500)) || (${items>/0/TransportMode} === 'LAND' &amp;&amp; (${items>/0/Weight} > 200 || ((${items>/0/Length} * ${items>/0/Width} * ${items>/0/Height}) / 3500) > 200))) &amp;&amp; ${DTDRequest>/TransType} !== 'DT'}">
+							<Text text="{items>/0/TruckTypeDesc}"/>
+						</f:FormElement>
+						<!--End of edit MS223343 - PAL-2023-002-->
+						<!--if Sea-->
+						<f:FormElement label="{i18n>ContainerType}"
+							visible="{= ${items>/0/TransportMode} !== '' &amp;&amp; ${items>/0/TransportMode} === 'SEA' &amp;&amp; ${DTDRequest>/TransType} !== 'DT'}">
+							<Text text="{items>/0/ContainerTypeDesc}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>DeliveryTypeLbl}" visible="{items>/0/bShowDetails}">
+							<Text text="{items>/0/DeliveryTypeDesc}"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<!--Delivery Date-->
+				<f:FormContainer title=" ">
+					<f:formElements>
+						<f:FormElement label="{i18n>DeliveryDate}">
+							<Text text="{path: 'items>/0/DeliveryDate', formatter: '.formatter.formatDate'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>DeliveryTime}">
+							<Text text="{path: 'items>/0/DeliveryTime', formatter: '.formatter.formatTime'}"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<!--Delivery contact person-->
+				<f:FormContainer title="" visible="{items>/0/bShowDetails}">
+					<f:formElements>
+						<f:FormElement label="{i18n>AuthRecipient}">
+							<Text text="{items>/0/DeliveryContactPerson}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>ContactNoLbl}">
+							<Text text="{items>/0/DeliveryContactNumber}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>ContactEmailLbl}">
+							<Text text="{items>/0/DeliveryContactEmail}"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<f:FormContainer title="" visible="{items>/0/bShowDetails}">
+					<f:formElements>
+						<f:FormElement label="{i18n>AltAutRecipient}">
+							<Text text="{path: 'items>/0/DeliveryAltContactPerson', formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>ContactNoLbl}">
+							<Text text="{path: 'items>/0/DeliveryAltContactNumber', formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>ContactEmailLbl}">
+							<Text text="{path: 'items>/0/DeliveryAltContactEmail', formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+	</VBox>
+</core:FragmentDefinition>

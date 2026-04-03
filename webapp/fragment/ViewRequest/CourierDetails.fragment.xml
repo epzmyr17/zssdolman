@@ -1,0 +1,30 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
+	xmlns:u="sap.ui.unified" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<VBox class="sapUiContentPadding dtd-customPanel sapUiMediumMarginBottom"
+		visible="{= ${viewOLRequest>/NAV_OLHeader_Item/0/Courier} ? true : false || ${viewOLRequest>/NAV_OLHeader_Item/0/TruckType} ? true : false || ${viewOLRequest>/NAV_OLHeader_Item/0/TransportMode} === 'SEA' }">
+		<f:Form editable="false" class="dtd-form">
+			<f:layout>
+				<f:ResponsiveGridLayout labelSpanXL="5" labelSpanL="5" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+					emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+			</f:layout>
+			<f:formContainers>
+				<!-- Courier -->
+				<f:FormContainer title="{i18n>CourierDetails}"
+					visible="{= ${viewOLRequest>/NAV_OLHeader_Item/0/Courier} ? true : false || ${viewOLRequest>/NAV_OLHeader_Item/0/TruckType} ? true : false || ${viewOLRequest>/NAV_OLHeader_Item/0/TransportMode} === 'SEA' }">
+					<f:formElements>
+						<!-- if Sea -->
+						<f:FormElement label="{i18n>ContainerType}" visible="{= ${viewOLRequest>/NAV_OLHeader_Item/0/TransportMode} === 'SEA' }">
+							<Text text="{viewOLRequest>/NAV_OLHeader_Item/0/ContainerTypeDesc}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>TruckType}" visible="{= ${viewOLRequest>/NAV_OLHeader_Item/0/TruckType} ? true : false}">
+							<Text text="{viewOLRequest>/NAV_OLHeader_Item/0/TruckTypeDesc}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>Courier}" visible="{= ${viewOLRequest>/NAV_OLHeader_Item/0/Courier} ? true : false}">
+							<Text text="{viewOLRequest>CourierDesc}"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+	</VBox>
+</core:FragmentDefinition>

@@ -1,0 +1,44 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
+	xmlns:u="sap.ui.unified">
+	<f:Form editable="true" class="dtd-form">
+		<f:layout>
+			<f:ResponsiveGridLayout labelSpanXL="5" labelSpanL="5" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+				emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+		</f:layout>
+		<f:formContainers>
+			<!--Start of delete MS223343 - PAL-2023-002-->
+			<!-- Courier Details- display only when user is Pre-Approved(PA)-->
+			<!--<f:FormContainer title="{i18n>CourierDetails}" visible="{=${UserType>/UserType} === 'PA' || ${editOLRequest>/TransType} === 'DT'}">-->
+			<!--	<f:formElements>-->
+			<!--		<f:FormElement label="{i18n>Courier}">-->
+			<!--			<ComboBox placeholder="{i18n>SelCourier}" selectedKey="{editOLRequest>Courier}" required="true" fieldGroupIds="NT,DT,TT" items="{editOLRequest>ValueHelps/Courier}"-->
+			<!--				change="onValueChange" visible="{=${UserType>/UserType} === 'PA' || ${editOLRequest>/TransType} === 'DT'}">-->
+			<!--				<core:Item key="{editOLRequest>Courier}" text="{editOLRequest>CourierDesc}"/>-->
+			<!--			</ComboBox>-->
+			<!--<Text text="text"/>-->
+			<!--		</f:FormElement>-->
+			<!--	</f:formElements>-->
+			<!--</f:FormContainer>-->
+			<!--End of delete MS223343 - PAL-2023-002-->
+			<!-- Shipment Details -->
+			<!--Start of edit MS223343 - PAL-2023-002-->
+			<!--Start of change MS223343 - PAL-2023-010-->
+			<f:FormContainer title="{i18n>Shipment}" visible="{=${editOLRequest>/TransType} === 'NT' || ${editOLRequest>/TransType} === 'TT'}">
+				<f:formElements>
+					<f:FormElement label="{i18n>EstimatedCost}" visible="{= ${editOLRequest>/TransType} !== 'NT' }">
+						<Text
+							text="{parts:[{path: 'editOLRequest>EstimatedCost'},{path: 'editOLRequest>Currency'}], type: 'sap.ui.model.type.Currency', formatOptions:{showMeasure:false}}"/>
+					</f:FormElement>
+					<f:FormElement label="{i18n>IssuingSloc}" visible="{=${editOLRequest>/TransType} === 'NT' || ${editOLRequest>/TransType} === 'TT'}">
+						<Text text="{path: 'editOLRequest>IssuingStorageLocation', formatter: '.formatter.formatValue'}"/>
+					</f:FormElement>
+					<f:FormElement label="{i18n>ReceivingSloc}" visible="{=${editOLRequest>/TransType} === 'NT' || ${editOLRequest>/TransType} === 'TT'}">
+						<Text text="{path: 'editOLRequest>ReceivingStorageLocation', formatter: '.formatter.formatValue'}"/>
+					</f:FormElement>
+				</f:formElements>
+			</f:FormContainer>
+			<!--End of change MS223343 - PAL-2023-010-->
+			<!--End of edit MS223343 - PAL-2023-002-->
+		</f:formContainers>
+	</f:Form>
+</core:FragmentDefinition>

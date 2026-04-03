@@ -1,0 +1,19 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<SelectDialog
+		noDataText="{i18n>NoApprover}"
+		title="{i18n>SelApprover}"
+		search="onSearchApprover"
+		confirm="onAddApprover"
+		cancel="onCancelValueHelp"
+		items="{
+			path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_APPROVERSet',
+			filters: [{path: 'Approvertype', operator: 'EQ', value1: 'IS_APPROVER'}]
+		}" >
+		<StandardListItem
+			title="{ZSSD_ONELOOK_MDATA_SRV>NameFirst} {ZSSD_ONELOOK_MDATA_SRV>NameLast}"
+			description="{ZSSD_ONELOOK_MDATA_SRV>SmtpAddr}"
+			type="Active" />
+	</SelectDialog>
+</core:FragmentDefinition>

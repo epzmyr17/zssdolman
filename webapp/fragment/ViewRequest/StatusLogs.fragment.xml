@@ -1,0 +1,29 @@
+<core:FragmentDefinition xmlns:m="sap.m" xmlns:core="sap.ui.core" xmlns="sap.suite.ui.commons">
+	<m:VBox class="dtd-customPanel sapUiMediumMarginBottom" justifyContent="Center" alignItems="Center">
+		<ProcessFlow id="StatusProcessFlow"
+			scrollable="false"
+			nodes="{viewOLRequest>/NAV_OLHeader_ProcessNode}"
+			lanes="{viewOLRequest>/NAV_OLHeader_ProcessLane}"
+			foldedCorners="false"
+			wheelZoomable="false"
+			nodePress="onNodePress">
+			<nodes>
+				<ProcessFlowNode
+					laneId="{viewOLRequest>ProcessLaneID}"
+					nodeId="{viewOLRequest>SeqNo}"
+					title="{viewOLRequest>StatusText}"
+					titleAbbreviation="{viewOLRequest>StatusAbbv}"
+					state="{viewOLRequest>State}"
+					stateText="{viewOLRequest>StateText}"
+					texts="{viewOLRequest>Texts}"/>
+			</nodes>
+			<lanes>
+				<ProcessFlowLaneHeader
+					laneId="{viewOLRequest>ProcessLaneId}"
+					iconSrc="{viewOLRequest>ProcessLaneIcon}"
+					text="{viewOLRequest>ProcessLaneDesc}"
+					position="{viewOLRequest>ProcessLaneSeq}"/>
+			</lanes>
+		</ProcessFlow>
+	</m:VBox>
+</core:FragmentDefinition>

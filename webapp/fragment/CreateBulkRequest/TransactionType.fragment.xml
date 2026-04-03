@@ -1,0 +1,17 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form">
+	<l:VerticalLayout width="100%" class="sapUiLargeMarginTop">
+		<Title text="{i18n>SelectTransType}" class="dtd-bold-title sapUiTinyMarginBottom"/>
+		<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="3" labelSpanM="4" labelSpanS="12"
+			adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
+			singleContainerFullSize="false" class="dtd-form">
+			<f:content>
+				<Label text="{i18n>TransType}" required="true"/>
+				<ComboBox placeholder="{i18n>EnterTransType}" items="{ path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_TRANS_TYPESet' }"
+					selectedKey="{bulkRequestModel>TransType}" required="true" fieldGroupIds="NT,TT,DT" change="onSelectTransType">
+					<core:Item text="{ZSSD_ONELOOK_MDATA_SRV>TRANS_DESC}" key="{ZSSD_ONELOOK_MDATA_SRV>TRANS_TYPE}"/>
+				</ComboBox>
+			</f:content>
+		</f:SimpleForm>
+	</l:VerticalLayout>
+</core:FragmentDefinition>

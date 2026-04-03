@@ -1,0 +1,49 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout">
+	<l:VerticalLayout width="100%">
+		<Title text="{i18n>AdditionalInfoTtl}" class="dtd-bold-title sapUiTinyMarginBottom"/>
+		<Text text="{i18n>AddSuppFiles}" class="sapUiMediumMarginBottom"/>
+		<l:BlockLayout class="dtd-customPanel sapUiSmallMarginBottom">
+			<l:BlockLayoutRow>
+				<!--Attachment -->
+				<l:BlockLayoutCell width="50%">
+					<VBox>
+						<Title text="{i18n>FileUpload}" class="dtd-blue-title dtd-bold-title"/>
+						<List id="idAttachmentList" noDataText="{i18n>NoFileFound}" delete="onFileDeleted" mode="Delete"
+							items="{editOLRequest>NAV_OLHeader_Attachment}" class="sapUiSmallMarginBottom">
+							<headerToolbar>
+								<OverflowToolbar>
+									<Text text="{path: 'editOLRequest>/NAV_OLHeader_Attachment', formatter: '.formatter.formatAttachemntCount'}"/>
+									<ToolbarSpacer/>
+									<u:FileUploader enabled="{=${editOLRequest>/NAV_OLHeader_Attachment}.length &lt;10}" icon="sap-icon://add" typeMissmatch="onTypeMissmatch"
+										fileType="zip,xlsx,xls,doc,docx,png,pdf,jpg,jpeg" buttonOnly="true" change="onFileSelect" fileSizeExceed="onFileSizeExceed" maximumFileSize="30"
+										multiple="false" iconOnly="false" sameFilenameAllowed="true" buttonText="{i18n>Upload}"></u:FileUploader>
+								</OverflowToolbar>
+							</headerToolbar>
+							<items>
+								<CustomListItem>
+									<HBox width="100%">
+										<core:Icon size="2rem" src="{path: 'editOLRequest>Icon'}" class="sapMUCItemIcon sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
+										<VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom" width="100%">
+											<Title text="{editOLRequest>FileName}" wrapping="true" width="90%" visible="{= ${editOLRequest>RefNo} ? false : true}"/>
+											<Link text="{editOLRequest>FileName}" press="onOpenAttachment" wrapping="true" width="90%"
+												visible="{= ${editOLRequest>RefNo} ? true : false}"/>
+											<Label text="{i18n>fileSize} {path: 'editOLRequest>FileSize', formatter: '.formatter.fnFormatBytes'}"/>
+										</VBox>
+									</HBox>
+								</CustomListItem>
+							</items>
+						</List>
+					</VBox>
+				</l:BlockLayoutCell>
+				<!-- Special Instructions -->
+				<l:BlockLayoutCell width="50%">
+					<VBox>
+						<Title text="{i18n>SpecialInstructions}" class="dtd-blue-title dtd-bold-title"/>
+						<TextArea value="{path: 'editOLRequest>Instructions', type: 'sap.ui.model.type.String', constraints: { maxLength : 250 } }" rows="4"
+							placeholder="{i18n>EnterInstructions}" width="100%" fieldGroupIds="NT,TT,DT"/>
+					</VBox>
+				</l:BlockLayoutCell>
+			</l:BlockLayoutRow>
+		</l:BlockLayout>
+	</l:VerticalLayout>
+</core:FragmentDefinition>

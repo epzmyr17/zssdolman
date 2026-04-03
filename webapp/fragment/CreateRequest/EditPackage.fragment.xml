@@ -1,0 +1,547 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
+	xmlns:u="sap.ui.unified" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<VBox items="{path: 'items>/', templateShareable:false}" id="editPackageVbox">
+		<Panel class="dtd-customPanel sapUiMediumMarginBottom">
+			<headerToolbar>
+				<Toolbar height="3rem" class="dtd-customHeaderColor">
+					<Text text="{items>PackageNo}" class="dtd-bold-title"/>
+					<ToolbarSpacer/>
+					<Button icon="sap-icon://delete" press="onDeleteItem" visible="{= ${viewModel>/PackageCount} >= 2}"/>
+				</Toolbar>
+			</headerToolbar>
+			<content>
+				<!-- Start of Form -->
+				<f:Form editable="true" class="dtd-form">
+					<f:layout>
+						<f:ResponsiveGridLayout labelSpanXL="5" labelSpanL="5" labelSpanM="5" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+							emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+					</f:layout>
+					<f:formContainers>
+						<!-- Package Details -->
+						<f:FormContainer title="{i18n>PackageDetailsTtl}">
+							<f:formElements>
+								<f:FormElement label="{i18n>ItemTypeLbl}" visible="{=${DTDRequest>/TransType} !== 'TT'}">
+									<ComboBox required="true" fieldGroupIds="NT,DT" placeholder="{i18n>SelectTypePlh}" selectedKey="{items>ItemType}"
+										items="{path: 'MasterData>/itemType', templateShareable: false}" change="onItemTypeChange" visible="{=${DTDRequest>/TransType} !== 'TT'}">
+										<core:Item key="{MasterData>ItemType}" text="{MasterData>ItemDesc}"/>
+									</ComboBox>
+								</f:FormElement>
+								<f:FormElement label="{i18n>itemDescriptionLbl}" visible="{=${DTDRequest>/TransType} !== 'TT'}">
+									<TextArea required="true" fieldGroupIds="NT,DT"
+										value="{path: 'items>ItemDescription', type: 'sap.ui.model.type.String', constraints: { minLength: 1, maxLength : 250 } }" rows="4"
+										placeholder="{i18n>EnterDescriptionPlh}" change="onValueChange" visible="{=${DTDRequest>/TransType} !== 'TT'}"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>MaterialType}" visible="{=${DTDRequest>/TransType} === 'TT'}">
+									<ComboBox required="true" fieldGroupIds="TT" placeholder="{i18n>SelectMaterialType}" selectedKey="{items>MaterialType}"
+										items="{path: 'MasterData>/itemType', templateShareable: false}" change="onMaterialTypeChange"
+										visible="{=${DTDRequest>/TransType} === 'TT'}">
+										<core:Item key="{MasterData>ItemType}" text="{MasterData>ItemDesc}"/>
+									</ComboBox>
+								</f:FormElement>
+								<f:FormElement label="{i18n>MaterialDescription}" visible="{=${DTDRequest>/TransType} === 'TT'}">
+									<TextArea required="true" fieldGroupIds="TT"
+										value="{path: 'items>MaterialDescription', type: 'sap.ui.model.type.String', constraints: { minLength: 1, maxLength : 250 } }" rows="4"
+										placeholder="{i18n>EnterMaterialType}" change="onValueChange" visible="{=${DTDRequest>/TransType} === 'TT'}"/>
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+						<!-- Package attributes-->
+						<f:FormContainer title=" " visible="{items>bShowDetails}">
+							<f:formElements>
+								<!--Start of insert MS223343 - PAL-2023-002-->
+								<f:FormElement label="{i18n>manpowerServices}"
+									visible="{= ${viewModel>/TransactionType} === 'NT' || ${viewModel>/TransactionType} === 'TT'}">
+									<HBox>
+										<Switch customTextOn=" " customTextOff=" " state="{items>ManpowerServices}" change="onManpowerChange"/>
+										<ComboBox required="true" placeholder="Select" fieldGroupIds="NT,TT" selectedKey="{items>Manpower}"
+											items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_OL_MANPOWERSet', templateShareable: false}" visible="{= ${items>ManpowerServices} === true}">
+											<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>Manpower}" text="{parts:['ZSSD_ONELOOK_MDATA_SRV>Manpower'], formatter:'.formatter.formatManpower'}"/>
+										</ComboBox>
+									</HBox>
+								</f:FormElement>
+								<f:FormElement label="{i18n>crateServices}" visible="{= ${viewModel>/TransactionType} === 'NT' || ${viewModel>/TransactionType} === 'TT'}">
+									<HBox>
+										<Switch customTextOn=" " customTextOff=" " state="{items>CratingServices}" change="onCrateChange"/>
+										<ComboBox required="true" placeholder="Select" fieldGroupIds="NT,TT" selectedKey="{items>Crate}"
+											items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_OL_CRATESet', templateShareable: false}" visible="{= ${items>CratingServices} === true}">
+											<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>Crate}" text="{ZSSD_ONELOOK_MDATA_SRV>CrateDescription}"/>
+										</ComboBox>
+									</HBox>
+								</f:FormElement>
+								<!--End of insert MS223343 - PAL-2023-002-->
+								<f:FormElement label="{i18n>QuantityLbl}">
+									<Input required="true" fieldGroupIds="NT,DT,TT"
+										value="{path: 'items>Quantity', type: 'sap.ui.model.type.String', constraints: { minLength: 1, maxLength : 10 }}" type="Number"
+										placeholder="{i18n>EnterQunatityPlh}" change="onValueChange" app:NumberType="Numeric" width="5.2rem">
+										<!--<layoutData>-->
+										<!--	<l:GridData span="XL2 L2 M2 S3"/>-->
+										<!--</layoutData>-->
+									</Input>
+								</f:FormElement>
+								<f:FormElement label="{i18n>WeightLbl}">
+									<Input required="true" fieldGroupIds="NT,DT,TT"
+										value="{path: 'items>Weight', type: 'sap.ui.model.type.String', constraints: { minLength: 1, maxLength : 10 }}" type="Number"
+										placeholder="{i18n>EnterWeightPlh}" change="onValueChange" app:NumberType="Decimal" width="5.2rem">
+										<!--<layoutData>-->
+										<!--	<l:GridData span="XL2 L2 M2 S3"/>-->
+										<!--</layoutData>-->
+									</Input>
+								</f:FormElement>
+								<f:FormElement label="{i18n>VolumeLbl}" visible="{= ${viewModel>/TransactionType} === 'NT'}">
+									<HBox>
+										<Input required="true" fieldGroupIds="NT"
+											value="{path: 'items>Length', type: 'sap.ui.model.type.String', constraints: { minLength: 1, maxLength : 10 }}" type="Number"
+											placeholder="{i18n>LengthPlh}" change="onValueChange" app:NumberType="Decimal" width="5.2rem">
+											<!--<layoutData>-->
+											<!--	<l:GridData span="XL2 L2 M2 S3"/>-->
+											<!--</layoutData>-->
+										</Input>
+										<Text text="x" textAlign="Center" class="sapUiTinyMarginBeginEnd">
+											<!--<layoutData>-->
+											<!--	<l:GridData span="XL1 L1 M1 S1"/>-->
+											<!--</layoutData>-->
+										</Text>
+										<Input required="true" fieldGroupIds="NT"
+											value="{path: 'items>Width', type: 'sap.ui.model.type.String', constraints: { minLength: 1, maxLength : 10 }}" type="Number"
+											placeholder="{i18n>WidthPlh}" change="onValueChange" app:NumberType="Decimal">
+											<!--<layoutData>-->
+											<!--	<l:GridData span="XL2 L2 M2 S3"/>-->
+											<!--</layoutData>-->
+										</Input>
+										<Text text="x" textAlign="Center" class="sapUiTinyMarginBeginEnd">
+											<!--<layoutData>-->
+											<!--	<l:GridData span="XL1 L1 M1 S1"/>-->
+											<!--</layoutData>-->
+										</Text>
+										<Input required="true" fieldGroupIds="NT"
+											value="{path: 'items>Height', type: 'sap.ui.model.type.String', constraints: { minLength: 1, maxLength : 10 }}" type="Number"
+											placeholder="{i18n>HeightPlh}" change="onValueChange" app:NumberType="Decimal">
+											<!--<layoutData>-->
+											<!--	<l:GridData span="XL2 L2 M2 S3"/>-->
+											<!--</layoutData>-->
+										</Input>
+									</HBox>
+								</f:FormElement>
+								<!--Start of insert MS223343 - PAL-2023-004 / 007-->
+								<f:FormElement label="{i18n>volumetricWeight}" visible="{= ${viewModel>/TransactionType} === 'NT'}">
+									<Input enabled="false" value="{parts:['items>Length','items>Width','items>Height' ], formatter:'.formatter.formatVolumeMetricWeight'}"/>
+								</f:FormElement>
+								<!--End of insert MS223343 - PAL-2023-004 / 007-->
+								<!--Start of insert MS223343 - PAL-2023-002-->
+								<f:FormElement label="{i18n>cubicMeter}" visible="{= ${viewModel>/TransactionType} === 'NT'}">
+									<Input enabled="false" value="{parts:['items>Length','items>Width','items>Height' ], formatter:'.formatter.formatCubicMeter'}"/>
+								</f:FormElement>
+								<!--End of insert MS223343 - PAL-2023-002-->
+								<f:FormElement label="{path: 'DTDRequest>/TransType', formatter: '.formatter.formatAmountText'}">
+									<Select selectedKey="{items>Currency}" items="{LocalMasterData>/Currency}" change="onValueChange">
+										<core:Item key="{LocalMasterData>id}" text="{LocalMasterData>Description}"/>
+										<layoutData>
+											<l:GridData span="XL2 L2 M2 S12"/>
+										</layoutData>
+									</Select>
+									<Input required="true" fieldGroupIds="NT,DT,TT"
+										value="{path: 'items>Amount', type: 'sap.ui.model.type.String', constraints: { minLength: 1, maxLength : 13 }}" type="Number"
+										placeholder="{i18n>DeclaredValuePlh}" change="onValueChange" app:NumberType="Decimal">
+										<layoutData>
+											<l:GridData span="XL5 L5 M5 S12"/>
+										</layoutData>
+									</Input>
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+						<f:FormContainer
+							visible="{= ${items>bShowDetails} &amp;&amp; (${viewModel>/TransactionType} === 'NT' || ${viewModel>/TransactionType} === 'TT')}">
+							<f:formElements>
+								<f:FormElement label="{i18n>AssetNoLbl}" visible="{= ${viewModel>/TransactionType} === 'NT'}">
+									<Input value="{path: 'items>AssetNo', type: 'sap.ui.model.type.String', constraints: { maxLength : 20 }}" fieldGroupIds="NT"
+										placeholder="{i18n>EnterAssetNoPlh}" change="onValueChange" visible="{= ${viewModel>/TransactionType} === 'NT'}"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>MaterialCode}" visible="{= ${viewModel>/TransactionType} === 'TT'}">
+									<Input value="{path: 'items>MaterialCode', type: 'sap.ui.model.type.String', constraints: {maxLength : 40 }}" fieldGroupIds="TT"
+										placeholder="{i18n>EnterMaterialCode}" visible="{= ${viewModel>/TransactionType} === 'TT'}" type="Number" app:NumberType="Numeric"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>SerialNoLbl}" visible="{= ${viewModel>/TransactionType} === 'NT' || ${viewModel>/TransactionType} === 'TT'}">
+									<Input fieldGroupIds="TT,NT" value="{path: 'items>SerialNo', type: 'sap.ui.model.type.String', constraints: { maxLength : 18 }}"
+										placeholder="{i18n>EnterSerialNoPlh}" change="onValueChange"
+										visible="{= ${viewModel>/TransactionType} === 'NT' || ${viewModel>/TransactionType} === 'TT'}"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>MatDocLbl}" visible="{= ${viewModel>/TransactionType} === 'NT'}">
+									<Input value="{path: 'items>MaterialDoc', type: 'sap.ui.model.type.String', constraints: { maxLength : 10 }}" fieldGroupIds="NT"
+										placeholder="{i18n>EnterMatDocPhl}" change="onValueChange" visible="{= ${viewModel>/TransactionType} === 'NT'}"/>
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+						<!--Start of insert MS223343 - PAL-2023-010-->
+						<f:FormContainer
+							visible="{= ${editOLRequest>bShowDetails} &amp;&amp; (${viewModel>/TransType} === 'NT' || ${viewModel>/TransType} === 'TT')}"></f:FormContainer>
+						<f:FormContainer title="{i18n>Shipment}"
+							visible="{= ${items>bShowDetails} &amp;&amp; (${viewModel>/TransactionType} === 'NT' || ${viewModel>/TransactionType} === 'TT')}">
+							<f:formElements>
+								<f:FormElement label="{i18n>IssuingSloc}" visible="{= ${viewModel>/TransactionType} === 'NT' || ${viewModel>/TransactionType} === 'TT'}">
+									<Input fieldGroupIds="TT,NT" enabled="false"
+										value="{path: 'items>IssuingStorageLocation', type: 'sap.ui.model.type.String', constraints: { maxLength : 18 }}"
+										visible="{= ${viewModel>/TransactionType} === 'NT' || ${viewModel>/TransactionType} === 'TT'}"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>ReceivingSloc}" visible="{= ${viewModel>/TransactionType} === 'NT' || ${viewModel>/TransactionType} === 'TT'}">
+									<Input fieldGroupIds="TT,NT" enabled="false"
+										value="{path: 'items>ReceivingStorageLocation', type: 'sap.ui.model.type.String', constraints: { maxLength : 18 }}"
+										visible="{= ${viewModel>/TransactionType} === 'NT' || ${viewModel>/TransactionType} === 'TT'}"/>
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+						<!--Start of insert MS223343 - PAL-2023-010-->
+						<!--Start of delete MS223343 - PAL-2023-002-->
+						<!--<f:FormContainer title=" "-->
+						<!--	visible="{= ${items>bShowDetails} &amp;&amp; (${viewModel>/TransactionType} === 'NT' || ${viewModel>/TransactionType} === 'TT')}"/>-->
+						<!--Pickup Details-->
+						<!--<f:FormContainer title="{i18n>PickUpTtl}" visible="{items>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!-- Copy pickup details -->
+						<!--		<f:FormElement visible="{= ${viewModel>/PackageCount} > 1}" label="{i18n>CopyPickupDetails}">-->
+						<!--			<ComboBox placeholder="{i18n>SelectPackagePhl}" items="{path: 'items>/', templateShareable: false}" app:DetailInfo="Pickup"-->
+						<!--				change="onCopyDetails">-->
+						<!--				<core:Item key="{items>PackageNo}" text="{items>PackageNo}"/>-->
+						<!--			</ComboBox>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>DeliveryTypeLbl}">-->
+						<!--			<ComboBox required="true" fieldGroupIds="NT,DT,TT" selectedKey="{items>DeliveryType}"-->
+						<!--				items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_DELIVERY_TYPESet', templateShareable: false}" change="onDeliveryTypeChange"-->
+						<!--				placeholder="{i18n>DelTypePhl}" enabled="{=!${items>bPickupCopied}}">-->
+						<!--				<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>DELIVERY_TYPE}" text="{ZSSD_ONELOOK_MDATA_SRV>DELIVERY_DESC}"/>-->
+						<!--			</ComboBox>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>PickUpLocationLbl}">-->
+						<!--			<ComboBox required="true" fieldGroupIds="NT,DT,TT" app:DetailInfo="Pickup" placeholder="{i18n>LocPhl}"-->
+						<!--				items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_PICKUP_LOCSet', templateShareable: false}" selectedKey="{items>PickupOrigin}"-->
+						<!--				change="onLocationChange" enabled="{=!${items>bPickupCopied}}">-->
+						<!--				<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>PICKUP_LOC}" text="{ZSSD_ONELOOK_MDATA_SRV>PICKUP_DESC}"/>-->
+						<!--			</ComboBox>-->
+						<!--		</f:FormElement>-->
+						<!--Address Details if origin is from Others-->
+						<!-- Start of Adress breakdown -->
+						<!--		<f:FormElement visible="{=${items>PickupOrigin} === 'O'}" label="{i18n>AdressLbl}">-->
+						<!-- start - display only when others is selected as location-->
+						<!--			<Input value="{path: 'items>PickupUnitNo',type: 'sap.ui.model.type.String', constraints: {maxLength : 30 }}" placeholder="{i18n>UnitNo}"-->
+						<!--				enabled="{=!${items>bPickupCopied}}">-->
+						<!--				<layoutData>-->
+						<!--					<l:GridData span="XL2 L2 M2 S3"/>-->
+						<!--				</layoutData>-->
+						<!--			</Input>-->
+						<!--			<Input value="{path: 'items>PickupHouseNo',type: 'sap.ui.model.type.String', constraints: {maxLength : 30 }}" placeholder="{i18n>HouseNo}"-->
+						<!--				enabled="{=!${items>bPickupCopied}}">-->
+						<!--				<layoutData>-->
+						<!--					<l:GridData span="XL2 L2 M2 S3"/>-->
+						<!--				</layoutData>-->
+						<!--			</Input>-->
+						<!--			<Input value="{path: 'items>PickupStreet', type: 'sap.ui.model.type.String', constraints: {maxLength : 60 }}"-->
+						<!--				placeholder="{i18n>EnterStreet}" enabled="{=!${items>bPickupCopied}}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>SubdivisionArea}" visible="{= ${items>PickupOrigin} === 'O'}">-->
+						<!--subdivision-->
+						<!--			<Input value="{path: 'items>PickupSubdivision', type: 'sap.ui.model.type.String', constraints: {maxLength : 60 }}"-->
+						<!--				placeholder="{i18n>EnterSubdivision}" enabled="{= !${items>bPickupCopied}}"/>-->
+						<!--region-->
+						<!--			<ComboBox fieldGroupIds="NT,DT,TT" app:DetailInfo="Pickup" selectedKey="{items>PickupArea}"-->
+						<!--				items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_AREASet', templateShareable: false}" change="onAreaChange" placeholder="{i18n>SelRegionPhl}"-->
+						<!--				visible="{= ${items>PickupOrigin} === 'O'}" enabled="{= !${items>bPickupCopied}}" required="true">-->
+						<!--				<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>AreaCode}" text="{ZSSD_ONELOOK_MDATA_SRV>AreaDesc}"/>-->
+						<!--			</ComboBox>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ProvinceCity}" visible="{= ${items>PickupOrigin} === 'O'}">-->
+						<!-- Province -->
+						<!--			<Input fieldGroupIds="NT,DT,TT" app:DetailInfo="Pickup" app:ModelAlias="items"-->
+						<!--				value="{path: 'items>PickupProvinceDesc', type: 'sap.ui.model.type.String', constraints: {minLength: 1 }}"-->
+						<!--				placeholder="{i18n>SelProvincePhl}" enabled="{= (${items>PickupArea} ? true : false) &amp;&amp; !${items>bPickupCopied}}" required="true"-->
+						<!--				visible="{= ${items>PickupOrigin} === 'O'}" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpProvince"/>-->
+						<!-- City -->
+						<!--			<Input fieldGroupIds="NT,DT,TT" app:DetailInfo="Pickup" app:ModelAlias="items"-->
+						<!--				value="{path: 'items>PickupCityDesc', type: 'sap.ui.model.type.String', constraints: {minLength: 1 }}" placeholder="{i18n>SelCityPhl}"-->
+						<!--				enabled="{= (${items>PickupProvince} ? true : false) &amp;&amp; !${items>bPickupCopied}}" required="true"-->
+						<!--				visible="{= ${items>PickupOrigin} === 'O'}" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpCity"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>BrgyZipcode}" visible="{= ${items>PickupOrigin} === 'O'}">-->
+						<!-- Barangay -->
+						<!--			<Input fieldGroupIds="NT,DT,TT" app:DetailInfo="Pickup" app:ModelAlias="items"-->
+						<!--				value="{path: 'items>PickupBarangayDesc', type: 'sap.ui.model.type.String', constraints: {minLength: 1 }}" placeholder="{i18n>SelBrgy}"-->
+						<!--				enabled="{= (${items>PickupCity} ? true : false) &amp;&amp; !${items>bPickupCopied}}" required="true"-->
+						<!--				visible="{= ${items>PickupOrigin} === 'O'}" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpBrgy"/>-->
+						<!--			<Input fieldGroupIds="NT,DT,TT"-->
+						<!--				value="{path: 'items>PickupZipcode', type: 'sap.ui.model.type.String', constraints: {minLength: 1, maxLength: 4}}"-->
+						<!--				placeholder="{i18n>EnterZipcode}" type="Number" required="true" visible="{= ${items>PickupOrigin} === 'O'}" change="onValueChange"-->
+						<!--				enabled="{= !${items>bPickupCopied}}" app:NumberType="Numeric"/>-->
+						<!--		</f:FormElement>-->
+						<!-- End of Adress breakdown -->
+						<!--Address Details if origin is not from others-->
+						<!--		<f:FormElement label="{i18n>AdressLbl}"-->
+						<!--			visible="{= ${items>PickupOrigin} !== '' &amp;&amp; typeof(${items>PickupOrigin}) !== 'undefined' &amp;&amp; ${items>PickupOrigin} !== 'O'}">-->
+						<!-- hide if Other were selected as location -->
+						<!--			<Input required="true" fieldGroupIds="NT,DT,TT" app:DetailInfo="Pickup" app:ModelAlias="items" placeholder="{i18n>SelAddressPhl}"-->
+						<!--				value="{path: 'items>PickupLocationDesc', type: 'sap.ui.model.type.String', constraints: {minLength:1}}"-->
+						<!--				enabled="{=!${items>bPickupCopied}}"-->
+						<!--				visible="{= ${items>PickupOrigin} !== '' &amp;&amp; typeof(${items>PickupOrigin}) !== 'undefined' &amp;&amp; ${items>PickupOrigin} !== 'O'}"-->
+						<!--				valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpAddress"/>-->
+						<!--		</f:FormElement>-->
+						<!--Display only when G were selected as location -->
+						<!--		<f:FormElement label="{i18n>SpecificLocation}" visible="{=${items>PickupOrigin} === 'G'}">-->
+						<!--			<Input fieldGroupIds="NT,DT,TT"-->
+						<!--				value="{path: 'items>PickupSpecLoc', type: 'sap.ui.model.type.String', constraints: {minLength:1, maxLength: 25}}"-->
+						<!--				placeholder="{i18n>DetailedLocation}" visible="{=${items>PickupOrigin} === 'G'}" change="onValueChange" enabled="{=!${items>bPickupCopied}}"-->
+						<!--				required="true"/>-->
+						<!--		</f:FormElement>-->
+						<!--Display Address of the selected location-->
+						<!--		<f:FormElement label="{i18n>PickupAddress}"-->
+						<!--			visible="{= (${items>PickupOrigin} !== 'O' &amp;&amp; ${items>PickupOrigin} !== 'G') &amp;&amp; ${items>PickupLocation} !== ''}">-->
+						<!--			<TextArea-->
+						<!--				value="{items>PickupUnitNo} {items>PickupHouseNo} {items>PickupStreet} {items>PickupSubdivision} Brgy. {items>PickupBarangayDesc}, {items>PickupCityDesc}, {items>PickupProvinceDesc}, {items>PickupZipcode}"-->
+						<!--				growing="true" growingMaxLines="4" enabled="false"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!--<f:FormContainer title=" " visible="{items>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>PickupDateLbl}">-->
+						<!--			<DatePicker required="true" fieldGroupIds="NT,DT,TT" id="PickupDate"-->
+						<!--				value="{path: 'items>PickupDate', type : 'sap.ui.model.type.DateTime', formatOptions:{ pattern : 'MM/dd/yyyy'}}" valueFormat="yyyy-MM-dd"-->
+						<!--				minDate="{viewModel>/MinDate}" change="onPickupDateTimeChange" app:control="PickupDate" enabled="{=!${items>bPickupCopied}}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>PickupTime}">-->
+						<!--			<TimePicker required="true" fieldGroupIds="NT,DT,TT" id="PickupTime"-->
+						<!--				value="{path: 'items>PickupTime', type : 'sap.ui.model.type.Time', formatOptions:{ pattern : 'HH:mm'}}" valueFormat="HH:mm"-->
+						<!--				change="onPickupDateTimeChange" app:control="PickupTime" enabled="{=!${items>bPickupCopied}}"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!--Pickup contact-->
+						<!--<f:FormContainer title="" visible="{items>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>ContactPersonLbl}">-->
+						<!--			<Input required="true" fieldGroupIds="NT,DT,TT"-->
+						<!--				value="{path: 'items>PickupContactPerson', type: 'sap.ui.model.type.String', constraints: {minLength: 1, maxLength: 30}}"-->
+						<!--				placeholder="{i18n>EnterFullName}" change="onValueChange" enabled="{=!${items>bPickupCopied}}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactNoLbl}">-->
+						<!--			<Input required="true" fieldGroupIds="NT,DT,TT"-->
+						<!--				value="{path: 'items>PickupContactNumber', type: 'sap.ui.model.type.String', constraints:{minLength: 7, maxLength: 11}}"-->
+						<!--				placeholder="{i18n>EnterContactNo}" type="Number" change="onValueChange" enabled="{=!${items>bPickupCopied}}" app:NumberType="Numeric"/>-->
+						<!-- for mobile number -->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactEmailLbl}">-->
+						<!--			<Input required="{=${viewModel>/TransactionType} !== 'TT'}" fieldGroupIds="NT,DT,TT"-->
+						<!--				value="{path: 'items>PickupContactEmail',type: 'sap.ui.model.type.String', constraints:{maxLength: 60}}" placeholder="{i18n>EnterEmail}"-->
+						<!--				type="Email" change="onValueChange" enabled="{=!${items>bPickupCopied}}"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!-- Pickup Alternate contact-->
+						<!--<f:FormContainer title="" visible="{items>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>AlternateContactPersonLbl}">-->
+						<!--			<Input value="{path: 'items>PickupAltContactPerson', type: 'sap.ui.model.type.String', constraints: {maxLength: 30} }"-->
+						<!--				placeholder="{i18n>EnterFullName}" enabled="{=!${items>bPickupCopied}}" fieldGroupIds="NT,DT,TT"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactNoLbl}">-->
+						<!--			<Input value="{path: 'items>PickupAltContactNumber', type: 'sap.ui.model.type.String', constraints:{maxLength: 11}}"-->
+						<!--				placeholder="{i18n>EnterContactNo}" enabled="{=!${items>bPickupCopied}}" fieldGroupIds="NT,DT,TT" type="Number" app:NumberType="Numeric"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactEmailLbl}">-->
+						<!--			<Input value="{path: 'items>PickupAltContactEmail', type: '.types.emailType'}" placeholder="{i18n>EnterEmail}" type="Email"-->
+						<!--				enabled="{=!${items>bPickupCopied}}" fieldGroupIds="NT,DT,TT" change="onValueChange"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!--Delivery Details-->
+						<!--<f:FormContainer title="{i18n>DeliveryTtl}" visible="{items>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!-- Copy Delivery from -->
+						<!--		<f:FormElement label="{i18n>CopyDeliveryDetails}" visible="{= ${viewModel>/PackageCount} > 1}">-->
+						<!--			<ComboBox placeholder="{i18n>SelectPackagePhl}" items="{path: 'items>/', templateShareable: false}" change="onCopyDetails"-->
+						<!--				app:DetailInfo="Delivery">-->
+						<!--				<core:Item key="{items>PackageNo}" text="{items>PackageNo}"/>-->
+						<!--			</ComboBox>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!--<f:FormContainer visible="{items>bShowDetails}"/>-->
+						<!--<f:FormContainer visible="{items>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>ModeOfTransportLbl}">-->
+						<!--			<ComboBox required="true" fieldGroupIds="NT,DT,TT" placeholder="{i18n>SelModeOfTransport}"-->
+						<!--				selectedKey="{path: 'items>TransportMode', templateShareable: false}" items="{MasterData>/ModeOfTransport}" change="onTransportModeChange"-->
+						<!--				enabled="{=!${items>bDeliveryCopied}}">-->
+						<!--				<core:Item key="{MasterData>id}" text="{MasterData>Description}"/>-->
+						<!--			</ComboBox>-->
+						<!--		</f:FormElement>-->
+						<!-- if Land and RORO, Truck type, do not show when document request-->
+						<!--Start of edit MS223343 - PAL-2023-002-->
+						<!--		<f:FormElement label="{i18n>TruckType}"-->
+						<!--			visible="{= ${items>TransportMode} !== '' &amp;&amp; ((${items>TransportMode} === 'RORO' &amp;&amp; (${items>Weight} > 500 || ((${items>Length} * ${items>Width} * ${items>Height}) / 3500) > 500)) || (${items>TransportMode} === 'LAND' &amp;&amp; (${items>Weight} > 200 || ((${items>Length} * ${items>Width} * ${items>Height}) / 3500) > 200))) &amp;&amp; ${viewModel>/TransactionType} !== 'DT'}">-->
+						<!--			<ComboBox required="true" fieldGroupIds="NT,TT" app:DetailInfo="Delivery" placeholder="{i18n>SelTruckType}" selectedKey="{items>TruckType}"-->
+						<!--				items="{path: 'LocalMasterData>/TruckType', templateShareable: false}" change="onTruckTypeChange"-->
+						<!--				visible="{= ${items>TransportMode} !== '' &amp;&amp; ((${items>TransportMode} === 'RORO' &amp;&amp; (${items>Weight} > 500 || ((${items>Length} * ${items>Width} * ${items>Height}) / 3500) > 500)) || (${items>TransportMode} === 'LAND' &amp;&amp; (${items>Weight} > 200 || ((${items>Length} * ${items>Width} * ${items>Height}) / 3500) > 200))) &amp;&amp; ${viewModel>/TransactionType} !== 'DT'}"-->
+						<!--				enabled="{=!${items>bDeliveryCopied}}">-->
+						<!--				<core:Item key="{LocalMasterData>id}" text="{LocalMasterData>Description}"/>-->
+						<!--			</ComboBox>-->
+						<!--		</f:FormElement>-->
+						<!--End of edit MS223343 - PAL-2023-002-->
+						<!-- if Sea, Containter type-->
+						<!--		<f:FormElement label="{i18n>ContainerType}" visible="{= ${items>TransportMode} !== '' &amp;&amp; ${items>TransportMode} === 'SEA'}">-->
+						<!--			<ComboBox required="true" fieldGroupIds="NT,TT" app:DetailInfo="Delivery" placeholder="{i18n>SelContainerType}"-->
+						<!--				selectedKey="{items>ContainerType}" items="{path: 'LocalMasterData>/ContainerType', templateShareable: false}"-->
+						<!--				change="onContainerTypeChange" visible="{= ${items>TransportMode} !== '' &amp;&amp; ${items>TransportMode} === 'SEA'}"-->
+						<!--				enabled="{=!${items>bDeliveryCopied}}">-->
+						<!--				<core:Item key="{LocalMasterData>id}" text="{LocalMasterData>Description}"/>-->
+						<!--			</ComboBox>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>DeliveryLocationLbl}">-->
+						<!--			<ComboBox required="true" fieldGroupIds="NT,DT,TT" app:DetailInfo="Delivery" placeholder="{i18n>LocPhl}"-->
+						<!--				items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_PICKUP_LOCSet', templateShareable: false}" selectedKey="{items>DeliveryOrigin}"-->
+						<!--				change="onLocationChange" enabled="{=!${items>bDeliveryCopied}}">-->
+						<!--				<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>PICKUP_LOC}" text="{ZSSD_ONELOOK_MDATA_SRV>PICKUP_DESC}"/>-->
+						<!--			</ComboBox>-->
+						<!--		</f:FormElement>-->
+						<!--Address Details if origin is from Others-->
+						<!--Start of address breakdown-->
+						<!--		<f:FormElement label="{i18n>AdressLbl}" visible="{=${items>DeliveryOrigin} === 'O'}">-->
+						<!--			<Input value="{path: 'items>DeliveryUnitNo', type: 'sap.ui.model.type.String', constraints: {maxLength: 30}}" placeholder="{i18n>UnitNo}"-->
+						<!--				visible="{=${items>DeliveryOrigin} === 'O'}" enabled="{= !${items>bDeliveryCopied}}">-->
+						<!--				<layoutData>-->
+						<!--					<l:GridData span="XL2 L2 M2 S3"/>-->
+						<!--				</layoutData>-->
+						<!--			</Input>-->
+						<!--			<Input value="{path: 'items>DeliveryHouseNo', type: 'sap.ui.model.type.String', constraints: {maxLength: 30}}" placeholder="{i18n>HouseNo}"-->
+						<!--				visible="{=${items>DeliveryOrigin} === 'O'}" enabled="{= !${items>bDeliveryCopied}}">-->
+						<!--				<layoutData>-->
+						<!--					<l:GridData span="XL2 L2 M2 S3"/>-->
+						<!--				</layoutData>-->
+						<!--			</Input>-->
+						<!--			<Input value="{path: 'items>DeliveryStreet', type: 'sap.ui.model.type.String', constraints: {maxLength: 60}}"-->
+						<!--				placeholder="{i18n>EnterStreet}" visible="{=${items>DeliveryOrigin} === 'O'}" enabled="{= !${items>bDeliveryCopied}}"/>-->
+						<!--		</f:FormElement>-->
+						<!-- display only when O, warehouse and Supplier was selected as origin-->
+						<!--		<f:FormElement label="{i18n>SubdivisionArea}" visible="{= ${items>DeliveryOrigin} === 'O'}">-->
+						<!--			<Input value="{path: 'items>DeliverySubdivision', type: 'sap.ui.model.type.String', constraints: {maxLength: 60}}"-->
+						<!--				placeholder="{i18n>EnterSubdivision}" enabled="{= !${items>bDeliveryCopied}}"/>-->
+						<!--			<ComboBox fieldGroupIds="NT,DT,TT" app:DetailInfo="Delivery" selectedKey="{items>DeliveryArea}"-->
+						<!--				items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_AREASet', templateShareable: false}" change="onAreaChange" placeholder="{i18n>SelRegionPhl}"-->
+						<!--				visible="{= ${items>DeliveryOrigin} === 'O'}" required="true" enabled="{= !${items>bDeliveryCopied}}">-->
+						<!--				<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>AreaCode}" text="{ZSSD_ONELOOK_MDATA_SRV>AreaDesc}"/>-->
+						<!--			</ComboBox>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ProvinceCity}" visible="{= ${items>DeliveryOrigin} === 'O'}">-->
+						<!-- Province -->
+						<!--			<Input fieldGroupIds="NT,DT,TT" app:DetailInfo="Delivery" app:ModelAlias="items"-->
+						<!--				value="{path: 'items>DeliveryProvinceDesc', type: 'sap.ui.model.type.String', constraints: {minLength: 1}}" change="onProvinceChange"-->
+						<!--				placeholder="{i18n>SelProvincePhl}" enabled="{= (${items>DeliveryArea} ? true : false) &amp;&amp; !${items>bDeliveryCopied}}"-->
+						<!--				required="true" visible="{= ${items>DeliveryOrigin} === 'O'}" valueHelpOnly="true" showValueHelp="true"-->
+						<!--				valueHelpRequest="onValueHelpProvince"/>-->
+						<!-- City -->
+						<!--			<Input fieldGroupIds="NT,DT,TT" app:DetailInfo="Delivery" app:ModelAlias="items"-->
+						<!--				value="{path: 'items>DeliveryCityDesc', type: 'sap.ui.model.type.String', constraints: {minLength: 1}}" change="onCityChange"-->
+						<!--				placeholder="{i18n>SelCityPhl}" enabled="{= (${items>DeliveryProvince} ? true : false) &amp;&amp; !${items>bDeliveryCopied}}"-->
+						<!--				required="true" visible="{= ${items>DeliveryOrigin} === 'O'}" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpCity"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>BrgyZipcode}" visible="{= ${items>DeliveryOrigin} === 'O'}">-->
+						<!-- Barangay -->
+						<!--			<Input fieldGroupIds="NT,DT,TT" app:DetailInfo="Delivery" app:ModelAlias="items"-->
+						<!--				value="{path: 'items>DeliveryBarangayDesc', type: 'sap.ui.model.type.String', constraints: {minLength: 1}}" required="true"-->
+						<!--				placeholder="{i18n>SelBrgy}" enabled="{= (${items>DeliveryCity} ? true : false) &amp;&amp; !${items>bDeliveryCopied}}"-->
+						<!--				visible="{= ${items>DeliveryOrigin} === 'O'}" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpBrgy"/>-->
+						<!-- Zipcode -->
+						<!--			<Input fieldGroupIds="NT,DT,TT"-->
+						<!--				value="{path: 'items>DeliveryZipcode', type: 'sap.ui.model.type.String', constraints: {minxLength:1, maxLength: 4}}"-->
+						<!--				placeholder="{i18n>EnterZipcode}" type="Number" required="true" visible="{= ${items>DeliveryOrigin} === 'O'}" change="onValueChange"-->
+						<!--				enabled="{= !${items>bDeliveryCopied}}" app:NumberType="Numeric"/>-->
+						<!--		</f:FormElement>-->
+						<!--End of address breakdown -->
+						<!--Address Details if origin is from Globe-->
+						<!--		<f:FormElement label="{i18n>AdressLbl}"-->
+						<!--			visible="{= ${items>DeliveryOrigin} !== '' &amp;&amp; typeof(${items>DeliveryOrigin}) !== 'undefined' &amp;&amp; ${items>DeliveryOrigin} !== 'O'}">-->
+						<!-- hide if Other were selected as location -->
+						<!--			<Input required="true" fieldGroupIds="NT,DT,TT" app:DetailInfo="Delivery" app:ModelAlias="items" placeholder="{i18n>SelAddressPhl}"-->
+						<!--				value="{path: 'items>DeliveryLocationDesc', type: 'sap.ui.model.type.String', constraints: {minLength:1}}"-->
+						<!--				enabled="{=!${items>bDeliveryCopied}}"-->
+						<!--				visible="{= ${items>DeliveryOrigin} !== '' &amp;&amp; typeof(${items>DeliveryOrigin}) !== 'undefined' &amp;&amp; ${items>DeliveryOrigin} !== 'O'}"-->
+						<!--				valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpAddress"/>-->
+						<!--		</f:FormElement>-->
+						<!--Display only when globe offices were selected as location -->
+						<!--		<f:FormElement label="{i18n>SpecificLocation}" visible="{=${items>DeliveryOrigin} === 'G'}">-->
+						<!--			<Input fieldGroupIds="NT,DT,TT"-->
+						<!--				value="{path: 'items>DeliverySpecLoc', type: 'sap.ui.model.type.String', constraints: {minLength:1, maxLength: 25}}"-->
+						<!--				placeholder="{i18n>DetailedLocation}" visible="{=${items>DeliveryOrigin} === 'G'}" change="onValueChange"-->
+						<!--				enabled="{=!${items>bDeliveryCopied}}" required="true"/>-->
+						<!--		</f:FormElement>-->
+						<!-- Start of Adress breakdown -->
+						<!-- unit no, house no , street -->
+						<!--		<f:FormElement label="{i18n>DeliveryAddress}"-->
+						<!--			visible="{= ${items>DeliveryOrigin} !== 'O' &amp;&amp; ${items>DeliveryOrigin} !== 'G' &amp;&amp; ${items>DeliveryLocation} !== ''}">-->
+						<!--			<TextArea-->
+						<!--				value="{items>DeliveryUnitNo} {items>DeliveryHouseNo} {items>DeliveryStreet} {items>DeliverySubdivision} Brgy. {items>DeliveryBarangayDesc}, {items>DeliveryCityDesc}, {items>DeliveryProvinceDesc}, {items>DeliveryZipcode}"-->
+						<!--				growing="true" growingMaxLines="4" enabled="false"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!-- Delivery Date -->
+						<!--<f:FormContainer visible="{items>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>DeliveryDate}">-->
+						<!--			<DatePicker required="true" fieldGroupIds="NT,DT,TT" id="DeliveryDate"-->
+						<!--				value="{path: 'items>DeliveryDate', type : 'sap.ui.model.type.DateTime', formatOptions:{ pattern : 'MM/dd/yyyy'}}" valueFormat="yyyy-MM-dd"-->
+						<!--				minDate="{viewModel>/MinDate}" enabled="{=!${items>bDeliveryCopied}}" change="onDeliveryDateTimeChange" app:control="DeliveryDate"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>DeliveryTime}">-->
+						<!--			<TimePicker required="true" fieldGroupIds="NT,DT,TT" id="DeliveryTime"-->
+						<!--				value="{path: 'items>DeliveryTime', type : 'sap.ui.model.type.Time', formatOptions:{ pattern : 'HH:mm'}}" valueFormat="HH:mm"-->
+						<!--				enabled="{=!${items>bDeliveryCopied}}" change="onDeliveryDateTimeChange" app:control="DeliveryTime"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!-- Delivery contact person -->
+						<!--<f:FormContainer title="" visible="{items>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>AuthRecipient}">-->
+						<!--			<Input required="true" fieldGroupIds="NT,DT,TT"-->
+						<!--				value="{path: 'items>DeliveryContactPerson',type: 'sap.ui.model.type.String', constraints: {minLength: 1, maxLength: 30}}"-->
+						<!--				placeholder="{i18n>EnterFullName}" change="onValueChange" enabled="{=!${items>bDeliveryCopied}}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactNoLbl}">-->
+						<!--			<Input required="true" fieldGroupIds="NT,DT,TT"-->
+						<!--				value="{path: 'items>DeliveryContactNumber', type: 'sap.ui.model.type.String', constraints:{minLength: 7, maxLength: 11}}"-->
+						<!--				placeholder="{i18n>EnterContactNo}" type="Number" change="onValueChange" enabled="{=!${items>bDeliveryCopied}}" app:NumberType="Numeric"/>-->
+						<!-- for mobile number -->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactEmailLbl}">-->
+						<!--			<Input required="{=${viewModel>/TransactionType} !== 'TT'}" fieldGroupIds="NT,DT,TT"-->
+						<!--				value="{path: 'items>DeliveryContactEmail',type: 'sap.ui.model.type.String', constraints:{maxLength: 60}}" placeholder="{i18n>EnterEmail}"-->
+						<!--				type="Email" enabled="{=!${items>bDeliveryCopied}}" change="onValueChange"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!-- Delivery Alternate Contact -->
+						<!--<f:FormContainer title="" visible="{items>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>AltAutRecipient}">-->
+						<!--			<Input value="{path: 'items>DeliveryAltContactPerson', type: 'sap.ui.model.type.String', constraints: {maxLength: 30} }"-->
+						<!--				placeholder="{i18n>EnterFullName}" enabled="{=!${items>bDeliveryCopied}}" fieldGroupIds="NT,DT,TT"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactNoLbl}">-->
+						<!--			<Input value="{path: 'items>DeliveryAltContactNumber', type: 'sap.ui.model.type.String', constraints:{maxLength: 11}}"-->
+						<!--				placeholder="{i18n>EnterContactNo}" type="Number" enabled="{=!${items>bDeliveryCopied}}" fieldGroupIds="NT,DT,TT" app:NumberType="Numeric"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactEmailLbl}">-->
+						<!--			<Input value="{path: 'items>DeliveryAltContactEmail', type: '.types.emailType'}" placeholder="{i18n>EnterEmail}" type="Email"-->
+						<!--				enabled="{=!${items>bDeliveryCopied}}" fieldGroupIds="NT,DT,TT" change="onValueChange"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!--End of delete MS223343 - PAL-2023-002-->
+					</f:formContainers>
+				</f:Form>
+				<!-- End of Form -->
+				<HBox justifyContent="Center" class="dtd-custom-border-top sapUiSmallMarginTop">
+					<Button text="{= ${items>bShowDetails} ? ${i18n>HideDetailsBtn} : ${i18n>ShowDetailsBtn} }" press="onTogglePackageDetails" width="100%"
+						class="dtd-custom-no-border-button sapUiTinyMarginTop"/>
+				</HBox>
+			</content>
+		</Panel>
+	</VBox>
+</core:FragmentDefinition>

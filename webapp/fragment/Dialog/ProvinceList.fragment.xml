@@ -1,0 +1,6 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog noDataText="{i18n>NoProvinceFound}" title="{i18n>SelProvince}" search="onSearchProvince" confirm="onAddProvince"
+		cancel="onCancelValueHelp" items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_PROVINCESet'}" growingThreshold="100">
+		<StandardListItem title="{ZSSD_ONELOOK_MDATA_SRV>ProvinceDesc}" description="{ZSSD_ONELOOK_MDATA_SRV>ProvinceCode}" type="Active"/>
+	</SelectDialog>
+</core:FragmentDefinition>

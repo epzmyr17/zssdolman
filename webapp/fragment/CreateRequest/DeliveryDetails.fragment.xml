@@ -1,0 +1,171 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
+	xmlns:u="sap.ui.unified" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<VBox class="sapUiContentPadding dtd-customPanel sapUiMediumMarginBottom">
+		<f:Form editable="true" class="dtd-form">
+			<f:layout>
+				<f:ResponsiveGridLayout labelSpanXL="5" labelSpanL="5" labelSpanM="5" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+					emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+			</f:layout>
+			<f:formContainers>
+				<!--Delivery Details-->
+				<f:FormContainer title="{i18n>DeliveryTtl}" visible="{items>bShowDetails}">
+					<f:formElements>
+						<f:FormElement label="{i18n>DeliveryLocationLbl}">
+							<ComboBox required="true" fieldGroupIds="NT,DT,TT" app:DetailInfo="Delivery" placeholder="{i18n>LocPhl}"
+								items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_PICKUP_LOCSet', templateShareable: false}" selectedKey="{items>/0/DeliveryOrigin}"
+								change="onLocationChange">
+								<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>PICKUP_LOC}" text="{ZSSD_ONELOOK_MDATA_SRV>PICKUP_DESC}"/>
+							</ComboBox>
+						</f:FormElement>
+						<!--Address Details if origin is from Others-->
+						<!--Start of address breakdown-->
+						<f:FormElement label="{i18n>AdressLbl}" visible="{=${items>/0/DeliveryOrigin} === 'O'}">
+							<Input value="{path: 'items>/0/DeliveryUnitNo', type: 'sap.ui.model.type.String', constraints: {maxLength: 30}}" placeholder="{i18n>UnitNo}"
+								visible="{=${items>/0/DeliveryOrigin} === 'O'}">
+								<layoutData>
+									<l:GridData span="XL2 L2 M2 S3"/>
+								</layoutData>
+							</Input>
+							<Input value="{path: 'items>/0/DeliveryHouseNo', type: 'sap.ui.model.type.String', constraints: {maxLength: 30}}"
+								placeholder="{i18n>HouseNo}" visible="{=${items>/0/DeliveryOrigin} === 'O'}">
+								<layoutData>
+									<l:GridData span="XL2 L2 M2 S3"/>
+								</layoutData>
+							</Input>
+							<Input value="{path: 'items>/0/DeliveryStreet', type: 'sap.ui.model.type.String', constraints: {maxLength: 60}}"
+								placeholder="{i18n>EnterStreet}" visible="{=${items>/0/DeliveryOrigin} === 'O'}"/>
+						</f:FormElement>
+						<!-- display only when O, warehouse and Supplier was selected as origin-->
+						<f:FormElement label="{i18n>SubdivisionArea}" visible="{= ${items>/0/DeliveryOrigin} === 'O'}">
+							<Input value="{path: 'items>/0/DeliverySubdivision', type: 'sap.ui.model.type.String', constraints: {maxLength: 60}}"
+								placeholder="{i18n>EnterSubdivision}"/>
+							<ComboBox fieldGroupIds="NT,DT,TT" app:DetailInfo="Delivery" selectedKey="{items>/0/DeliveryArea}"
+								items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_AREASet', templateShareable: false}" change="onAreaChange" placeholder="{i18n>SelRegionPhl}"
+								visible="{= ${items>/0/DeliveryOrigin} === 'O'}" required="true">
+								<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>AreaCode}" text="{ZSSD_ONELOOK_MDATA_SRV>AreaDesc}"/>
+							</ComboBox>
+						</f:FormElement>
+						<f:FormElement label="{i18n>ProvinceCity}" visible="{= ${items>/0/DeliveryOrigin} === 'O'}">
+							<!-- Province -->
+							<Input fieldGroupIds="NT,DT,TT" app:DetailInfo="Delivery" app:ModelAlias="items"
+								value="{path: 'items>/0/DeliveryProvinceDesc', type: 'sap.ui.model.type.String', constraints: {minLength: 1}}"
+								placeholder="{i18n>SelProvincePhl}" enabled="{= (${items>/0/DeliveryArea} ? true : false) }" required="true"
+								visible="{= ${items>/0/DeliveryOrigin} === 'O'}" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpProvince"/>
+							<!-- City -->
+							<Input fieldGroupIds="NT,DT,TT" app:DetailInfo="Delivery" app:ModelAlias="items"
+								value="{path: 'items>/0/DeliveryCityDesc', type: 'sap.ui.model.type.String', constraints: {minLength: 1}}" placeholder="{i18n>SelCityPhl}"
+								enabled="{= (${items>/0/DeliveryProvince} ? true : false) }" required="true" visible="{= ${items>/0/DeliveryOrigin} === 'O'}"
+								valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpCity"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>BrgyZipcode}" visible="{= ${items>/0/DeliveryOrigin} === 'O'}">
+							<!-- Barangay -->
+							<Input fieldGroupIds="NT,DT,TT" app:DetailInfo="Delivery" app:ModelAlias="items"
+								value="{path: 'items>/0/DeliveryBarangayDesc', type: 'sap.ui.model.type.String', constraints: {minLength: 1}}" required="true"
+								placeholder="{i18n>SelBrgy}" enabled="{= (${items>/0/DeliveryCity} ? true : false) }" visible="{= ${items>/0/DeliveryOrigin} === 'O'}"
+								valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpBrgy"/>
+							<!-- Zipcode -->
+							<Input fieldGroupIds="NT,DT,TT"
+								value="{path: 'items>/0/DeliveryZipcode', type: 'sap.ui.model.type.String', constraints: {minxLength:1, maxLength: 4}}"
+								placeholder="{i18n>EnterZipcode}" type="Number" required="true" visible="{= ${items>/0/DeliveryOrigin} === 'O'}" change="onValueChange"
+								app:NumberType="Numeric"/>
+						</f:FormElement>
+						<!--End of address breakdown -->
+						<!--Address Details if origin is from Globe-->
+						<f:FormElement label="{i18n>AdressLbl}"
+							visible="{= ${items>/0/DeliveryOrigin} !== '' &amp;&amp; typeof(${items>/0/DeliveryOrigin}) !== 'undefined' &amp;&amp; ${items>/0/DeliveryOrigin} !== 'O'}">
+							<!-- hide if Other were selected as location -->
+							<Input required="true" fieldGroupIds="NT,DT,TT" app:DetailInfo="Delivery" app:ModelAlias="items" placeholder="{i18n>SelAddressPhl}"
+								value="{path: 'items>/0/DeliveryLocationDesc', type: 'sap.ui.model.type.String', constraints: {minLength:1}}"
+								visible="{= ${items>/0/DeliveryOrigin} !== '' &amp;&amp; typeof(${items>/0/DeliveryOrigin}) !== 'undefined' &amp;&amp; ${items>/0/DeliveryOrigin} !== 'O'}"
+								valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpAddress"/>
+						</f:FormElement>
+						<!--Display only when globe offices were selected as location -->
+						<f:FormElement label="{i18n>SpecificLocation}" visible="{=${items>/0/DeliveryOrigin} === 'G'}">
+							<Input fieldGroupIds="NT,DT,TT"
+								value="{path: 'items>/0/DeliverySpecLoc', type: 'sap.ui.model.type.String', constraints: {minLength:1, maxLength: 25}}"
+								placeholder="{i18n>DetailedLocation}" visible="{=${items>/0/DeliveryOrigin} === 'G'}" change="onValueChange" required="true"/>
+						</f:FormElement>
+						<!-- Start of Adress breakdown -->
+						<!-- unit no, house no , street -->
+						<f:FormElement label="{i18n>DeliveryAddress}"
+							visible="{= ${items>/0/DeliveryOrigin} !== 'O' &amp;&amp; ${items>/0/DeliveryOrigin} !== 'G' &amp;&amp; ${items>/0/DeliveryLocation} !== ''}">
+							<TextArea
+								value="{items>/0/DeliveryUnitNo} {items>/0/DeliveryHouseNo} {items>/0/DeliveryStreet} {items>/0/DeliverySubdivision} Brgy. {items>/0/DeliveryBarangayDesc}, {items>/0/DeliveryCityDesc}, {items>/0/DeliveryProvinceDesc}, {items>/0/DeliveryZipcode}"
+								growing="true" growingMaxLines="4" enabled="false"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>ModeOfTransportLbl}">
+							<ComboBox required="true" fieldGroupIds="NT,DT,TT" placeholder="{i18n>SelModeOfTransport}"
+								selectedKey="{path: 'items>/0/TransportMode', templateShareable: false}" items="{MasterData>/ModeOfTransport}"
+								change="onTransportModeChange">
+								<core:Item key="{MasterData>id}" text="{MasterData>Description}"/>
+							</ComboBox>
+						</f:FormElement>
+						<!--Start of change MS223343 - PAL-2023-010-->
+						<f:FormElement label="{i18n>DeliveryTypeLbl}" visible="{= ${items>/0/TransportMode} !== '' }">
+							<ComboBox required="true" fieldGroupIds="NT,DT,TT" selectedKey="{items>/0/DeliveryType}"
+								items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_DELIVERY_TYPESet', templateShareable: false}" change="onDeliveryTypeChange"
+								placeholder="{i18n>DelTypePhl}"
+								enabled="{= ${items>/0/TransportMode} !== 'SEA' &amp;&amp; ${items>/0/TransportMode} !== 'RORO' &amp;&amp; ${items>/0/TransportMode} !== 'RORT' }">
+								<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>DELIVERY_TYPE}" text="{ZSSD_ONELOOK_MDATA_SRV>DELIVERY_DESC}"/>
+							</ComboBox>
+						</f:FormElement>
+						<!--End of change MS223343 - PAL-2023-010-->
+					</f:formElements>
+				</f:FormContainer>
+				<!-- Delivery Date -->
+				<f:FormContainer title=" " visible="{items>bShowDetails}">
+					<f:formElements>
+						<f:FormElement label="{i18n>DeliveryDate}">
+							<DatePicker required="true" fieldGroupIds="NT,DT,TT" id="DeliveryDate"
+								value="{path: 'items>/0/DeliveryDate', type : 'sap.ui.model.type.DateTime', formatOptions:{ pattern : 'MM/dd/yyyy'}}"
+								valueFormat="yyyy-MM-dd" minDate="{viewModel>/MinDate}" change="onDeliveryDateTimeChange" app:control="DeliveryDate"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>DeliveryTime}">
+							<TimePicker required="true" fieldGroupIds="NT,DT,TT" id="DeliveryTime"
+								value="{path: 'items>/0/DeliveryTime', type : 'sap.ui.model.type.Time', formatOptions:{ pattern : 'HH:mm'}}" valueFormat="HH:mm"
+								change="onDeliveryDateTimeChange" app:control="DeliveryTime"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<!-- Delivery contact person -->
+				<f:FormContainer title="" visible="{items>bShowDetails}">
+					<f:formElements>
+						<f:FormElement label="{i18n>AuthRecipient}">
+							<Input required="true" fieldGroupIds="NT,DT,TT"
+								value="{path: 'items>/0/DeliveryContactPerson',type: 'sap.ui.model.type.String', constraints: {minLength: 1, maxLength: 30}}"
+								placeholder="{i18n>EnterFullName}" change="onValueChange"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>ContactNoLbl}">
+							<Input required="true" fieldGroupIds="NT,DT,TT"
+								value="{path: 'items>/0/DeliveryContactNumber', type: 'sap.ui.model.type.String', constraints:{minLength: 7, maxLength: 11}}"
+								placeholder="{i18n>EnterContactNo}" type="Number" change="onValueChange" app:NumberType="Numeric"/>
+							<!-- for mobile number -->
+						</f:FormElement>
+						<f:FormElement label="{i18n>ContactEmailLbl}">
+							<Input required="{=${viewModel>/TransactionType} !== 'TT'}" fieldGroupIds="NT,DT,TT"
+								value="{path: 'items>/0/DeliveryContactEmail',type: 'sap.ui.model.type.String', constraints:{maxLength: 60}}"
+								placeholder="{i18n>EnterEmail}" type="Email" change="onValueChange"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<!-- Delivery Alternate Contact -->
+				<f:FormContainer title="" visible="{items>bShowDetails}">
+					<f:formElements>
+						<f:FormElement label="{i18n>AltAutRecipient}">
+							<Input value="{path: 'items>/0/DeliveryAltContactPerson', type: 'sap.ui.model.type.String', constraints: {maxLength: 30} }"
+								placeholder="{i18n>EnterFullName}" fieldGroupIds="NT,DT,TT"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>ContactNoLbl}">
+							<Input value="{path: 'items>/0/DeliveryAltContactNumber', type: 'sap.ui.model.type.String', constraints:{maxLength: 11}}"
+								placeholder="{i18n>EnterContactNo}" type="Number" fieldGroupIds="NT,DT,TT" app:NumberType="Numeric"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>ContactEmailLbl}">
+							<Input value="{path: 'items>/0/DeliveryAltContactEmail', type: '.types.emailType'}" placeholder="{i18n>EnterEmail}" type="Email"
+								fieldGroupIds="NT,DT,TT" change="onValueChange"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+	</VBox>
+</core:FragmentDefinition>

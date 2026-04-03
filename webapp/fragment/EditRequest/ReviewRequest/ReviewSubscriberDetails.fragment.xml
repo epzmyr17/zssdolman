@@ -1,0 +1,84 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
+	xmlns:u="sap.ui.unified" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<VBox class="dtd-customPanel sapUiMediumMarginBottom sapUiContentPadding" visible="{=${viewModel>/TransactionType} === 'TT'}">
+		<f:Form editable="true" class="dtd-form">
+			<f:layout>
+				<f:ResponsiveGridLayout labelSpanXL="5" labelSpanL="5" labelSpanM="5" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+					emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+			</f:layout>
+			<f:formContainers>
+				<f:FormContainer title="{i18n>SubsciberDetails}">
+					<f:formElements>
+						<!--To Do replace all i18n field names with metadata binding-->
+						<f:FormElement label="{i18n>CompanyName}" visible="{=${editOLRequest>AccountType} === 'CORP'}">
+							<Text text="{editOLRequest>TradeCompanyName}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>SubscriberName}" visible="{=${editOLRequest>AccountType} === 'CONS'}">
+							<Text text="{editOLRequest>SubscriberName}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>SegmentOrder}">
+							<Text text="{editOLRequest>SegmentOrder}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>SegmentOrderType}">
+							<Text text="{editOLRequest>SegmentOrderType}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>Activity}">
+							<Text text="{editOLRequest>Activity}"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<f:FormContainer title=" ">
+					<f:formElements>
+						<f:FormElement label="{i18n>BSS}">
+							<Text text="{path: 'editOLRequest>BssCase' , formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>DO}">
+							<Text text="{path: 'editOLRequest>DeliveryOrder' , formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>RO}">
+							<Text text="{path: 'editOLRequest>ReservationNo' , formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>Sto}">
+							<Text text="{path: 'editOLRequest>Sto' , formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>AccountNumber}">
+							<Text text="{path: 'editOLRequest>AccountNo' , formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<!--Start of insert MS223343 - PAL-2023-010-->
+				<f:FormContainer title="{i18n>StoreDetails}">
+					<f:formElements>
+						<f:FormElement label="{i18n>StoreName}">
+							<Text text="{path: 'editOLRequest>/StoreName' , formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<!--Start of insert MS223343 - PAL-2023-010-->
+				<f:FormContainer title="{i18n>RecipientDetails}" visible="{= ${editOLRequest>AccountType} === 'CORP'}">
+					<f:formElements>
+						<f:FormElement label="{i18n>RecipientName}">
+							<Text text="{path: 'editOLRequest>RecipientName' , formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>MobileNo}">
+							<Text text="{path: 'editOLRequest>MobileNo' , formatter: '.formatter.formatNumberValue'}"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<f:FormContainer title=" " visible="{= ${editOLRequest>AccountType} === 'CORP'}"/>
+				<f:FormContainer title="{i18n>PaymentDetails}">
+					<f:formElements>
+						<f:FormElement label="{i18n>PaymentMode}">
+							<Text text="{path: 'editOLRequest>PaymentModeDesc',formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>CashoutAmount}"
+							visible="{= ${editOLRequest>PaymentMode} === 'COD' &amp;&amp; ${editOLRequest>PaymentMode} !== ''}">
+							<Text
+								text="{parts:[{path: 'editOLRequest>Cashout'},{path: 'editOLRequest>CashoutCurrency'}], type: 'sap.ui.model.type.Currency', formatOptions:{showMeasure:true}}"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+	</VBox>
+</core:FragmentDefinition>

@@ -1,0 +1,153 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
+	xmlns:u="sap.ui.unified" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<VBox class="sapUiContentPadding dtd-customPanel sapUiMediumMarginBottom">
+		<f:Form editable="true" class="dtd-form">
+			<f:layout>
+				<f:ResponsiveGridLayout labelSpanXL="5" labelSpanL="5" labelSpanM="5" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+					emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+			</f:layout>
+			<f:formContainers>
+				<!--Pickup Details-->
+				<f:FormContainer title="{i18n>PickUpTtl}" visible="{items>bShowDetails}">
+					<f:formElements>
+						<f:FormElement label="{i18n>PickUpLocationLbl}">
+							<ComboBox required="true" fieldGroupIds="NT,DT,TT" app:DetailInfo="Pickup" placeholder="{i18n>LocPhl}"
+								items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_PICKUP_LOCSet', templateShareable: false}" selectedKey="{items>/0/PickupOrigin}"
+								change="onLocationChange">
+								<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>PICKUP_LOC}" text="{ZSSD_ONELOOK_MDATA_SRV>PICKUP_DESC}"/>
+							</ComboBox>
+						</f:FormElement>
+						<!--Address Details if origin is from Others-->
+						<!-- Start of Adress breakdown -->
+						<f:FormElement visible="{=${items>/0/PickupOrigin} === 'O'}" label="{i18n>AdressLbl}">
+							<!-- start - display only when others is selected as location-->
+							<Input value="{path: 'items>/0/PickupUnitNo',type: 'sap.ui.model.type.String', constraints: {maxLength : 30 }}" placeholder="{i18n>UnitNo}">
+								<layoutData>
+									<l:GridData span="XL2 L2 M2 S3"/>
+								</layoutData>
+							</Input>
+							<Input value="{path: 'items>/0/PickupHouseNo',type: 'sap.ui.model.type.String', constraints: {maxLength : 30 }}"
+								placeholder="{i18n>HouseNo}">
+								<layoutData>
+									<l:GridData span="XL2 L2 M2 S3"/>
+								</layoutData>
+							</Input>
+							<Input value="{path: 'items>/0/PickupStreet', type: 'sap.ui.model.type.String', constraints: {maxLength : 60 }}"
+								placeholder="{i18n>EnterStreet}"/>
+						</f:FormElement>
+						<f:FormElement label=" {i18n>SubdivisionArea}" visible="{= ${items>/0/PickupOrigin} === 'O'}">
+							<!--subdivision-->
+							<Input value="{path: 'items>/0/PickupSubdivision', type: 'sap.ui.model.type.String', constraints: {maxLength : 60 }}"
+								placeholder="{i18n>EnterSubdivision}"/>
+							<!--region-->
+							<ComboBox fieldGroupIds="NT,DT,TT" app:DetailInfo="Pickup" selectedKey="{items>/0/PickupArea}"
+								items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_AREASet', templateShareable: false}" change="onAreaChange" placeholder="{i18n>SelRegionPhl}"
+								visible="{= ${items>/0/PickupOrigin} === 'O'}" required="true">
+								<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>AreaCode}" text="{ZSSD_ONELOOK_MDATA_SRV>AreaDesc}"/>
+							</ComboBox>
+						</f:FormElement>
+						<f:FormElement label="{i18n>ProvinceCity}" visible="{= ${items>/0/PickupOrigin} === 'O'}">
+							<!-- Province -->
+							<Input fieldGroupIds="NT,DT,TT" app:DetailInfo="Pickup" app:ModelAlias="items"
+								value="{path: 'items>/0/PickupProvinceDesc', type: 'sap.ui.model.type.String', constraints: {minLength: 1 }}"
+								placeholder="{i18n>SelProvincePhl}" enabled="{= (${items>/0/PickupArea} ? true : false) }" required="true"
+								visible="{= ${items>/0/PickupOrigin} === 'O'}" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpProvince"/>
+							<!-- City -->
+							<Input fieldGroupIds="NT,DT,TT" app:DetailInfo="Pickup" app:ModelAlias="items"
+								value="{path: 'items>/0/PickupCityDesc', type: 'sap.ui.model.type.String', constraints: {minLength: 1 }}" placeholder="{i18n>SelCityPhl}"
+								enabled="{= (${items>/0/PickupProvince} ? true : false) }" required="true" visible="{= ${items>/0/PickupOrigin} === 'O'}"
+								valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpCity"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>BrgyZipcode}" visible="{= ${items>/0/PickupOrigin} === 'O'}">
+							<!-- Barangay -->
+							<Input fieldGroupIds="NT,DT,TT" app:DetailInfo="Pickup" app:ModelAlias="items"
+								value="{path: 'items>/0/PickupBarangayDesc', type: 'sap.ui.model.type.String', constraints: {minLength: 1 }}" placeholder="{i18n>SelBrgy}"
+								enabled="{= (${items>/0/PickupCity} ? true : false) }" required="true" visible="{= ${items>/0/PickupOrigin} === 'O'}" valueHelpOnly="true"
+								showValueHelp="true" valueHelpRequest="onValueHelpBrgy"/>
+							<Input fieldGroupIds="NT,DT,TT"
+								value="{path: 'items>/0/PickupZipcode', type: 'sap.ui.model.type.String', constraints: {minLength: 1, maxLength: 4}}"
+								placeholder="{i18n>EnterZipcode}" type="Number" required="true" visible="{= ${items>/0/PickupOrigin} === 'O'}" change="onValueChange"
+								app:NumberType="Numeric"/>
+						</f:FormElement>
+						<!-- End of Adress breakdown -->
+						<!--Address Details if origin is not from others-->
+						<f:FormElement label="{i18n>AdressLbl}"
+							visible="{= ${items>/0/PickupOrigin} !== '' &amp;&amp; typeof(${items>/0/PickupOrigin}) !== 'undefined' &amp;&amp; ${items>/0/PickupOrigin} !== 'O'}">
+							<!-- hide if Other were selected as location -->
+							<Input required="true" fieldGroupIds="NT,DT,TT" app:DetailInfo="Pickup" app:ModelAlias="items" placeholder="{i18n>SelAddressPhl}"
+								value="{path: 'items>/0/PickupLocationDesc', type: 'sap.ui.model.type.String', constraints: {minLength:1}}"
+								visible="{= ${items>/0/PickupOrigin} !== '' &amp;&amp; typeof(${items>/0/PickupOrigin}) !== 'undefined' &amp;&amp; ${items>/0/PickupOrigin} !== 'O'}"
+								valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpAddress"/>
+						</f:FormElement>
+						<!--Display only when G were selected as location -->
+						<f:FormElement label="{i18n>SpecificLocation}" visible="{=${items>/0/PickupOrigin} === 'G'}">
+							<Input fieldGroupIds="NT,DT,TT"
+								value="{path: 'items>/0/PickupSpecLoc', type: 'sap.ui.model.type.String', constraints: {minLength:1, maxLength: 25}}"
+								placeholder="{i18n>DetailedLocation}" visible="{=${items>/0/PickupOrigin} === 'G'}" change="onValueChange" required="true"/>
+						</f:FormElement>
+						<!--Display Address of the selected location-->
+						<f:FormElement label="{i18n>PickupAddress}"
+							visible="{= (${items>/0/PickupOrigin} !== 'O' &amp;&amp; ${items>/0/PickupOrigin} !== 'G') &amp;&amp; ${items>/0/PickupLocation} !== ''}">
+							<TextArea
+								value="{items>/0/PickupUnitNo} {items>/0/PickupHouseNo} {items>/0/PickupStreet} {items>/0/PickupSubdivision} Brgy. {items>/0/PickupBarangayDesc}, {items>/0/PickupCityDesc}, {items>/0/PickupProvinceDesc}, {items>/0/PickupZipcode}"
+								growing="true" growingMaxLines="4" enabled="false"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<!--Pickup Date-->
+				<f:FormContainer title=" " visible="{items>bShowDetails}">
+					<f:formElements>
+						<f:FormElement label="{i18n>PickupDateLbl}">
+							<DatePicker required="true" fieldGroupIds="NT,DT,TT" id="PickupDate"
+								value="{path: 'items>/0/PickupDate', type : 'sap.ui.model.type.DateTime', formatOptions:{ pattern : 'MM/dd/yyyy'}}" valueFormat="yyyy-MM-dd"
+								minDate="{viewModel>/MinDate}" change="onPickupDateTimeChange" app:control="PickupDate"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>PickupTime}">
+							<TimePicker required="true" fieldGroupIds="NT,DT,TT" id="PickupTime"
+								value="{path: 'items>/0/PickupTime', type : 'sap.ui.model.type.Time', formatOptions:{ pattern : 'HH:mm'}}" valueFormat="HH:mm"
+								change="onPickupDateTimeChange" app:control="PickupTime"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<!--Pickup contact-->
+				<f:FormContainer title="" visible="{items>bShowDetails}">
+					<f:formElements>
+						<f:FormElement label="{i18n>ContactPersonLbl}">
+							<Input required="true" fieldGroupIds="NT,DT,TT"
+								value="{path: 'items>/0/PickupContactPerson', type: 'sap.ui.model.type.String', constraints: {minLength: 1, maxLength: 30}}"
+								placeholder="{i18n>EnterFullName}" change="onValueChange"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>ContactNoLbl}">
+							<Input required="true" fieldGroupIds="NT,DT,TT"
+								value="{path: 'items>/0/PickupContactNumber', type: 'sap.ui.model.type.String', constraints:{minLength: 7, maxLength: 11}}"
+								placeholder="{i18n>EnterContactNo}" type="Number" change="onValueChange" app:NumberType="Numeric"/>
+							<!-- for mobile number -->
+						</f:FormElement>
+						<f:FormElement label="{i18n>ContactEmailLbl}">
+							<Input required="{=${viewModel>/TransactionType} !== 'TT'}" fieldGroupIds="NT,DT,TT"
+								value="{path: 'items>/0/PickupContactEmail',type: 'sap.ui.model.type.String', constraints:{maxLength: 60}}" placeholder="{i18n>EnterEmail}"
+								type="Email" change="onValueChange"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<!-- Pickup Alternate contact-->
+				<f:FormContainer title="" visible="{items>bShowDetails}">
+					<f:formElements>
+						<f:FormElement label="{i18n>AlternateContactPersonLbl}">
+							<Input value="{path: 'items>/0/PickupAltContactPerson', type: 'sap.ui.model.type.String', constraints: {maxLength: 30} }"
+								placeholder="{i18n>EnterFullName}" fieldGroupIds="NT,DT,TT"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>ContactNoLbl}">
+							<Input value="{path: 'items>/0/PickupAltContactNumber', type: 'sap.ui.model.type.String', constraints:{maxLength: 11}}"
+								placeholder="{i18n>EnterContactNo}" fieldGroupIds="NT,DT,TT" type="Number" app:NumberType="Numeric"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>ContactEmailLbl}">
+							<Input value="{path: 'items>/0/PickupAltContactEmail', type: '.types.emailType'}" placeholder="{i18n>EnterEmail}" type="Email"
+								fieldGroupIds="NT,DT,TT" change="onValueChange"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+	</VBox>
+</core:FragmentDefinition>

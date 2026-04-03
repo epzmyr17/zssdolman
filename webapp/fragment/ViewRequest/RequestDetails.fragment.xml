@@ -1,0 +1,73 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<Panel class="dtd-customPanel sapUiMediumMarginBottom">
+		<headerToolbar>
+			<Toolbar height="4rem" class="dtd-customHeaderColor">
+				<!--Start of change MS223343 - PAL-2023-004 / 007-->
+				<VBox>
+					<HBox>
+						<Text text="{i18n>TotalRequest}" class="sapUiTinyMarginBottom"/>
+						<Text text="{path: 'viewOLRequest>/NAV_OLHeader_Item', formatter: '.formatter.formatPackageNumber'}"
+							class="dtd-bold-title sapUiTinyMarginBottom"/>
+					</HBox>
+					<HBox visible="{= ${viewOLRequest>/TransType} === 'NT'}">
+						<Text text="{i18n>chargeableWeight}" class="sapUiTinyMarginBottom"/>
+						<Text text="{MasterData>/ChargeableWeight}" class="dtd-bold-title sapUiTinyMarginBottom"/>
+					</HBox>
+				</VBox>
+				<!--End of change MS223343 - PAL-2023-004 / 007-->
+				<ToolbarSpacer/>
+				<VBox class="sapUiTinyMarginEnd" alignItems="End">
+					<Text text="{i18n>TotalCost}" class="sapUiTinyMarginBottom" textAlign="Right"/>
+					<Text
+						text="{parts:[{path: 'viewOLRequest>TotalEstimatedCost'},{path: 'viewOLRequest>Currency'}], type: 'sap.ui.model.type.Currency', formatOptions:{showMeasure:false}}"
+						class="dtd-bold-title dtd-custom-title-size" textAlign="Right" textDirection="RTL"/>
+				</VBox>
+			</Toolbar>
+		</headerToolbar>
+		<content>
+			<f:Form editable="true" class="dtd-form">
+				<f:layout>
+					<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+						emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false"/>
+				</f:layout>
+				<f:formContainers>
+					<f:FormContainer title="{i18n>RatingForCourier}" visible="{= parseInt(${CourierRate}) > 0}">
+						<f:formElements>
+							<f:FormElement label="{i18n>Rating}">
+								<RatingIndicator maxValue="5" enabled="false" value="{path: 'CourierRate', formatter: '.formatter.formatStringToInt'}" iconSize="18px"
+									tooltip="{i18n>Rating}"/>
+							</f:FormElement>
+							<f:FormElement label="{i18n>Comments}">
+								<Text text="{CourierRateRemarks}"/>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+					<f:FormContainer title="{i18n>RequestDetails}">
+						<f:formElements>
+							<!--Start of insert - MS223343 - PAL-2023-003-->
+							<f:FormElement label="{i18n>IOChargingAccount}" visible="{= ${IOChargingAccount} !== ''}">
+								<Text text="{IOChargingAccount}"/>
+							</f:FormElement>
+							<!--End of insert - MS223343 - PAL-2023-003-->
+							<f:FormElement label="{i18n>WbsCode}" visible="{= ${WbsCode} !== ''}">
+								<Text text="{WbsCode}"/>
+							</f:FormElement>
+							<!--Start of edit - MS223343 - PAL-2023-003-->
+							<f:FormElement label="{i18n>CompanyCode}">
+								<Text text="{CompanyDesc}"/>
+							</f:FormElement>
+							<f:FormElement label="{i18n>CCCode}" visible="{= ${CostCenter} !== ''}">
+								<Text text="{CostCenter}"/>
+							</f:FormElement>
+							<f:FormElement label="" visible="{= ${CostCenter} !== ''}">
+								<Text text="{MasterData>/costCenterNode/CostCenter}"/>
+							</f:FormElement>
+							<!--End of edit - MS223343 - PAL-2023-003-->
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+		</content>
+	</Panel>
+</core:FragmentDefinition>

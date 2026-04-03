@@ -1,0 +1,82 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
+	xmlns:u="sap.ui.unified" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<VBox class="sapUiContentPadding dtd-customPanel sapUiMediumMarginBottom" visible="{=${TransType} === 'TT'}">
+		<f:Form editable="true" class="dtd-form">
+			<f:layout>
+				<f:ResponsiveGridLayout labelSpanXL="5" labelSpanL="5" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+					emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+			</f:layout>
+			<f:formContainers>
+				<f:FormContainer title="{i18n>SubsciberDetails}">
+					<f:formElements>
+						<!--To Do replace all i18n field names with metadata binding-->
+						<f:FormElement label="{i18n>CompanyName}" visible="{=${AccountType} === 'CORP'}">
+							<Text text="{path: 'TradeCompanyName', formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>SubscriberName}" visible="{=${AccountType} === 'CONS'}">
+							<Text text="{path: 'SubscriberName', formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>SegmentOrder}">
+							<Text text="{path: 'SegmentOrder', formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>SegmentOrderType}">
+							<Text text="{path: 'SegmentOrderType', formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>Activity}">
+							<Text text="{path: 'Activity', formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<f:FormContainer title=" ">
+					<f:formElements>
+						<f:FormElement label="{i18n>BSS}">
+							<Text text="{path: 'BssCase' , formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>DO}">
+							<Text text="{path: 'DeliveryOrder' , formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>RO}">
+							<Text text="{path: 'ReservationNo' , formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>Sto}">
+							<Text text="{path: 'Sto' , formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>AccountNumber}">
+							<Text text="{path: 'AccountNo' , formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<!--Start of insert MS223343 - PAL-2023-010-->
+				<f:FormContainer title="{i18n>StoreDetails}">
+					<f:formElements>
+						<f:FormElement label="{i18n>StoreName}">
+							<Text text="{path: 'StoreName' , formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<!--Start of insert MS223343 - PAL-2023-010-->
+				<f:FormContainer title="{i18n>RecipientDetails}" visible="{= ${AccountType} === 'CORP'}">
+					<f:formElements>
+						<f:FormElement label="{i18n>RecipientName}">
+							<Text text="{path: 'RecipientName' , formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>MobileNo}">
+							<Text text="{path: 'MobileNo' , formatter: '.formatter.formatNumberValue'}"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<f:FormContainer title=" " visible="{= ${AccountType} === 'CORP'}"/>
+				<f:FormContainer title="{i18n>PaymentDetails}">
+					<f:formElements>
+						<f:FormElement label="{i18n>PaymentMode}">
+							<Text text="{path: 'PaymentModeDesc' , formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>CashoutAmount}" visible="{= ${PaymentMode} === 'COD' &amp;&amp; ${PaymentMode} !== ''}">
+							<Text text="{parts:[{path: 'Cashout'},{path: 'CashoutCurrency'}], type: 'sap.ui.model.type.Currency', formatOptions:{showMeasure:true}}"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+	</VBox>
+</core:FragmentDefinition>

@@ -1,0 +1,83 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
+	xmlns:u="sap.ui.unified" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<VBox class="sapUiContentPadding dtd-customPanel sapUiMediumMarginBottom">
+		<f:Form editable="false" class="dtd-form">
+			<f:layout>
+				<f:ResponsiveGridLayout labelSpanXL="5" labelSpanL="5" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+					emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+			</f:layout>
+			<f:formContainers>
+				<!--Delivery Details-->
+				<f:FormContainer title="{i18n>DeliveryTtl}">
+					<f:formElements>
+						<f:FormElement label="{i18n>DeliveryLocationLbl}">
+							<Text text="{viewOLRequest>/NAV_OLHeader_Item/0/DeliveryOriginDesc}"/>
+						</f:FormElement>
+						<!--Address Details if origin is from O,warehouse, supplier and e-waste-->
+						<f:FormElement label="{i18n>AdressLbl}"
+							visible="{= (${viewOLRequest>/NAV_OLHeader_Item/0/DeliveryOrigin} === 'O' || (${viewOLRequest>/NAV_OLHeader_Item/0/DeliveryOrigin} !== 'G' &amp;&amp; ${viewOLRequest>/NAV_OLHeader_Item/0/DeliveryOrigin} !== '')) &amp;&amp; ${viewOLRequest>/NAV_OLHeader_Item/0/DeliveryAddress} === ''}">
+							<Text
+								text="{viewOLRequest>/NAV_OLHeader_Item/0/DeliveryUnitNo} {viewOLRequest>/NAV_OLHeader_Item/0/DeliveryHouseNo} {viewOLRequest>/NAV_OLHeader_Item/0/DeliveryStreet} {viewOLRequest>/NAV_OLHeader_Item/0/DeliverySubdivision} Brgy. {viewOLRequest>/NAV_OLHeader_Item/0/DeliveryBarangayDesc}, {viewOLRequest>/NAV_OLHeader_Item/0/DeliveryCityDesc}, {viewOLRequest>/NAV_OLHeader_Item/0/DeliveryProvinceDesc}, {viewOLRequest>/NAV_OLHeader_Item/0/DeliveryZipcode}"/>
+						</f:FormElement>
+						<!-- For complete delivery address -->
+						<f:FormElement label="{i18n>AdressLbl}" visible="{= ${viewOLRequest>/NAV_OLHeader_Item/0/DeliveryAddress} !== ''}">
+							<Text text="{viewOLRequest>/NAV_OLHeader_Item/0/DeliveryAddress}"/>
+						</f:FormElement>
+						<!--Address Details if origin is from Globe-->
+						<f:FormElement label="{i18n>AdressLbl}"
+							visible="{= ${viewOLRequest>/NAV_OLHeader_Item/0/DeliveryOrigin} === 'G' &amp;&amp; ${viewOLRequest>/NAV_OLHeader_Item/0/DeliveryAddress} === ''}">
+							<Text text="{viewOLRequest>/NAV_OLHeader_Item/0/DeliverySpecLoc}, {viewOLRequest>/NAV_OLHeader_Item/0/DeliveryLocationDesc}"/>
+						</f:FormElement>
+						<!--Start of insert MS223343 - PAL-2023-004 / 007-->
+						<f:FormElement label="{i18n>ModeOfTransportLbl}" visible="{viewOLRequest>/NAV_OLHeader_Item/0/bShowDetails}">
+							<Text text="{viewOLRequest>/NAV_OLHeader_Item/0/TransportModeDesc}"/>
+						</f:FormElement>
+						<!--End of insert MS223343 - PAL-2023-004 / 007-->
+						<f:FormElement label="{i18n>DeliveryTypeLbl}" visible="{viewOLRequest>/NAV_OLHeader_Item/0/bShowDetails}">
+							<Text text="{viewOLRequest>/NAV_OLHeader_Item/0/DeliveryTypeDesc}"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<!-- Delivery Date -->
+				<f:FormContainer title=" ">
+					<f:formElements>
+						<f:FormElement label="{i18n>DeliveryDate}">
+							<Text text="{path: 'viewOLRequest>/NAV_OLHeader_Item/0/DeliveryDate', formatter: '.formatter.formatDate'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>DeliveryTime}">
+							<Text
+								text="{path: 'viewOLRequest>/NAV_OLHeader_Item/0/DeliveryTime', type: 'sap.ui.model.odata.type.Time', formatOptions: { pattern : 'HH:mm' }}"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<!-- Delivery contact person -->
+				<f:FormContainer title="" visible="{viewOLRequest>/NAV_OLHeader_Item/0/bShowDetails}">
+					<f:formElements>
+						<f:FormElement label="{i18n>AuthRecipient}">
+							<Text text="{viewOLRequest>/NAV_OLHeader_Item/0/DeliveryContactPerson}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>ContactNoLbl}">
+							<Text text="{viewOLRequest>/NAV_OLHeader_Item/0/DeliveryContactNumber}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>ContactEmailLbl}">
+							<Text text="{viewOLRequest>/NAV_OLHeader_Item/0/DeliveryContactEmail}"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<f:FormContainer title="" visible="{viewOLRequest>/NAV_OLHeader_Item/0/bShowDetails}">
+					<f:formElements>
+						<f:FormElement label="{i18n>AltAutRecipient}">
+							<Text text="{path: 'viewOLRequest>/NAV_OLHeader_Item/0/DeliveryAltContactPerson', formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>ContactNoLbl}">
+							<Text text="{path: 'viewOLRequest>/NAV_OLHeader_Item/0/DeliveryAltContactNumber', formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>ContactEmailLbl}">
+							<Text text="{path: 'viewOLRequest>/NAV_OLHeader_Item/0/DeliveryAltContactEmail', formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+	</VBox>
+</core:FragmentDefinition>

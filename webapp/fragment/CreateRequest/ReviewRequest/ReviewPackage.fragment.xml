@@ -1,0 +1,270 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
+	xmlns:u="sap.ui.unified" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<VBox items="{path: 'items>/', templateShareable:false}">
+		<Panel class="dtd-customPanel sapUiMediumMarginBottom">
+			<headerToolbar>
+				<Toolbar height="4rem" class="dtd-customHeaderColor">
+					<core:Icon src="{path: 'items>TransportMode', formatter: '.formatter.formatTransportModeIcon'}" tooltip="{i18n>TransportMode}"
+						class="dtd-icon-size1"/>
+					<VBox>
+						<Text
+							text="{parts: [{path: 'items>PackageNo'}, {path: 'items>ItemTypeDesc'}, {path: 'items>MaterialTypeDesc'}, {path: 'DTDRequest>/TransType'}], formatter: '.formatter.formatPackageItemDetails'}"
+							class="dtd-bold-title"/>
+						<Text text="{parts: [{path: 'items>DeliveryTypeDesc'}, {path: 'items>TransportMode'}], formatter: '.formatter.formatDeliveryDetails'}"/>
+					</VBox>
+					<ToolbarSpacer/>
+					<!--Start of edit MS223343 - PAL-2023-002-->
+					<VBox class="sapUiTinyMarginEnd" alignItems="End" visible="{= ${DTDRequest>/TransType} !== 'NT' }">
+						<Text text="{i18n>EstimatedCost}" class="dtd-bold-title"/>
+						<Text
+							text="{path: 'items>EstimatedCost', type: 'sap.ui.model.odata.type.Decimal', constraints: { precision: 13, scale: 2, nullable: false }}"/>
+					</VBox>
+					<!--End of edit MS223343 - PAL-2023-002-->
+				</Toolbar>
+			</headerToolbar>
+			<content>
+				<Toolbar class="dtd-custom-border-bottom">
+					<Button icon="sap-icon://edit" text="{i18n>EditDetails}" press="onPrevious" class="dtd-custom-no-border-button"/>
+					<ToolbarSpacer/>
+					<Button icon="sap-icon://delete" text="{i18n>DeletePackage}" press="onDeleteItem" class="dtd-custom-no-border-button"
+						visible="{= ${viewModel>/PackageCount} >= 2}"/>
+				</Toolbar>
+				<!-- Package Details -->
+				<f:Form editable="false" class="dtd-form">
+					<f:layout>
+						<f:ResponsiveGridLayout labelSpanXL="5" labelSpanL="5" labelSpanM="5" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+							emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+					</f:layout>
+					<f:formContainers>
+						<!--Package Details-->
+						<f:FormContainer title="{i18n>PackageDetailsTtl}" visible="{items>bShowDetails}">
+							<f:formElements>
+								<f:FormElement label="{i18n>ItemTypeLbl}" visible="{=${DTDRequest>/TransType} !== 'TT'}">
+									<Text text="{items>ItemTypeDesc}"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>itemDescriptionLbl}" visible="{=${DTDRequest>/TransType} !== 'TT'}">
+									<Text text="{items>ItemDescription}" wrapping="true"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>MaterialType}" visible="{=${DTDRequest>/TransType} === 'TT'}">
+									<Text text="{items>MaterialTypeDesc}"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>MaterialDescription}" visible="{=${DTDRequest>/TransType} === 'TT'}">
+									<Text text="{items>MaterialDescription}" wrapping="true"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>AssetNoLbl}" visible="{=${DTDRequest>/TransType} === 'NT'}">
+									<Text text="{path: 'items>AssetNo', formatter: '.formatter.formatValue'}"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>MaterialCode}" visible="{= ${viewModel>/TransactionType} === 'TT'}">
+									<Text text="{path: 'items>MaterialCode', formatter: '.formatter.formatValue'}"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>SerialNoLbl}" visible="{=${DTDRequest>/TransType} === 'NT' || ${DTDRequest>/TransType} === 'TT'}">
+									<Text text="{path: 'items>SerialNo', formatter: '.formatter.formatValue'}"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>MatDocLbl}" visible="{=${DTDRequest>/TransType} === 'NT'}">
+									<Text text="{path: 'items>MaterialDoc', formatter: '.formatter.formatValue'}"/>
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+						<!--Package attributes-->
+						<f:FormContainer title=" " visible="{items>bShowDetails}">
+							<f:formElements>
+								<!--Start of insert MS223343 - PAL-2023-002-->
+								<f:FormElement label="{i18n>manpowerServices}" visible="{= ${DTDRequest>/TransType} === 'NT' || ${DTDRequest>/TransType} === 'TT'}">
+									<HBox>
+										<Switch enabled="false" customTextOn=" " customTextOff=" " state="{items>ManpowerServices}"/>
+										<ComboBox enabled="false" selectedKey="{items>Manpower}"
+											items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_OL_MANPOWERSet', templateShareable: false}" visible="{= ${items>ManpowerServices} === true}">
+											<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>Manpower}" text="{parts:['ZSSD_ONELOOK_MDATA_SRV>Manpower'], formatter:'.formatter.formatManpower'}"/>
+										</ComboBox>
+									</HBox>
+								</f:FormElement>
+								<f:FormElement label="{i18n>crateServices}" visible="{= ${DTDRequest>/TransType} === 'NT' || ${DTDRequest>/TransType} === 'TT'}">
+									<HBox>
+										<Switch enabled="false" customTextOn=" " customTextOff=" " state="{items>CratingServices}"/>
+										<ComboBox enabled="false" selectedKey="{items>Crate}" items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_OL_CRATESet', templateShareable: false}"
+											visible="{= ${items>CratingServices} === true}">
+											<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>Crate}" text="{ZSSD_ONELOOK_MDATA_SRV>CrateDescription}"/>
+										</ComboBox>
+									</HBox>
+								</f:FormElement>
+								<!--End of insert MS223343 - PAL-2023-002-->
+								<f:FormElement label="{i18n>QuantityLbl}">
+									<Text text="{items>Quantity}"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>WeightLbl}">
+									<Text text="{items>Weight}"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>Volume}" visible="{= ${DTDRequest>/TransType} === 'NT'}">
+									<Text text="{items>Length}cm x {items>Width}cm x {items>Height}cm"/>
+								</f:FormElement>
+								<!--Start of insert MS223343 - PAL-2023-004 / 007-->
+								<f:FormElement label="{i18n>volumetricWeight}" visible="{= ${DTDRequest>/TransType} === 'NT'}">
+									<Text text="{parts:['items>Length','items>Width','items>Height' ], formatter:'.formatter.formatVolumeMetricWeight'}"/>
+								</f:FormElement>
+								<!--End of insert MS223343 - PAL-2023-004 / 007-->
+								<!--Start of insert MS223343 - PAL-2023-002-->
+								<f:FormElement label="{i18n>cubicMeter}" visible="{= ${DTDRequest>/TransType} === 'NT'}">
+									<Text text="{parts:['items>Length','items>Width','items>Height' ], formatter:'.formatter.formatCubicMeter'}"/>
+								</f:FormElement>
+								<!--End of insert MS223343 - PAL-2023-002-->
+								<f:FormElement label="{path: 'DTDRequest>/TransType', formatter: '.formatter.formatAmountText'}">
+									<Text text="{items>Currency} {path: 'items>Amount', type: 'sap.ui.model.odata.type.Decimal', constraints: { scale: 2, nullable: false}}"/>
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+						<!--Start of delete MS223343 - PAL-2023-002-->
+						<!--Pickup Details-->
+						<!--<f:FormContainer title="{i18n>PickUpTtl}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>DeliveryTypeLbl}" visible="{items>bShowDetails}">-->
+						<!--			<Text text="{items>DeliveryTypeDesc}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>PickUpLocationLbl}">-->
+						<!--			<Text text="{items>PickupOriginDesc}"/>-->
+						<!--		</f:FormElement>-->
+						<!--Address Details if origin is from O, Warehouse, supplier and e-waste-->
+						<!--		<f:FormElement label="{i18n>AdressLbl}"-->
+						<!--			visible="{=${items>PickupOrigin} === 'O' || (${items>PickupOrigin} !== 'G' &amp;&amp; ${items>PickupOrigin} !== '')}">-->
+						<!--			<Text-->
+						<!--				text="{items>PickupUnitNo} {items>PickupHouseNo} {items>PickupStreet} {items>PickupSubdivision} Brgy. {items>PickupBarangayDesc}, {items>PickupCityDesc}, {items>PickupProvinceDesc}, {items>PickupZipcode}"/>-->
+						<!--		</f:FormElement>-->
+						<!--Address Details if origin is from Globe-->
+						<!--		<f:FormElement label="{i18n>AdressLbl}" visible="{= ${items>PickupOrigin} === 'G'}">-->
+						<!--			<Text text="{items>PickupSpecLoc}, {items>PickupLocationDesc}"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!--<f:FormContainer title=" ">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement>-->
+						<!--			<f:label>-->
+						<!--				<Label text="{i18n>PickupDateLbl}"/>-->
+						<!--			</f:label>-->
+						<!--			<Text text="{path: 'items>PickupDate', formatter: '.formatter.formatDate'}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement>-->
+						<!--			<f:label>-->
+						<!--				<Label text="{i18n>PickupTime}"/>-->
+						<!--			</f:label>-->
+						<!--			<Text text="{path: 'items>PickupTime', formatter: '.formatter.formatTime'}"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!--Pick up contact-->
+						<!--<f:FormContainer title="" visible="{items>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>ContactPersonLbl}">-->
+						<!--			<Text text="{items>PickupContactPerson}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactNoLbl}">-->
+						<!--			<Text text="{items>PickupContactNumber}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactEmailLbl}">-->
+						<!--			<Text text="{items>PickupContactEmail}"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!--<f:FormContainer title="" visible="{items>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>AlternateContactPersonLbl}">-->
+						<!--			<Text text="{path: 'items>PickupAltContactPerson' , formatter: '.formatter.formatValue'}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactNoLbl}">-->
+						<!--			<Text text="{path: 'items>PickupAltContactNumber', formatter: '.formatter.formatValue'}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactEmailLbl}">-->
+						<!--			<Text text="{path: 'items>PickupAltContactEmail', formatter: '.formatter.formatValue'}"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!--Delivery Details-->
+						<!--<f:FormContainer title="{i18n>DeliveryTtl}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>ModeOfTransportLbl}" visible="{items>bShowDetails}">-->
+						<!--			<Text text="{items>TransportModeDesc}"/>-->
+						<!--		</f:FormElement>-->
+						<!--if Land and RORO-->
+						<!--Start of edit MS223343 - PAL-2023-002-->
+						<!--		<f:FormElement label="{i18n>TruckType}"-->
+						<!--			visible="{= ${items>bShowDetails} &amp;&amp; ${items>TransportMode} !== '' &amp;&amp; ((${items>TransportMode} === 'RORO' &amp;&amp; (${items>Weight} > 500 || ((${items>Length} * ${items>Width} * ${items>Height}) / 3500) > 500)) || (${items>TransportMode} === 'LAND' &amp;&amp; (${items>Weight} > 200 || ((${items>Length} * ${items>Width} * ${items>Height}) / 3500) > 200))) &amp;&amp; ${DTDRequest>/TransType} !== 'DT'}">-->
+						<!--			<Text text="{items>TruckTypeDesc}"/>-->
+						<!--		</f:FormElement>-->
+						<!--End of edit MS223343 - PAL-2023-002-->
+						<!--if Sea-->
+						<!--		<f:FormElement label="{i18n>ContainerType}"-->
+						<!--			visible="{= ${items>TransportMode} !== '' &amp;&amp; ${items>TransportMode} === 'SEA' &amp;&amp; ${DTDRequest>/TransType} !== 'DT'}">-->
+						<!--			<Text text="{items>ContainerTypeDesc}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>DeliveryLocationLbl}">-->
+						<!--			<Text text="{items>DeliveryOriginDesc}"/>-->
+						<!--		</f:FormElement>-->
+						<!--Address Details if origin is from O, warehouse, supplier and e-waste-->
+						<!--		<f:FormElement label="{i18n>AdressLbl}"-->
+						<!--			visible="{=${items>DeliveryOrigin} === 'O' || (${items>DeliveryOrigin} !== 'G' &amp;&amp; ${items>DeliveryOrigin} !== '')}">-->
+						<!--			<Text-->
+						<!--				text="{items>DeliveryUnitNo} {items>DeliveryHouseNo} {items>DeliveryStreet} {items>DeliverySubdivision} Brgy. {items>DeliveryBarangayDesc}, {items>DeliveryCityDesc}, {items>DeliveryProvinceDesc}, {items>DeliveryZipcode}"/>-->
+						<!--		</f:FormElement>-->
+						<!--Address Details if origin is from Globe-->
+						<!--		<f:FormElement label="{i18n>AdressLbl}" visible="{= ${items>DeliveryOrigin} === 'G'}">-->
+						<!--			<Text text="{items>DeliverySpecLoc}, {items>DeliveryLocationDesc}"/>-->
+						<!--		</f:FormElement>-->
+						<!--Address Details if origin is from O-->
+						<!--<f:FormElement label="{i18n>AdressLbl}"-->
+						<!--	visible="{=${items>DeliveryOrigin} !== 'O' &amp;&amp; ${items>DeliveryOrigin} !== 'G' &amp;&amp; ${items>DeliveryOrigin} !== '' }">-->
+						<!--	<Text-->
+						<!--		text="{items>DeliveryUnitNo} {items>DeliveryHouseNo} {items>DeliveryStreet} {items>DeliverySubdivision} Brgy. {items>DeliveryBarangayDesc}, {items>DeliveryCityDesc}, {items>DeliveryProvinceDesc}, {items>DeliveryZipcode}, {items>DeliveryLocationDesc}"-->
+						<!--		maxLines="4"/>-->
+						<!--</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!--Delivery Date-->
+						<!--<f:FormContainer title=" ">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>DeliveryDate}">-->
+						<!--			<Text text="{path: 'items>DeliveryDate', formatter: '.formatter.formatDate'}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>DeliveryTime}">-->
+						<!--			<Text text="{path: 'items>DeliveryTime', formatter: '.formatter.formatTime'}"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!--Delivery contact person-->
+						<!--<f:FormContainer title="" visible="{items>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>AuthRecipient}">-->
+						<!--			<Text text="{items>DeliveryContactPerson}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactNoLbl}">-->
+						<!--			<Text text="{items>DeliveryContactNumber}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactEmailLbl}">-->
+						<!--			<Text text="{items>DeliveryContactEmail}"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!--<f:FormContainer title="" visible="{items>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>AltAutRecipient}">-->
+						<!--			<Text text="{path: 'items>DeliveryAltContactPerson', formatter: '.formatter.formatValue'}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactNoLbl}">-->
+						<!--			<Text text="{path: 'items>DeliveryAltContactNumber', formatter: '.formatter.formatValue'}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactEmailLbl}">-->
+						<!--			<Text text="{path: 'items>DeliveryAltContactEmail', formatter: '.formatter.formatValue'}"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!--End of delete MS223343 - PAL-2023-002-->
+					</f:formContainers>
+				</f:Form>
+				<!-- Courier and shipment Details -->
+				<core:Fragment fragmentName="com.globe.OneLook_CreateDTDRequest.fragment.CreateRequest.ReviewRequest.CourierShipmentDetails" type="XML"/>
+				<HBox justifyContent="Center" class="dtd-custom-border-top">
+					<Button text="{= ${items>bShowDetails} ? ${i18n>HideDetailsBtn} : ${i18n>ShowDetailsBtn} }" press="onTogglePackageDetails"
+						class="dtd-custom-no-border-button sapUiTinyMarginTop"/>
+				</HBox>
+			</content>
+		</Panel>
+	</VBox>
+</core:FragmentDefinition>

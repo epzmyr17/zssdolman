@@ -1,0 +1,568 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
+	xmlns:u="sap.ui.unified" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<VBox id="idVBoxContainer" items="{path: 'editOLRequest>/NAV_OLHeader_Item', templateShareable:false}">
+		<Panel class="dtd-customPanel sapUiMediumMarginBottom">
+			<headerToolbar>
+				<Toolbar height="3rem" class="dtd-customHeaderColor">
+					<Text text="{editOLRequest>PackageNo}" class="dtd-bold-title"/>
+					<ToolbarSpacer/>
+					<Button icon="sap-icon://delete" press="onDeleteItem" visible="{= ${editOLRequest>/NAV_OLHeader_Item}.length >= 2}"/>
+				</Toolbar>
+			</headerToolbar>
+			<content>
+				<!-- Start of Form -->
+				<f:Form editable="true" class="dtd-form">
+					<f:layout>
+						<f:ResponsiveGridLayout labelSpanXL="5" labelSpanL="5" labelSpanM="5" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+							emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+					</f:layout>
+					<f:formContainers>
+						<!-- Package Details -->
+						<f:FormContainer title="{i18n>PackageDetailsTtl}">
+							<f:formElements>
+								<f:FormElement label="{i18n>ItemTypeLbl}" visible="{=${editOLRequest>/TransType} !== 'TT'}">
+									<ComboBox required="true" fieldGroupIds="NT,DT" placeholder="{i18n>SelectTypePlh}" selectedKey="{editOLRequest>ItemType}"
+										items="{path: 'MasterData>/itemType', templateShareable: false}" change="onItemTypeChange" visible="{=${editOLRequest>/TransType} !== 'TT'}">
+										<core:Item key="{MasterData>ItemType}" text="{MasterData>ItemDesc}"/>
+									</ComboBox>
+								</f:FormElement>
+								<f:FormElement label="{i18n>itemDescriptionLbl}" visible="{=${editOLRequest>/TransType} !== 'TT'}">
+									<TextArea required="true" fieldGroupIds="NT,DT"
+										value="{path: 'editOLRequest>ItemDescription', type: 'sap.ui.model.type.String', constraints: { minLength: 1, maxLength : 250} }" rows="4"
+										placeholder="{i18n>EnterDescriptionPlh}" change="onValueChange" visible="{=${editOLRequest>/TransType} !== 'TT'}"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>MaterialType}" visible="{=${editOLRequest>/TransType} === 'TT'}">
+									<ComboBox required="true" fieldGroupIds="TT" placeholder="{i18n>SelectMaterialType}" selectedKey="{editOLRequest>MaterialType}"
+										items="{path: 'MasterData>/itemType', templateShareable: false}" change="onMaterialTypeChange"
+										visible="{=${editOLRequest>/TransType} === 'TT'}">
+										<core:Item key="{MasterData>ItemType}" text="{MasterData>ItemDesc}"/>
+									</ComboBox>
+								</f:FormElement>
+								<f:FormElement label="{i18n>MaterialDescription}" visible="{=${editOLRequest>/TransType} === 'TT'}">
+									<TextArea required="true" fieldGroupIds="TT"
+										value="{path: 'editOLRequest>MaterialDescription', type: 'sap.ui.model.type.String', constraints: { minLength: 1, maxLength : 250 } }"
+										rows="4" placeholder="{i18n>EnterMaterialType}" change="onValueChange" visible="{=${editOLRequest>/TransType} === 'TT'}"/>
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+						<!-- Package attributes-->
+						<f:FormContainer title=" " visible="{editOLRequest>bShowDetails}">
+							<f:formElements>
+								<!--Start of insert MS223343 - PAL-2023-002-->
+								<f:FormElement label="{i18n>manpowerServices}" visible="{= ${editOLRequest>/TransType} === 'NT' || ${editOLRequest>/TransType} === 'TT'}">
+									<HBox>
+										<Switch customTextOn=" " customTextOff=" " state="{editOLRequest>ManpowerServices}" change="onManpowerChange"/>
+										<ComboBox required="true" placeholder="Select" fieldGroupIds="NT,TT" selectedKey="{editOLRequest>Manpower}"
+											items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_OL_MANPOWERSet', templateShareable: false}"
+											visible="{= ${editOLRequest>ManpowerServices} === true}">
+											<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>Manpower}" text="{parts:['ZSSD_ONELOOK_MDATA_SRV>Manpower'], formatter:'.formatter.formatManpower'}"/>
+										</ComboBox>
+									</HBox>
+								</f:FormElement>
+								<f:FormElement label="{i18n>crateServices}" visible="{= ${editOLRequest>/TransType} === 'NT' || ${editOLRequest>/TransType} === 'TT'}">
+									<HBox>
+										<Switch customTextOn=" " customTextOff=" " state="{editOLRequest>CratingServices}" change="onCrateChange"/>
+										<ComboBox required="true" placeholder="Select" fieldGroupIds="NT,TT" selectedKey="{editOLRequest>Crate}"
+											items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_OL_CRATESet', templateShareable: false}" visible="{= ${editOLRequest>CratingServices} === true}">
+											<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>Crate}" text="{ZSSD_ONELOOK_MDATA_SRV>CrateDescription}"/>
+										</ComboBox>
+									</HBox>
+								</f:FormElement>
+								<!--End of insert MS223343 - PAL-2023-002-->
+								<f:FormElement label="{i18n>QuantityLbl}">
+									<Input required="true" fieldGroupIds="NT,DT,TT"
+										value="{path: 'editOLRequest>Quantity', type: 'sap.ui.model.type.Integer', constraints: { minLength: 1, maxLength: 10 }}" type="Number"
+										placeholder="{i18n>EnterQunatityPlh}" change="onValueChange" app:NumberType="Numeric" width="5.2rem">
+										<!--<layoutData>-->
+										<!--	<l:GridData span="XL2 L2 M2 S3"/>-->
+										<!--</layoutData>-->
+									</Input>
+								</f:FormElement>
+								<f:FormElement label="{i18n>WeightLbl}">
+									<Input required="true" fieldGroupIds="NT,DT,TT"
+										value="{path: 'editOLRequest>Weight', type: 'sap.ui.model.type.String', constraints: { minLength: 1, maxLength : 10 }}" type="Number"
+										placeholder="{i18n>EnterWeightPlh}" change="onValueChange" app:NumberType="Decimal" width="5.2rem">
+										<!--<layoutData>-->
+										<!--	<l:GridData span="XL2 L2 M2 S3"/>-->
+										<!--</layoutData>-->
+									</Input>
+								</f:FormElement>
+								<f:FormElement label="{i18n>VolumeLbl}" visible="{= ${editOLRequest>/TransType} === 'NT'}">
+									<HBox>
+										<Input required="true" fieldGroupIds="NT"
+											value="{path: 'editOLRequest>Length', type: 'sap.ui.model.type.String', constraints: { minLength: 1, maxLength : 10 }}" type="Number"
+											placeholder="{i18n>LengthPlh}" change="onValueChange" app:NumberType="Decimal" width="5.2rem">
+											<!--<layoutData>-->
+											<!--	<l:GridData span="XL3 L2 M2 S2"/>-->
+											<!--</layoutData>-->
+										</Input>
+										<Text text="x" textAlign="Center" class="sapUiTinyMarginBeginEnd">
+											<!--<layoutData>-->
+											<!--	<l:GridData span="XL1 L1 M1 S1" indent="XL0 L0 M0 S0"/>-->
+											<!--</layoutData>-->
+										</Text>
+										<Input required="true" fieldGroupIds="NT"
+											value="{path: 'editOLRequest>Width', type: 'sap.ui.model.type.String', constraints: { minLength: 1, maxLength : 10 }}" type="Number"
+											placeholder="{i18n>WidthPlh}" change="onValueChange" app:NumberType="Decimal">
+											<!--<layoutData>-->
+											<!--	<l:GridData span="XL3 L2 M2 S3"/>-->
+											<!--</layoutData>-->
+										</Input>
+										<Text text="x" textAlign="Center" class="sapUiTinyMarginBeginEnd">
+											<!--<layoutData>-->
+											<!--	<l:GridData span="XL1 L1 M1 S1"/>-->
+											<!--</layoutData>-->
+										</Text>
+										<Input required="true" fieldGroupIds="NT"
+											value="{path: 'editOLRequest>Height', type: 'sap.ui.model.type.String', constraints: { minLength: 1, maxLength : 10 }}" type="Number"
+											placeholder="{i18n>HeightPlh}" change="onValueChange" app:NumberType="Decimal">
+											<!--<layoutData>-->
+											<!--	<l:GridData span="XL3 L3 M3 S3"/>-->
+											<!--</layoutData>-->
+										</Input>
+									</HBox>
+								</f:FormElement>
+								<!--Start of insert MS223343 - PAL-2023-004 / 007-->
+								<f:FormElement label="{i18n>volumetricWeight}" visible="{= ${editOLRequest>/TransType} === 'NT'}">
+									<Input enabled="false"
+										value="{parts:['editOLRequest>Length','editOLRequest>Width','editOLRequest>Height' ], formatter:'.formatter.formatVolumeMetricWeight'}"/>
+								</f:FormElement>
+								<!--End of insert MS223343 - PAL-2023-004 / 007-->
+								<!--Start of insert MS223343 - PAL-2023-002-->
+								<f:FormElement label="{i18n>cubicMeter}" visible="{= ${editOLRequest>/TransType} === 'NT'}">
+									<Input enabled="false"
+										value="{parts:['editOLRequest>Length','editOLRequest>Width','editOLRequest>Height' ], formatter:'.formatter.formatCubicMeter'}"/>
+								</f:FormElement>
+								<!--End of insert MS223343 - PAL-2023-002-->
+								<f:FormElement label="{path: 'editOLRequest>/TransType', formatter: '.formatter.formatAmountText'}">
+									<Select selectedKey="{editOLRequest>Currency}" items="{LocalMasterData>/Currency}" change="onValueChange">
+										<core:Item key="{LocalMasterData>id}" text="{LocalMasterData>Description}"/>
+										<layoutData>
+											<l:GridData span="XL2 L2 M2 S12"/>
+										</layoutData>
+									</Select>
+									<!-- value="{path: 'editOLRequest>Amount', type: 'sap.ui.model.type.String', constraints: { minLength: 1, maxLength : 28 }}" -->
+									<!-- value="{path: 'editOLRequest>Amount', type: 'sap.ui.model.type.Float', constraints: { minLength: 1, maxLength : 5 }, formatOptions:{preserveDecimals: true}}"-->
+									<Input required="true" fieldGroupIds="NT,DT,TT"
+										value="{path: 'editOLRequest>Amount', type: 'sap.ui.model.type.String', constraints: { minLength: 1, maxLength : 13 }}" type="Number"
+										placeholder="{i18n>DeclaredValuePlh}" change="onValueChange" app:NumberType="Decimal">
+										<layoutData>
+											<l:GridData span="XL5 L5 M5 S12"/>
+										</layoutData>
+									</Input>
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+						<f:FormContainer
+							visible="{= ${editOLRequest>bShowDetails} &amp;&amp; (${editOLRequest>/TransType} === 'NT' || ${editOLRequest>/TransType} === 'TT')}">
+							<f:formElements>
+								<f:FormElement label="{i18n>AssetNoLbl}" visible="{= ${editOLRequest>/TransType} === 'NT'}">
+									<Input value="{path: 'editOLRequest>AssetNo', type: 'sap.ui.model.type.String', constraints: { maxLength : 20 }}"
+										placeholder="{i18n>EnterAssetNoPlh}" change="onValueChange" visible="{= ${editOLRequest>/TransType} === 'NT'}" fieldGroupIds="NT"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>MaterialCode}" visible="{= ${editOLRequest>/TransType} === 'TT'}">
+									<Input value="{path: 'editOLRequest>MaterialCode', type: 'sap.ui.model.type.String', constraints: {maxLength : 40 }}"
+										placeholder="{i18n>EnterMaterialCode}" visible="{= ${editOLRequest>/TransType} === 'TT'}" fieldGroupIds="TT" type="Number"
+										app:NumberType="Numeric"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>SerialNoLbl}" visible="{= ${editOLRequest>/TransType} === 'NT' || ${editOLRequest>/TransType} === 'TT'}">
+									<Input fieldGroupIds="TT,NT" value="{path: 'editOLRequest>SerialNo', type: 'sap.ui.model.type.String', constraints: { maxLength : 18 }}"
+										placeholder="{i18n>EnterSerialNoPlh}" change="onValueChange"
+										visible="{= ${editOLRequest>/TransType} === 'NT' || ${editOLRequest>/TransType} === 'TT'}"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>MatDocLbl}" visible="{= ${editOLRequest>/TransType} === 'NT'}">
+									<Input value="{path: 'editOLRequest>MaterialDoc', type: 'sap.ui.model.type.String', constraints: { maxLength : 10 }}"
+										placeholder="{i18n>EnterMatDocPhl}" change="onValueChange" visible="{= ${editOLRequest>/TransType} === 'NT'}" fieldGroupIds="NT"/>
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+						<!--Start of insert MS223343 - PAL-2023-010-->
+						<f:FormContainer
+							visible="{= ${editOLRequest>bShowDetails} &amp;&amp; (${editOLRequest>/TransType} === 'NT' || ${editOLRequest>/TransType} === 'TT')}"></f:FormContainer>
+						<f:FormContainer title="{i18n>Shipment}"
+							visible="{= ${editOLRequest>bShowDetails} &amp;&amp; (${editOLRequest>/TransType} === 'NT' || ${editOLRequest>/TransType} === 'TT')}">
+							<f:formElements>
+								<f:FormElement label="{i18n>IssuingSloc}" visible="{= ${editOLRequest>/TransType} === 'NT' || ${editOLRequest>/TransType} === 'TT'}">
+									<Input fieldGroupIds="TT,NT" enabled="false"
+										value="{path: 'editOLRequest>IssuingStorageLocation', type: 'sap.ui.model.type.String', constraints: { maxLength : 18 }}"
+										visible="{= ${editOLRequest>/TransType} === 'NT' || ${editOLRequest>/TransType} === 'TT'}"/>
+								</f:FormElement>
+								<f:FormElement label="{i18n>ReceivingSloc}" visible="{= ${editOLRequest>/TransType} === 'NT' || ${editOLRequest>/TransType} === 'TT'}">
+									<Input fieldGroupIds="TT,NT" enabled="false"
+										value="{path: 'editOLRequest>ReceivingStorageLocation', type: 'sap.ui.model.type.String', constraints: { maxLength : 18 }}"
+										visible="{= ${editOLRequest>/TransType} === 'NT' || ${editOLRequest>/TransType} === 'TT'}"/>
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+						<!--Start of insert MS223343 - PAL-2023-010-->
+						<!--Start of delete MS223343 - PAL-2023-002-->
+						<!--<f:FormContainer title=" "-->
+						<!--	visible="{= ${editOLRequest>bShowDetails} &amp;&amp; (${editOLRequest>/TransType} === 'NT' || ${editOLRequest>/TransType} === 'TT')}"/>-->
+						<!--Pickup Details-->
+						<!--<f:FormContainer title="{i18n>PickUpTtl}" visible="{editOLRequest>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!-- Copy pickup details -->
+						<!--		<f:FormElement visible="{= ${viewModel>/PackageCount} > 1}" label="{i18n>CopyPickupDetails}">-->
+						<!--			<ComboBox placeholder="{i18n>SelectPackagePhl}" items="{path: 'editOLRequest>/NAV_OLHeader_Item', templateShareable: false}"-->
+						<!--				app:DetailInfo="Pickup" change="onCopyDetails">-->
+						<!--				<core:Item key="{editOLRequest>PackageNo}" text="{editOLRequest>PackageNo}"/>-->
+						<!--			</ComboBox>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>DeliveryTypeLbl}">-->
+						<!--			<ComboBox required="true" fieldGroupIds="NT,DT,TT" selectedKey="{editOLRequest>DeliveryType}"-->
+						<!--				items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_DELIVERY_TYPESet', templateShareable: false}" change="onDeliveryTypeChange"-->
+						<!--				placeholder="{i18n>DelTypePhl}" enabled="{=!${editOLRequest>bPickupCopied}}">-->
+						<!--				<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>DELIVERY_TYPE}" text="{ZSSD_ONELOOK_MDATA_SRV>DELIVERY_DESC}"/>-->
+						<!--			</ComboBox>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>PickUpLocationLbl}">-->
+						<!--			<ComboBox required="true" fieldGroupIds="NT,DT,TT" app:DetailInfo="Pickup" placeholder="{i18n>LocPhl}"-->
+						<!--				items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_PICKUP_LOCSet', templateShareable: false}" selectedKey="{editOLRequest>PickupOrigin}"-->
+						<!--				change="onLocationChange" enabled="{=!${editOLRequest>bPickupCopied}}">-->
+						<!--				<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>PICKUP_LOC}" text="{ZSSD_ONELOOK_MDATA_SRV>PICKUP_DESC}"/>-->
+						<!--			</ComboBox>-->
+						<!--		</f:FormElement>-->
+						<!--Address Details if origin is from Others-->
+						<!-- Start of Adress breakdown -->
+						<!--		<f:FormElement visible="{=${editOLRequest>PickupOrigin} === 'O'}" label="{i18n>AdressLbl}">-->
+						<!-- start - display only when others is selected as location-->
+						<!--			<Input value="{path: 'editOLRequest>PickupUnitNo', type: 'sap.ui.model.type.String', constraints: {maxLength : 30 }}"-->
+						<!--				placeholder="{i18n>UnitNo}" enabled="{=!${editOLRequest>bPickupCopied}}">-->
+						<!--				<layoutData>-->
+						<!--					<l:GridData span="XL2 L2 M2 S3"/>-->
+						<!--				</layoutData>-->
+						<!--			</Input>-->
+						<!--			<Input value="{path: 'editOLRequest>PickupHouseNo', type: 'sap.ui.model.type.String', constraints: {maxLength : 30 }}"-->
+						<!--				placeholder="{i18n>HouseNo}" enabled="{=!${editOLRequest>bPickupCopied}}">-->
+						<!--				<layoutData>-->
+						<!--					<l:GridData span="XL2 L2 M2 S3"/>-->
+						<!--				</layoutData>-->
+						<!--			</Input>-->
+						<!--			<Input value="{path: 'editOLRequest>PickupStreet', type: 'sap.ui.model.type.String', constraints: {maxLength : 60 }}"-->
+						<!--				placeholder="{i18n>EnterStreet}" enabled="{=!${editOLRequest>bPickupCopied}}"/>-->
+						<!--end - display only when others is selected as location-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>SubdivisionArea}" visible="{= ${editOLRequest>PickupOrigin} === 'O'}">-->
+						<!--subdivision-->
+						<!--			<Input value="{path: 'editOLRequest>PickupSubdivision', type: 'sap.ui.model.type.String', constraints: {maxLength : 60 }}"-->
+						<!--				placeholder="{i18n>EnterSubdivision}" enabled="{= !${editOLRequest>bPickupCopied}}"/>-->
+						<!--region-->
+						<!--			<ComboBox fieldGroupIds="NT,DT,TT" app:DetailInfo="Pickup" selectedKey="{editOLRequest>PickupArea}"-->
+						<!--				items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_AREASet', templateShareable: false}" change="onAreaChange" placeholder="{i18n>SelRegionPhl}"-->
+						<!--				visible="{= ${editOLRequest>PickupOrigin} === 'O'}" enabled="{= !${editOLRequest>bPickupCopied}}" required="true">-->
+						<!--				<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>AreaCode}" text="{ZSSD_ONELOOK_MDATA_SRV>AreaDesc}"/>-->
+						<!--			</ComboBox>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ProvinceCity}" visible="{=${editOLRequest>PickupOrigin} === 'O'}">-->
+						<!-- Province -->
+						<!--			<Input fieldGroupIds="NT,DT,TT" app:DetailInfo="Pickup" app:ModelAlias="editOLRequest"-->
+						<!--				value="{path: 'editOLRequest>PickupProvinceDesc', type: 'sap.ui.model.type.String', constraints: {minLength: 1}}" required="true"-->
+						<!--				placeholder="{i18n>SelProvincePhl}" enabled="{= (${editOLRequest>PickupArea} ? true : false) &amp;&amp; !${editOLRequest>bPickupCopied}}"-->
+						<!--				visible="{= ${editOLRequest>PickupOrigin} === 'O'}" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpProvince"/>-->
+						<!-- City -->
+						<!--			<Input fieldGroupIds="NT,DT,TT" app:DetailInfo="Pickup" app:ModelAlias="editOLRequest"-->
+						<!--				value="{path: 'editOLRequest>PickupCityDesc', type: 'sap.ui.model.type.String', constraints: {minLength: 1}}" required="true"-->
+						<!--				placeholder="{i18n>SelCityPhl}" enabled="{= (${editOLRequest>PickupProvince} ? true : false) &amp;&amp; !${editOLRequest>bPickupCopied}}"-->
+						<!--				visible="{= ${editOLRequest>PickupOrigin} === 'O'}" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpCity"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>BrgyZipcode}" visible="{= ${editOLRequest>PickupOrigin} === 'O'}">-->
+						<!-- Barangay -->
+						<!--			<Input fieldGroupIds="NT,DT,TT" app:DetailInfo="Pickup" app:ModelAlias="editOLRequest" required="true"-->
+						<!--				value="{path: 'editOLRequest>PickupBarangayDesc', type: 'sap.ui.model.type.String', constraints: {minLength: 1}}"-->
+						<!--				placeholder="{i18n>SelBrgy}" enabled="{= (${editOLRequest>PickupCity} ? true : false) &amp;&amp; !${editOLRequest>bPickupCopied}}"-->
+						<!--				visible="{= ${editOLRequest>PickupOrigin} === 'O'}" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpBrgy"/>-->
+						<!-- Zipcode -->
+						<!--			<Input fieldGroupIds="NT,DT,TT"-->
+						<!--				value="{path: 'editOLRequest>PickupZipcode', type: 'sap.ui.model.type.String', constraints: {minLength: 1, maxLength : 4 }}"-->
+						<!--				placeholder="{i18n>EnterZipcode}" type="Number" visible="{= ${editOLRequest>PickupOrigin} === 'O'}" change="onValueChange"-->
+						<!--				enabled="{= !${editOLRequest>bPickupCopied}}" app:NumberType="Numeric" required="true"/>-->
+						<!--		</f:FormElement>-->
+						<!-- End of Adress breakdown -->
+						<!--Address Details if origin is from Globe-->
+						<!--		<f:FormElement label="{i18n>AdressLbl}"-->
+						<!--			visible="{= ${editOLRequest>PickupOrigin} !== '' &amp;&amp; typeof(${editOLRequest>PickupOrigin}) !== 'undefined' &amp;&amp; ${editOLRequest>PickupOrigin} !== 'O'}">-->
+						<!-- hide if Other were selected as location -->
+						<!--			<Input required="true" fieldGroupIds="NT,DT,TT" app:DetailInfo="Pickup" app:ModelAlias="editOLRequest" placeholder="{i18n>SelAddressPhl}"-->
+						<!--				value="{path: 'editOLRequest>PickupLocationDesc', type: 'sap.ui.model.type.String', constraints: {minLength: 1}}"-->
+						<!--				enabled="{=!${editOLRequest>bPickupCopied}}"-->
+						<!--				visible="{= ${editOLRequest>PickupOrigin} !== '' &amp;&amp; typeof(${editOLRequest>PickupOrigin}) !== 'undefined' &amp;&amp; ${editOLRequest>PickupOrigin} !== 'O'}"-->
+						<!--				valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpAddress"/>-->
+						<!--		</f:FormElement>-->
+						<!--Display only when G were selected as location -->
+						<!--		<f:FormElement label="{i18n>SpecificLocation}" visible="{=${editOLRequest>PickupOrigin} === 'G'}">-->
+						<!--			<Input fieldGroupIds="NT,DT,TT"-->
+						<!--				value="{path: 'editOLRequest>PickupSpecLoc', type: 'sap.ui.model.type.String', constraints: {maxLength : 25 }}"-->
+						<!--				placeholder="{i18n>DetailedLocation}" visible="{=${editOLRequest>PickupOrigin} === 'G'}" change="onValueChange"-->
+						<!--				enabled="{=!${editOLRequest>bPickupCopied}}" required="true"/>-->
+						<!--		</f:FormElement>-->
+						<!-- Start of Adress breakdown -->
+						<!-- unit no, house no , street -->
+						<!--		<f:FormElement label="{i18n>PickupAddress}"-->
+						<!--			visible="{= (${editOLRequest>PickupOrigin} !== 'O' &amp;&amp; ${editOLRequest>PickupOrigin} !== 'G') &amp;&amp; ${editOLRequest>PickupLocation} !== ''}">-->
+						<!--			<TextArea-->
+						<!--				value="{editOLRequest>PickupUnitNo} {editOLRequest>PickupHouseNo} {editOLRequest>PickupStreet} {editOLRequest>PickupSubdivision} Brgy. {editOLRequest>PickupBarangayDesc}, {editOLRequest>PickupCityDesc}, {editOLRequest>PickupProvinceDesc}, {editOLRequest>PickupZipcode}"-->
+						<!--				growing="true" growingMaxLines="4" enabled="false"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!--<f:FormContainer title=" " visible="{editOLRequest>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>PickupDateLbl}">-->
+						<!--			<DatePicker required="true" fieldGroupIds="NT,DT,TT"-->
+						<!--				value="{path: 'editOLRequest>PickupDate', type : 'sap.ui.model.type.DateTime', formatOptions:{ pattern : 'MM/dd/yyyy'}}"-->
+						<!--				valueFormat="yyyy-MM-dd" minDate="{viewModel>/MinDate}" change="onValueChange" enabled="{=!${editOLRequest>bPickupCopied}}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>PickupTime}">-->
+						<!--			<TimePicker required="true" fieldGroupIds="NT,DT,TT"-->
+						<!--				value="{path: 'editOLRequest>PickupTime', type : 'sap.ui.model.type.Time', formatOptions:{ pattern : 'HH:mm'}}" valueFormat="HH:mm"-->
+						<!--				change="onValueChange" enabled="{=!${editOLRequest>bPickupCopied}}"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!--Pickup contact-->
+						<!--<f:FormContainer title="" visible="{editOLRequest>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>ContactPersonLbl}">-->
+						<!--			<Input required="true" fieldGroupIds="NT,DT,TT"-->
+						<!--				value="{path: 'editOLRequest>PickupContactPerson', type: 'sap.ui.model.type.String', constraints: {minLength: 1, maxLength: 30}}"-->
+						<!--				placeholder="{i18n>EnterFullName}" change="onValueChange" enabled="{=!${editOLRequest>bPickupCopied}}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactNoLbl}">-->
+						<!--			<Input required="true" fieldGroupIds="NT,DT,TT"-->
+						<!--				value="{path: 'editOLRequest>PickupContactNumber', type: 'sap.ui.model.type.String', constraints:{minLength: 7, maxLength: 11}}"-->
+						<!--				placeholder="{i18n>EnterContactNo}" type="Number" change="onValueChange" enabled="{=!${editOLRequest>bPickupCopied}}"-->
+						<!--				app:NumberType="Numeric"/>-->
+						<!-- for mobile number -->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactEmailLbl}">-->
+						<!--			<Input required="{=${viewModel>/TransactionType} !== 'TT'}" fieldGroupIds="NT,DT,TT"-->
+						<!--				value="{path: 'editOLRequest>PickupContactEmail',type: 'sap.ui.model.type.String', constraints:{maxLength: 60}}"-->
+						<!--				placeholder="{i18n>EnterEmail}" type="Email" change="onValueChange" enabled="{=!${editOLRequest>bPickupCopied}}"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!-- Pickup Alternate contact-->
+						<!--<f:FormContainer title="" visible="{editOLRequest>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>AlternateContactPersonLbl}">-->
+						<!--			<Input value="{path: 'editOLRequest>PickupAltContactPerson', type: 'sap.ui.model.type.String', constraints: {maxLength: 30}}"-->
+						<!--				placeholder="{i18n>EnterFullName}" enabled="{=!${editOLRequest>bPickupCopied}}" fieldGroupIds="NT,DT,TT"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactNoLbl}">-->
+						<!--			<Input value="{path: 'editOLRequest>PickupAltContactNumber', type: 'sap.ui.model.type.String', constraints:{maxLength: 11}}"-->
+						<!--				placeholder="{i18n>EnterContactNo}" enabled="{=!${editOLRequest>bPickupCopied}}" fieldGroupIds="NT,DT,TT" type="Number"-->
+						<!--				app:NumberType="Numeric"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactEmailLbl}">-->
+						<!--			<Input value="{path: 'editOLRequest>PickupAltContactEmail', type: 'sap.ui.model.type.String', constraints: {maxLength: 60}}"-->
+						<!--				placeholder="{i18n>EnterEmail}" type="Email" enabled="{=!${editOLRequest>bPickupCopied}}" fieldGroupIds="NT,DT,TT" change="onValueChange"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!--Delivery Details-->
+						<!--<f:FormContainer title="{i18n>DeliveryTtl}" visible="{editOLRequest>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!-- Copy Delivery from -->
+						<!--		<f:FormElement label="{i18n>CopyDeliveryDetails}" visible="{= ${viewModel>/PackageCount} > 1}">-->
+						<!--			<ComboBox placeholder="{i18n>SelectPackagePhl}" items="{path: 'editOLRequest>/NAV_OLHeader_Item', templateShareable: false}"-->
+						<!--				change="onCopyDetails" app:DetailInfo="Delivery">-->
+						<!--				<core:Item key="{editOLRequest>PackageNo}" text="{editOLRequest>PackageNo}"/>-->
+						<!--			</ComboBox>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!--<f:FormContainer visible="{editOLRequest>bShowDetails}"/>-->
+						<!--<f:FormContainer visible="{editOLRequest>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>ModeOfTransportLbl}">-->
+						<!--			<ComboBox required="true" fieldGroupIds="NT,DT,TT" placeholder="{i18n>SelModeOfTransport}"-->
+						<!--				selectedKey="{path: 'editOLRequest>TransportMode', templateShareable: false}" items="{MasterData>/ModeOfTransport}"-->
+						<!--				change="onTransportModeChange" enabled="{=!${editOLRequest>bDeliveryCopied}}">-->
+						<!--				<core:Item key="{MasterData>id}" text="{MasterData>Description}"/>-->
+						<!--			</ComboBox>-->
+						<!--		</f:FormElement>-->
+						<!-- if Land and RORO, Truck type, do not show when document request-->
+						<!--Start of edit MS223343 - PAL-2023-002-->
+						<!--		<f:FormElement label="{i18n>TruckType}"-->
+						<!--			visible="{= ${editOLRequest>TransportMode} !== '' &amp;&amp; ((${editOLRequest>TransportMode} === 'RORO' &amp;&amp; (${editOLRequest>Weight} > 500 || ((${editOLRequest>Length} * ${editOLRequest>Width} * ${editOLRequest>Height}) / 3500) > 500)) || (${editOLRequest>TransportMode} === 'LAND' &amp;&amp; (${editOLRequest>Weight} > 200 || ((${editOLRequest>Length} * ${editOLRequest>Width} * ${editOLRequest>Height}) / 3500) > 200))) &amp;&amp; ${viewModel>/TransactionType} !== 'DT'}">-->
+						<!--			<ComboBox required="true" fieldGroupIds="NT,TT" app:DetailInfo="Delivery" placeholder="{i18n>SelTruckType}"-->
+						<!--				selectedKey="{editOLRequest>TruckType}" items="{path: 'LocalMasterData>/TruckType', templateShareable: false}" change="onTruckTypeChange"-->
+						<!--				visible="{= ${editOLRequest>TransportMode} !== '' &amp;&amp; ((${editOLRequest>TransportMode} === 'RORO' &amp;&amp; (${editOLRequest>Weight} > 500 || ((${editOLRequest>Length} * ${editOLRequest>Width} * ${editOLRequest>Height}) / 3500) > 500)) || (${editOLRequest>TransportMode} === 'LAND' &amp;&amp; (${editOLRequest>Weight} > 200 || ((${editOLRequest>Length} * ${editOLRequest>Width} * ${editOLRequest>Height}) / 3500) > 200))) &amp;&amp; ${viewModel>/TransactionType} !== 'DT'}"-->
+						<!--				enabled="{=!${editOLRequest>bDeliveryCopied}}">-->
+						<!--				<core:Item key="{LocalMasterData>id}" text="{LocalMasterData>Description}"/>-->
+						<!--			</ComboBox>-->
+						<!--		</f:FormElement>-->
+						<!--End of edit MS223343 - PAL-2023-002-->
+						<!-- if Sea, Containter type-->
+						<!--		<f:FormElement label="{i18n>ContainerType}"-->
+						<!--			visible="{= ${editOLRequest>TransportMode} !== '' &amp;&amp; ${editOLRequest>TransportMode} === 'SEA'}">-->
+						<!--			<ComboBox required="true" fieldGroupIds="NT,TT" app:DetailInfo="Delivery" placeholder="{i18n>SelContainerType}"-->
+						<!--				selectedKey="{editOLRequest>ContainerType}" items="{path: 'LocalMasterData>/ContainerType', templateShareable: false}"-->
+						<!--				change="onContainerTypeChange" visible="{= ${editOLRequest>TransportMode} !== '' &amp;&amp; ${editOLRequest>TransportMode} === 'SEA'}"-->
+						<!--				enabled="{=!${editOLRequest>bDeliveryCopied}}">-->
+						<!--				<core:Item key="{LocalMasterData>id}" text="{LocalMasterData>Description}"/>-->
+						<!--			</ComboBox>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>DeliveryLocationLbl}">-->
+						<!--			<ComboBox required="true" fieldGroupIds="NT,DT,TT" app:DetailInfo="Delivery" placeholder="{i18n>LocPhl}"-->
+						<!--				items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_PICKUP_LOCSet', templateShareable: false}" selectedKey="{editOLRequest>DeliveryOrigin}"-->
+						<!--				change="onLocationChange" enabled="{=!${editOLRequest>bDeliveryCopied}}">-->
+						<!--				<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>PICKUP_LOC}" text="{ZSSD_ONELOOK_MDATA_SRV>PICKUP_DESC}"/>-->
+						<!--			</ComboBox>-->
+						<!--		</f:FormElement>-->
+						<!--Address Details if origin is from Others-->
+						<!--Start of Address breakdown -->
+						<!--		<f:FormElement label="{i18n>AdressLbl}" visible="{=${editOLRequest>DeliveryOrigin} === 'O'}">-->
+						<!-- start - display only when others is selected as location-->
+						<!--			<Input value="{path: 'editOLRequest>DeliveryUnitNo', type: 'sap.ui.model.type.String', constraints: {maxLength: 30}}"-->
+						<!--				placeholder="{i18n>UnitNo}" visible="{=${editOLRequest>DeliveryOrigin} === 'O'}" enabled="{= !${editOLRequest>bDeliveryCopied}}">-->
+						<!--				<layoutData>-->
+						<!--					<l:GridData span="XL2 L2 M2 S3"/>-->
+						<!--				</layoutData>-->
+						<!--			</Input>-->
+						<!--			<Input value="{path: 'editOLRequest>DeliveryHouseNo', type: 'sap.ui.model.type.String', constraints: {maxLength: 30}}"-->
+						<!--				placeholder="{i18n>HouseNo}" visible="{=${editOLRequest>DeliveryOrigin} === 'O'}" enabled="{= !${editOLRequest>bDeliveryCopied}}">-->
+						<!--				<layoutData>-->
+						<!--					<l:GridData span="XL2 L2 M2 S3"/>-->
+						<!--				</layoutData>-->
+						<!--			</Input>-->
+						<!--			<Input value="{path: 'editOLRequest>DeliveryStreet', type: 'sap.ui.model.type.String', constraints: {maxLength: 60}}"-->
+						<!--				placeholder="{i18n>EnterStreet}" visible="{=${editOLRequest>DeliveryOrigin} === 'O'}" enabled="{= !${editOLRequest>bDeliveryCopied}}"/>-->
+						<!--end - display only when O is selected as location-->
+						<!--		</f:FormElement>-->
+						<!-- display only when O, warehouse and Supplier was selected as origin-->
+						<!--		<f:FormElement label="{i18n>SubdivisionArea}" visible="{=${editOLRequest>DeliveryOrigin} === 'O'}">-->
+						<!-- Subdivision-->
+						<!--			<Input value="{path: 'editOLRequest>DeliverySubdivision', type: 'sap.ui.model.type.String', constraints: {maxLength: 60}}"-->
+						<!--				placeholder="{i18n>EnterSubdivision}" enabled="{= !${editOLRequest>bDeliveryCopied}}"/>-->
+						<!-- Area -->
+						<!--			<ComboBox fieldGroupIds="NT,DT,TT" app:DetailInfo="Delivery" selectedKey="{editOLRequest>DeliveryArea}"-->
+						<!--				items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_AREASet', templateShareable: false}" change="onAreaChange" placeholder="{i18n>SelRegionPhl}"-->
+						<!--				visible="{= ${editOLRequest>DeliveryOrigin} === 'O'}" enabled="{= !${editOLRequest>bDeliveryCopied}}" required="true">-->
+						<!--				<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>AreaCode}" text="{ZSSD_ONELOOK_MDATA_SRV>AreaDesc}"/>-->
+						<!--			</ComboBox>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ProvinceCity}" visible="{= ${editOLRequest>DeliveryOrigin} === 'O'}">-->
+						<!-- Province -->
+						<!--			<Input fieldGroupIds="NT,DT,TT" app:DetailInfo="Delivery" app:ModelAlias="editOLRequest"-->
+						<!--				value="{path: 'editOLRequest>DeliveryProvinceDesc', type: 'sap.ui.model.type.String', constraints: {minLength: 1}}"-->
+						<!--				change="onProvinceChange" placeholder="{i18n>SelProvincePhl}" required="true"-->
+						<!--				enabled="{= (${editOLRequest>DeliveryArea} ? true : false) &amp;&amp; !${editOLRequest>bDeliveryCopied}}"-->
+						<!--				visible="{= ${editOLRequest>DeliveryOrigin} === 'O'}" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpProvince"/>-->
+						<!-- City -->
+						<!--			<Input fieldGroupIds="NT,DT,TT" app:DetailInfo="Delivery" app:ModelAlias="editOLRequest"-->
+						<!--				value="{path: 'editOLRequest>DeliveryCityDesc', type: 'sap.ui.model.type.String', constraints: {minLength: 1}}" change="onCityChange"-->
+						<!--				placeholder="{i18n>SelCityPhl}" required="true"-->
+						<!--				enabled="{= (${editOLRequest>DeliveryProvince} ? true : false) &amp;&amp; !${editOLRequest>bDeliveryCopied}}"-->
+						<!--				visible="{= ${editOLRequest>DeliveryOrigin} === 'O'}" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpCity"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>BrgyZipcode}" visible="{= ${editOLRequest>DeliveryOrigin} === 'O'}">-->
+						<!-- Brgy -->
+						<!--			<Input fieldGroupIds="NT,DT,TT" app:DetailInfo="Delivery" app:ModelAlias="editOLRequest"-->
+						<!--				value="{path: 'editOLRequest>DeliveryBarangayDesc', type: 'sap.ui.model.type.String', constraints: {minLength: 1}}" required="true"-->
+						<!--				placeholder="{i18n>SelBrgy}" enabled="{= (${editOLRequest>DeliveryCity} ? true : false) &amp;&amp; !${editOLRequest>bDeliveryCopied}}"-->
+						<!--				visible="{= ${editOLRequest>DeliveryOrigin} === 'O'}" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpBrgy"/>-->
+						<!-- Zipcode -->
+						<!--			<Input fieldGroupIds="NT,DT,TT"-->
+						<!--				value="{path: 'editOLRequest>DeliveryZipcode', type: 'sap.ui.model.type.String', constraints: {minLength: 1, maxLength: 4}}"-->
+						<!--				placeholder="{i18n>EnterZipcode}" type="Number" visible="{= ${editOLRequest>DeliveryOrigin} === 'O'}" change="onValueChange"-->
+						<!--				enabled="{= !${editOLRequest>bDeliveryCopied}}" required="true" app:NumberType="Numeric"/>-->
+						<!--		</f:FormElement>-->
+						<!-- End of Address breakdown-->
+						<!--Address Details if origin is from Globe-->
+						<!--		<f:FormElement label="{i18n>AdressLbl}" visible="{= ${editOLRequest>DeliveryOrigin} !== 'O'}">-->
+						<!-- hide if Other were selected as location -->
+						<!--			<Input required="true" fieldGroupIds="NT,DT,TT" app:DetailInfo="Delivery" app:ModelAlias="editOLRequest" placeholder="{i18n>SelAddressPhl}"-->
+						<!--				value="{path: 'editOLRequest>DeliveryLocationDesc', type: 'sap.ui.model.type.String', constraints: {minLength: 1}}"-->
+						<!--				enabled="{=!${editOLRequest>bDeliveryCopied}}" visible="{= ${editOLRequest>DeliveryOrigin} !== 'O'}" valueHelpOnly="true"-->
+						<!--				showValueHelp="true" valueHelpRequest="onValueHelpAddress"/>-->
+						<!--<ComboBox required="true" fieldGroupIds="NT,DT,TT" app:DetailInfo="Delivery" placeholder="{i18n>SelAddressPhl}"-->
+						<!--	selectedKey="{editOLRequest>DeliveryLocation}" items="{path: 'editOLRequest>ValueHelps/Delivery/Location', templateShareable: false}"-->
+						<!--	change="onSpecLocChange" enabled="{=!${editOLRequest>bDeliveryCopied}}" visible="{= ${editOLRequest>DeliveryOrigin} !== 'O'}">-->
+						<!--	<core:Item key="{editOLRequest>Name}" text="{editOLRequest>Name}" app:location="{editOLRequest>}"/>-->
+						<!--</ComboBox>-->
+						<!--		</f:FormElement>-->
+						<!--Display only when globe offices were selected as location -->
+						<!--		<f:FormElement label="{i18n>SpecificLocation}" visible="{=${editOLRequest>DeliveryOrigin} === 'G'}">-->
+						<!--			<Input fieldGroupIds="NT,DT,TT"-->
+						<!--				value="{path: 'editOLRequest>DeliverySpecLoc', type: 'sap.ui.model.type.String', constraints: {maxLength: 25}}"-->
+						<!--				placeholder="{i18n>DetailedLocation}" visible="{=${editOLRequest>DeliveryOrigin} === 'G'}" change="onValueChange" required="true"-->
+						<!--				enabled="{=!${editOLRequest>bDeliveryCopied}}"/>-->
+						<!--		</f:FormElement>-->
+						<!-- Display address of the selected location-->
+						<!--		<f:FormElement label="{i18n>DeliveryAddress}"-->
+						<!--			visible="{= (${editOLRequest>DeliveryOrigin} !== 'O' &amp;&amp; ${editOLRequest>DeliveryOrigin} !== 'G') &amp;&amp; ${editOLRequest>DeliveryLocation} !== ''}">-->
+						<!--			<TextArea-->
+						<!--				value="{editOLRequest>DeliveryUnitNo} {editOLRequest>DeliveryHouseNo} {editOLRequest>DeliveryStreet} {editOLRequest>DeliverySubdivision} Brgy. {editOLRequest>DeliveryBarangayDesc}, {editOLRequest>DeliveryCityDesc}, {editOLRequest>DeliveryProvinceDesc}"-->
+						<!--				growing="true" growingMaxLines="4" enabled="false"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!-- Delivery Date -->
+						<!--<f:FormContainer visible="{editOLRequest>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>DeliveryDate}">-->
+						<!--			<DatePicker required="true" fieldGroupIds="NT,DT,TT"-->
+						<!--				value="{path: 'editOLRequest>DeliveryDate', type : 'sap.ui.model.type.DateTime', formatOptions:{ pattern : 'MM/dd/yyyy'}}"-->
+						<!--				valueFormat="yyyy-MM-dd" minDate="{viewModel>/MinDate}" enabled="{=!${editOLRequest>bDeliveryCopied}}" change="onDeliveryDateTimeChange"-->
+						<!--				app:control="Date"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>DeliveryTime}">-->
+						<!--			<TimePicker required="true" fieldGroupIds="NT,DT,TT"-->
+						<!--				value="{path: 'editOLRequest>DeliveryTime', type : 'sap.ui.model.type.Time', formatOptions:{ pattern : 'HH:mm'}}" valueFormat="HH:mm"-->
+						<!--				enabled="{=!${editOLRequest>bDeliveryCopied}}" change="onDeliveryDateTimeChange" app:control="Time"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!-- Delivery contact person -->
+						<!--<f:FormContainer title="" visible="{editOLRequest>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>AuthRecipient}">-->
+						<!--			<Input required="true" fieldGroupIds="NT,DT,TT"-->
+						<!--				value="{path: 'editOLRequest>DeliveryContactPerson', type: 'sap.ui.model.type.String', constraints: {minLength: 1, maxLength: 30}}"-->
+						<!--				placeholder="{i18n>EnterFullName}" change="onValueChange" enabled="{=!${editOLRequest>bDeliveryCopied}}"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactNoLbl}">-->
+						<!--			<Input required="true" fieldGroupIds="NT,DT,TT"-->
+						<!--				value="{path: 'editOLRequest>DeliveryContactNumber', type: 'sap.ui.model.type.String', constraints:{minLength: 7, maxLength: 11}}"-->
+						<!--				placeholder="{i18n>EnterContactNo}" type="Number" change="onValueChange" enabled="{=!${editOLRequest>bDeliveryCopied}}"-->
+						<!--				app:NumberType="Numeric"/>-->
+						<!-- for mobile number -->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactEmailLbl}">-->
+						<!--			<Input required="{=${viewModel>/TransactionType} !== 'TT'}" fieldGroupIds="NT,DT,TT"-->
+						<!--				value="{path: 'editOLRequest>DeliveryContactEmail',type: 'sap.ui.model.type.String', constraints: {maxLength: 60}}"-->
+						<!--				placeholder="{i18n>EnterEmail}" type="Email" enabled="{=!${editOLRequest>bDeliveryCopied}}" change="onValueChange"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!-- Delivery Alternate Contact -->
+						<!--<f:FormContainer title="" visible="{editOLRequest>bShowDetails}">-->
+						<!--	<f:formElements>-->
+						<!--		<f:FormElement label="{i18n>AltAutRecipient}">-->
+						<!--			<Input value="{path: 'editOLRequest>DeliveryAltContactPerson', type: 'sap.ui.model.type.String', constraints: {maxLength: 30}}"-->
+						<!--				placeholder="{i18n>EnterFullName}" enabled="{=!${editOLRequest>bDeliveryCopied}}" fieldGroupIds="NT,DT,TT"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactNoLbl}">-->
+						<!--			<Input value="{path: 'editOLRequest>DeliveryAltContactNumber', type: 'sap.ui.model.type.String', constraints:{maxLength: 11}}"-->
+						<!--				placeholder="{i18n>EnterContactNo}" type="Number" enabled="{=!${editOLRequest>bDeliveryCopied}}" fieldGroupIds="NT,DT,TT"-->
+						<!--				app:NumberType="Numeric"/>-->
+						<!--		</f:FormElement>-->
+						<!--		<f:FormElement label="{i18n>ContactEmailLbl}">-->
+						<!--			<Input value="{path: 'editOLRequest>DeliveryAltContactEmail', type: 'sap.ui.model.type.String', constraints: {maxLength: 60}}"-->
+						<!--				placeholder="{i18n>EnterEmail}" type="Email" enabled="{=!${editOLRequest>bDeliveryCopied}}" fieldGroupIds="NT,DT,TT" change="onValueChange"/>-->
+						<!--		</f:FormElement>-->
+						<!--	</f:formElements>-->
+						<!--</f:FormContainer>-->
+						<!--End of delete MS223343 - PAL-2023-002-->
+					</f:formContainers>
+				</f:Form>
+				<!-- End of Form -->
+				<HBox justifyContent="Center" class="dtd-custom-border-top sapUiSmallMarginTop">
+					<Button text="{= ${editOLRequest>bShowDetails} ? ${i18n>HideDetailsBtn} : ${i18n>ShowDetailsBtn} }" press="onTogglePackageDetails"
+						width="100%" class="dtd-custom-no-border-button sapUiTinyMarginTop" app:PackageNo="{editOLRequest>PackageNo}"/>
+				</HBox>
+			</content>
+		</Panel>
+	</VBox>
+</core:FragmentDefinition>

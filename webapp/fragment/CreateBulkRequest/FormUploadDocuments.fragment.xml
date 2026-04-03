@@ -1,0 +1,124 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<l:VerticalLayout width="100%" class="sapUiLargeMarginTop" visible="{= ${bulkRequestModel>TransType} !== ''}">
+		<Title text="{i18n>FillReqInfo}" class="dtd-bold-title sapUiTinyMarginBottom"/>
+		<Panel class="sapUiContentPadding dtd-customPanel sapUiMediumMarginBottom">
+			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="3" labelSpanM="4" labelSpanS="12"
+				adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
+				singleContainerFullSize="false" class="dtd-form">
+				<f:content>
+					<core:Title text="{i18n>RequestDetails}"/>
+					<Label text="{i18n>ApproveBy}" required="true"
+						visible="{= ${bulkRequestModel>TransType} !== 'DT' &amp;&amp; ${bulkRequestModel>TransType} !== '' &amp;&amp; ${UserType>/UserType} === 'R'}"/>
+					<Input placeholder="{i18n>EnterSupervisor}" value="{bulkRequestModel>Approver}" required="true" fieldGroupIds="NT,TT" showValueHelp="true"
+						valueHelpOnly="true" valueHelpRequest="onValueHelpApprover" app:ModelAlias="bulkRequestModel"
+						visible="{= ${bulkRequestModel>TransType} !== 'DT' &amp;&amp; ${bulkRequestModel>TransType} !== '' &amp;&amp; ${UserType>/UserType} === 'R'}"/>
+					<Label text="{i18n>BulkRequestFile}" required="true" visible="{= ${bulkRequestModel>TransType} !== ''}"/>
+					<u:FileUploader typeMissmatch="onTypeMissmatchBulk" required="true" fieldGroupIds="NT,TT,DT" fileType="xlsx" buttonOnly="false"
+						change="onFileBulkSelect" fileSizeExceed="onFileSizeExceedBulk" maximumFileSize="10" width="100%" placeholder="{i18n>ChooseFile}"
+						style="Emphasized" value="{bulkRequestModel>BulkTemplateText}" visible="{= ${bulkRequestModel>TransType} !== ''}"></u:FileUploader>
+					<Label text=""/>
+					<Text text="{i18n>BulkMaxFileUploadSize}" class="dtd-custom-text-size"/>
+					<core:Title text="{i18n>SupportingDocs}"/>
+					<Label text=""/>
+					<List id="idAttachmentList" noDataText="{i18n>NoFileFound}" delete="onFileDeleted" mode="Delete" items="{bulkRequestModel>SupportingDocs}">
+						<headerToolbar>
+							<OverflowToolbar>
+								<Text text="{path: 'bulkRequestModel>SupportingDocs', formatter: '.formatter.formatAttachemntCount'}"/>
+								<ToolbarSpacer/>
+								<u:FileUploader enabled="{=${bulkRequestModel>SupportingDocs}.length &lt;10}" icon="sap-icon://add" typeMissmatch="onTypeMissmatch"
+									fileType="zip,xlsx,xls,doc,docx,png,pdf,jpg,jpeg" buttonOnly="true" change="onFileSupportDocsSelect" fileSizeExceed="onFileSizeExceed"
+									maximumFileSize="30" multiple="false" iconOnly="false" sameFilenameAllowed="true" buttonText="{i18n>Upload}"></u:FileUploader>
+							</OverflowToolbar>
+						</headerToolbar>
+						<items>
+							<CustomListItem>
+								<HBox width="100%">
+									<core:Icon size="2rem" src="{path: 'bulkRequestModel>Icon'}" class="sapMUCItemIcon sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
+									<VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom" width="100%">
+										<Title text="{bulkRequestModel>FileName}" wrapping="true" width="90%" visible="{= ${bulkRequestModel>RefNo} ? false : true}"/>
+										<Link text="{bulkRequestModel>FileName}" press="onOpenAttachment" wrapping="true" width="90%"
+											visible="{= ${bulkRequestModel>RefNo} ? true : false}"/>
+										<Label text="{i18n>fileSize} {path: 'bulkRequestModel>FileSize', formatter: '.formatter.fnFormatBytes'}"/>
+									</VBox>
+								</HBox>
+							</CustomListItem>
+						</items>
+						<layoutData>
+							<l:GridData span="XL12 L12 M12 S12"/>
+						</layoutData>
+					</List>
+					<Text text="{i18n>SupportDocsMaxFileUploadSize}" class="dtd-custom-text-size"/>
+				</f:content>
+			</f:SimpleForm>
+			<!--<f:Form editable="true" class="dtd-form">-->
+			<!--	<f:layout>-->
+			<!--		<f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"-->
+			<!--			emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="1" singleContainerFullSize="false"/>-->
+			<!--	</f:layout>-->
+			<!--	<f:formContainers>-->
+			<!--		<f:FormContainer title="{i18n>RequestDetails}" class="sapUiContentPadding">-->
+			<!--			<f:formElements>-->
+			<!--				<f:FormElement label="{i18n>ApproveBy}" visible="{= ${viewModel>/TransactionType} !== 'DT' &amp;&amp; ${UserType>/UserType} === 'R'}">-->
+			<!--					<Input placeholder="{i18n>EnterSupervisor}" value="{bulkRequestModel>Approver}" required="true" fieldGroupIds="NT,TT" showValueHelp="true"-->
+			<!--						valueHelpOnly="true" valueHelpRequest="onValueHelpApprover" app:ModelAlias="bulkRequestModel"/>-->
+			<!--				</f:FormElement>-->
+			<!--				<f:FormElement label="{i18n>BulkRequestFile}">-->
+			<!--					<f:fields >-->
+			<!--						<Input required="true" visible="false"/>-->
+			<!--						<u:FileUploader typeMissmatch="onTypeMissmatch" required="true" fieldGroupIds="NT,TT,DT" fileType="xlsx" buttonOnly="false"-->
+			<!--							change="onFileBulkSelect" fileSizeExceed="onFileSizeExceed" maximumFileSize="5" width="100%" placeholder="{i18n>ChooseFile}"-->
+			<!--							style="Emphasized"></u:FileUploader>-->
+			<!--					</f:fields>-->
+			<!--<Label labelFor="idLabelBulk" text="{i18n>BulkRequestFile}" required="true"/>-->
+			<!--				</f:FormElement>-->
+			<!--				<f:FormElement label="">-->
+			<!--					<Text text="{i18n>BulkMaxFileUploadSize}" class="dtd-custom-text-size"/>-->
+			<!--				</f:FormElement>-->
+			<!--			</f:formElements>-->
+			<!--		</f:FormContainer>-->
+			<!--		<f:FormContainer title="{i18n>SupportingDocs}" class="sapUiContentPadding">-->
+			<!--			<f:formElements>-->
+			<!--				<f:FormElement>-->
+			<!--<List id="idAttachmentList" noDataText="{i18n>NoFileFound}" delete="onFileDeleted" mode="Delete" items="{bulkRequestModel>SupportingDocs}">-->
+			<!--	<headerToolbar>-->
+			<!--		<OverflowToolbar>-->
+			<!--			<Text text="{path: 'bulkRequestModel>SupportingDocs', formatter: '.formatter.formatAttachemntCount'}"/>-->
+			<!--			<ToolbarSpacer/>-->
+			<!--			<u:FileUploader enabled="{=${bulkRequestModel>SupportingDocs}.length &lt;5}" icon="sap-icon://add" typeMissmatch="onTypeMissmatch"-->
+			<!--				fileType="xlsx,xls,doc,docx,png,pdf,jpg,jpeg" buttonOnly="true" change="onFileSupportDocsSelect" fileSizeExceed="onFileSizeExceed"-->
+			<!--				maximumFileSize="3" multiple="false" iconOnly="false" sameFilenameAllowed="true" buttonText="{i18n>Upload}"></u:FileUploader>-->
+			<!--		</OverflowToolbar>-->
+			<!--	</headerToolbar>-->
+			<!--	<items>-->
+			<!--		<CustomListItem>-->
+			<!--			<HBox width="100%">-->
+			<!--				<core:Icon size="2rem" src="{path: 'bulkRequestModel>Icon'}" class="sapMUCItemIcon sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>-->
+			<!--				<VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom" width="100%">-->
+			<!--					<Title text="{bulkRequestModel>FileName}" wrapping="true" width="90%" visible="{= ${bulkRequestModel>RefNo} ? false : true}"/>-->
+			<!--					<Link text="{bulkRequestModel>FileName}" press="onOpenAttachment" wrapping="true" width="90%"-->
+			<!--						visible="{= ${bulkRequestModel>RefNo} ? true : false}"/>-->
+			<!--					<Label text="{i18n>fileSize} {path: 'bulkRequestModel>FileSize', formatter: '.formatter.fnFormatBytes'}"/>-->
+			<!--				</VBox>-->
+			<!--			</HBox>-->
+			<!--		</CustomListItem>-->
+			<!--	</items>-->
+			<!--	<layoutData>-->
+			<!--		<l:GridData span="XL12 L12 M12 S12"/>-->
+			<!--	</layoutData>-->
+			<!--</List>-->
+			<!--				</f:FormElement>-->
+			<!--				<f:FormElement label="">-->
+			<!--					<Text text="{i18n>SupportDocsMaxFileUploadSize}" class="dtd-custom-text-size">-->
+			<!--						<layoutData>-->
+			<!--							<l:GridData span="XL12 L12 M12 S12"/>-->
+			<!--						</layoutData>-->
+			<!--					</Text>-->
+			<!--				</f:FormElement>-->
+			<!--			</f:formElements>-->
+			<!--		</f:FormContainer>-->
+			<!--	</f:formContainers>-->
+			<!--</f:Form>-->
+		</Panel>
+	</l:VerticalLayout>
+</core:FragmentDefinition>

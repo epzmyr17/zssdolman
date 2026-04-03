@@ -1,0 +1,73 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
+	xmlns:u="sap.ui.unified" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<VBox class="sapUiContentPadding dtd-customPanel sapUiMediumMarginBottom">
+		<f:Form editable="false" class="dtd-form">
+			<f:layout>
+				<f:ResponsiveGridLayout labelSpanXL="5" labelSpanL="5" labelSpanM="5" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+					emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+			</f:layout>
+			<f:formContainers>
+				<f:FormContainer title="{i18n>PickUpTtl}">
+					<f:formElements>
+						<f:FormElement label="{i18n>PickUpLocationLbl}">
+							<Text text="{items>/0/PickupOriginDesc}"/>
+						</f:FormElement>
+						<!--Address Details if origin is from O, Warehouse, supplier and e-waste-->
+						<f:FormElement label="{i18n>AdressLbl}"
+							visible="{=${items>/0/PickupOrigin} === 'O' || (${items>/0/PickupOrigin} !== 'G' &amp;&amp; ${items>/0/PickupOrigin} !== '')}">
+							<Text
+								text="{items>/0/PickupUnitNo} {items>/0/PickupHouseNo} {items>/0/PickupStreet} {items>/0/PickupSubdivision} Brgy. {items>/0/PickupBarangayDesc}, {items>/0/PickupCityDesc}, {items>/0/PickupProvinceDesc}, {items>/0/PickupZipcode}"/>
+						</f:FormElement>
+						<!--Address Details if origin is from Globe-->
+						<f:FormElement label="{i18n>AdressLbl}" visible="{= ${items>/0/PickupOrigin} === 'G'}">
+							<Text text="{items>/0/PickupSpecLoc}, {items>/0/PickupLocationDesc}"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<f:FormContainer title=" ">
+					<f:formElements>
+						<f:FormElement>
+							<f:label>
+								<Label text="{i18n>PickupDateLbl}"/>
+							</f:label>
+							<Text text="{path: 'items>/0/PickupDate', formatter: '.formatter.formatDate'}"/>
+						</f:FormElement>
+						<f:FormElement>
+							<f:label>
+								<Label text="{i18n>PickupTime}"/>
+							</f:label>
+							<Text text="{path: 'items>/0/PickupTime', formatter: '.formatter.formatTime'}"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<!--Pick up contact-->
+				<f:FormContainer title="" visible="{items>/0/bShowDetails}">
+					<f:formElements>
+						<f:FormElement label="{i18n>ContactPersonLbl}">
+							<Text text="{items>/0/PickupContactPerson}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>ContactNoLbl}">
+							<Text text="{items>/0/PickupContactNumber}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>ContactEmailLbl}">
+							<Text text="{items>/0/PickupContactEmail}"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<f:FormContainer title="" visible="{items>/0/bShowDetails}">
+					<f:formElements>
+						<f:FormElement label="{i18n>AlternateContactPersonLbl}">
+							<Text text="{path: 'items>/0/PickupAltContactPerson' , formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>ContactNoLbl}">
+							<Text text="{path: 'items>/0/PickupAltContactNumber', formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>ContactEmailLbl}">
+							<Text text="{path: 'items>/0/PickupAltContactEmail', formatter: '.formatter.formatValue'}"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+	</VBox>
+</core:FragmentDefinition>

@@ -1,0 +1,81 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<Panel class="dtd-customPanel sapUiMediumMarginBottom">
+		<headerToolbar>
+			<Toolbar height="4rem" class="dtd-customHeaderColor">
+				<!--Start of change MS223343 - PAL-2023-004 / 007-->
+				<VBox>
+					<HBox>
+						<Text text="{i18n>TotalRequest}" class="sapUiTinyMarginBottom"/>
+						<Text text="{path: 'viewModel>/PackageCount', formatter: '.formatter.formatPackageCount'}" class="dtd-bold-title sapUiTinyMarginBottom"/>
+					</HBox>
+					<HBox visible="{= ${viewModel>/TransactionType} === 'NT'}">
+						<Text text="{i18n>chargeableWeight}" class="sapUiTinyMarginBottom"/>
+						<Text text="{MasterData>/ChargeableWeight}" class="dtd-bold-title sapUiTinyMarginBottom"/>
+					</HBox>
+				</VBox>
+				<!--End of change MS223343 - PAL-2023-004 / 007-->
+				<ToolbarSpacer/>
+				<VBox class="sapUiTinyMarginEnd" alignItems="End">
+					<Text text="{i18n>TotalCost}" class="sapUiTinyMarginBottom" textAlign="End"/>
+					<Text
+						text="{path: 'DTDRequest>/TotalEstimatedCost', type: 'sap.ui.model.odata.type.Decimal', constraints: { precision: 13, scale: 2, nullable: false }}"
+						class="dtd-bold-title dtd-custom-title-size" textAlign="End"/>
+				</VBox>
+			</Toolbar>
+		</headerToolbar>
+		<content>
+			<f:Form editable="true" class="dtd-form">
+				<f:layout>
+					<f:ResponsiveGridLayout labelSpanXL="5" labelSpanL="5" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+						emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+				</f:layout>
+				<f:formContainers>
+					<f:FormContainer title="{i18n>RequestApprover}"
+						visible="{= ${viewModel>/TransactionType} !== 'DT' &amp;&amp; ${UserType>/UserType} === 'R'}">
+						<f:formElements>
+							<f:FormElement label="{i18n>ApproveBy}" visible="{=${UserType>/UserType} === 'R'}">
+								<Input placeholder="{i18n>EnterSupervisor}" value="{DTDRequest>/ApproverName}" required="true" fieldGroupIds="NT,TT" showValueHelp="true"
+									valueHelpOnly="true" valueHelpRequest="onValueHelpApprover" app:ModelAlias="DTDRequest"
+									visible="{= ${viewModel>/TransactionType} !== 'DT' &amp;&amp; ${UserType>/UserType} === 'R'}"/>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+					<f:FormContainer visible="{= ${viewModel>/TransactionType} !== 'DT' &amp;&amp; ${UserType>/UserType} === 'R'}"/>
+					<f:FormContainer title="{i18n>RequestDetails}">
+						<f:formElements>
+							<!--Start of insert - MS223343 - PAL-2023-003-->
+							<f:FormElement label="{i18n>IOChargingAccount}">
+								<Input id="IOChargingAccountInput" placeholder="{i18n>EnterIOChargingAccount}"
+									value="{path: 'DTDRequest>/IOChargingAccount', type: 'sap.ui.model.type.String', constraints: {maxLength: 12}}" change="onCodeChange"
+									app:NumberType="Numeric"/>
+							</f:FormElement>
+							<!--End of insert - MS223343 - PAL-2023-003-->
+							<f:FormElement label="{i18n>WbsCode}">
+								<Input id="WbsCodeInput" placeholder="{i18n>EnterWbs}"
+									value="{path: 'DTDRequest>/WbsCode', type: 'sap.ui.model.type.String', constraints: {maxLength: 24}}" change="onCodeChange"
+									app:NumberType="Numeric"/>
+							</f:FormElement>
+							<!--Start of edit - MS223343 - PAL-2023-003-->
+							<f:FormElement label="{i18n>CompanyCode}">
+								<ComboBox required="true" fieldGroupIds="NT,DT,TT" placeholder="{i18n>SelectCompanyCode}"
+									items="{path: 'LocalMasterData>/CompanyCode', templateShareable: false}" selectedKey="{DTDRequest>/CompanyCode}" change="onCompanyChange">
+									<core:Item key="{LocalMasterData>id}" text="{LocalMasterData>Description}"/>
+								</ComboBox>
+							</f:FormElement>
+							<f:FormElement label="{i18n>CCCode}">
+								<Input id="CCCodeInput" placeholder="{i18n>EnterCCCode}" enabled="{= ${DTDRequest>/CompanyCode} !== '' }"
+									value="{path: 'DTDRequest>/CostCenter', type: 'sap.ui.model.type.String', constraints: {maxLength: 10}}" showValueHelp="true"
+									valueHelpOnly="true" valueHelpRequest="onValueHelpCCcode" change="onCodeChange" app:ModelAlias="DTDRequest"/>
+							</f:FormElement>
+							<f:FormElement label="">
+								<Text text="{MasterData>/costCenterNode/CostCenter}"/>
+							</f:FormElement>
+							<!--End of edit - MS223343 - PAL-2023-003-->
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+		</content>
+	</Panel>
+</core:FragmentDefinition>

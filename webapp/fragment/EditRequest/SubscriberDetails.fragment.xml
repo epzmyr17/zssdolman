@@ -1,0 +1,138 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
+	xmlns:u="sap.ui.unified" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<VBox class="sapUiContentPadding dtd-customPanel sapUiMediumMarginBottom" visible="{=${viewModel>/TransactionType} === 'TT'}">
+		<f:Form editable="true" class="dtd-form">
+			<f:layout>
+				<f:ResponsiveGridLayout labelSpanXL="5" labelSpanL="5" labelSpanM="5" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+					emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+			</f:layout>
+			<f:formContainers>
+				<f:FormContainer title="{i18n>SubsciberDetails}">
+					<f:formElements>
+						<!--To Do replace all i18n field names with metadata binding-->
+						<f:FormElement label="{i18n>CompanyName}" visible="{=${editOLRequest>AccountType} === 'CORP'}">
+							<Input required="true" fieldGroupIds="TT"
+								value="{path: 'editOLRequest>TradeCompanyName', type: 'sap.ui.model.type.String', constraints: { minLength: 1, maxLength : 50 }}"
+								placeholder="{i18n>EnterCompany}" visible="{=${editOLRequest>AccountType} === 'CORP'}" change="onValueChange"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>SubscriberName}" visible="{=${editOLRequest>AccountType} === 'CONS'}">
+							<Input required="true" fieldGroupIds="TT"
+								value="{path: 'editOLRequest>SubscriberName', type: 'sap.ui.model.type.String', constraints: { minLength: 1, maxLength : 50 }}"
+								placeholder="{i18n>EnterSubscriberName}" visible="{=${editOLRequest>AccountType} === 'CONS'}"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>SegmentOrder}">
+							<Input id="SegmentOderInput" placeholder="{i18n>SelectSegmentOrder}" value="{editOLRequest>SegmentOrder}" showValueHelp="true"
+								valueHelpOnly="true" valueHelpRequest="onValueHelpSegmentOrder" change="onValueChange" required="true" fieldGroupIds="TT"/>
+							<!--<ComboBox items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_SEGMENT_ORDERSet', templateShareable: false}" selectedKey="{SegmentOrder}"-->
+							<!--	change="onSegmentOrderChange" fieldGroupIds="TT" placeholder="{i18n>SelectSegmentOrder}" required="true">-->
+							<!--	<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>SEGMENT}" text="{ZSSD_ONELOOK_MDATA_SRV>SEGMENT_DESC}"/>-->
+							<!--</ComboBox>-->
+						</f:FormElement>
+						<f:FormElement label="{i18n>SegmentOrderType}">
+							<Input id="SegmentOrderTypeInput" value="{editOLRequest>SegmentOrderType}" enabled="false" required="true" fieldGroupIds="TT"
+								change="onValueChange"/>
+							<!--<ComboBox id="SegmentOrderTypeCb" items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_SEGMENT_TYPESet', templateShareable: false}"-->
+							<!--	selectedKey="{SegmentOrderType}" change="onSegmentOrderTypeChange" fieldGroupIds="TT" placeholder="{i18n>SelectSegmentOrder}"-->
+							<!--	required="true">-->
+							<!--	<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>SEGMENT_TYPE}" text="{ZSSD_ONELOOK_MDATA_SRV>SEGMENT_TYPE_DESC}"/>-->
+							<!--</ComboBox>-->
+						</f:FormElement>
+						<f:FormElement label="{i18n>Activity}">
+							<Input id="ActivityInput" value="{editOLRequest>Activity}" enabled="false" required="false" change="onValueChange"/>
+							<!--<ComboBox id="ActivityCb" items="{path: 'ZSSD_ONELOOK_MDATA_SRV>/ZSSD_ACTIVITIESSet', templateShareable: false}" selectedKey="{Activity}"-->
+							<!--	change="onActivityChange" fieldGroupIds="TT" placeholder="{i18n>SelectActivity}" required="true">-->
+							<!--	<core:Item key="{ZSSD_ONELOOK_MDATA_SRV>ActivityId}" text="{ZSSD_ONELOOK_MDATA_SRV>ActivityDesc}"/>-->
+							<!--</ComboBox>-->
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<f:FormContainer title=" ">
+					<f:formElements>
+						<f:FormElement label="{i18n>BSS}">
+							<Input fieldGroupIds="TT" value="{path: 'editOLRequest>BssCase', type: 'sap.ui.model.type.String', constraints: { maxLength : 20 }}"
+								placeholder="{i18n>EnterBSS}" change="onValueChange"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>DO}">
+							<Input fieldGroupIds="TT" value="{path: 'editOLRequest>DeliveryOrder', type: 'sap.ui.model.type.String', constraints: { maxLength : 50 }}"
+								placeholder="{i18n>EnterDO}" type="Number" change="onValueChange"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>RO}">
+							<Input fieldGroupIds="TT" value="{path: 'editOLRequest>ReservationNo', type: 'sap.ui.model.type.String', constraints: { maxLength : 10 }}"
+								placeholder="{i18n>EnterRO}" type="Number" change="onValueChange"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>Sto}">
+							<Input fieldGroupIds="TT" value="{path: 'editOLRequest>Sto', type: 'sap.ui.model.type.String', constraints: { maxLength : 10 }}"
+								placeholder="{i18n>EnterSTO}" type="Number" change="onValueChange"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>AccountNumber}">
+							<Input fieldGroupIds="TT" value="{path: 'editOLRequest>AccountNo', type: 'sap.ui.model.type.String', constraints: { maxLength : 20 }}"
+								placeholder="{i18n>EnterAccountNumber}" type="Number" change="onValueChange"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<!--Start of insert MS223343 - PAL-2023-010-->
+				<f:FormContainer title="{i18n>StoreDetails}">
+					<f:formElements>
+						<f:FormElement label="{i18n>StoreName}">
+							<Input value="{path: 'editOLRequest>/StoreName', type: 'sap.ui.model.type.String'}" enabled="false"/>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<f:FormContainer title=" "/>
+				<!--Start of insert MS223343 - PAL-2023-010-->
+				<f:FormContainer title="{i18n>RecipientDetails}" visible="{= ${editOLRequest>AccountType} === 'CORP'}">
+					<f:formElements>
+						<f:FormElement label="{i18n>RecipientName}">
+							<Input fieldGroupIds="TT" value="{path: 'editOLRequest>RecipientName', type: 'sap.ui.model.type.String', constraints: { maxLength : 50 }}"
+								placeholder="{i18n>EnterRecipientName}" visible="{= ${editOLRequest>AccountType} === 'CORP'}" change="onValueChange"/>
+						</f:FormElement>
+						<f:FormElement label="{i18n>MobileNo}">
+							<Input enabled="false" value="+63" visible="{= ${editOLRequest>AccountType} === 'CORP'}">
+								<layoutData>
+									<l:GridData span="XL2 L2 M2 S4"/>
+								</layoutData>
+							</Input>
+							<Input fieldGroupIds="TT" value="{path: 'editOLRequest>MobileNo', type: 'sap.ui.model.type.String', constraints: { maxLength : 10 }}"
+								placeholder="{i18n>EnterMobileNo}" visible="{= ${editOLRequest>AccountType} === 'CORP'}" change="onValueChange" type="Number">
+								<layoutData>
+									<l:GridData span="XL5 L5 M5 S8"/>
+								</layoutData>
+							</Input>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+				<f:FormContainer title=" " visible="{= ${editOLRequest>AccountType} === 'CORP'}"/>
+				<f:FormContainer title="{i18n>PaymentDetails}">
+					<f:formElements>
+						<f:FormElement label="{i18n>PaymentMode}">
+							<f:label>
+								<Label text="{i18n>PaymentMode}" required="true"/>
+							</f:label>
+							<RadioButtonGroup fieldGroupIds="TT" id="PaymentModeRb" selectedIndex="{editOLRequest>PaymentModeIndex}" select="onSelectPayment"
+								buttons="{LocalMasterData>/ModeOfPayment}">
+								<RadioButton text="{LocalMasterData>PaymentModeDesc}" app:Payment="{LocalMasterData>PaymentMode}"/>
+							</RadioButtonGroup>
+						</f:FormElement>
+						<f:FormElement label="{i18n>CashoutAmount}"
+							visible="{= ${editOLRequest>PaymentMode} === 'COD' &amp;&amp; ${editOLRequest>PaymentMode} !== ''}">
+							<Select selectedKey="{editOLRequest>CashoutCurrency}" items="{LocalMasterData>/Currency}" change="onValueChange"
+								visible="{= ${editOLRequest>PaymentMode} === 'COD'}">
+								<core:Item key="{LocalMasterData>id}" text="{LocalMasterData>Description}"/>
+								<layoutData>
+									<l:GridData span="XL2 L2 M2 S4"/>
+								</layoutData>
+							</Select>
+							<Input required="true" fieldGroupIds="TT"
+								value="{path: 'editOLRequest>Cashout', type: 'sap.ui.model.type.String', constraints: { minLength: 1, maxLength : 28 }}" type="Number"
+								placeholder="{i18n>EnterCashout}" change="onValueChange" visible="{= ${editOLRequest>PaymentMode} === 'COD'}">
+								<layoutData>
+									<l:GridData span="XL5 L5 M6 S8"/>
+								</layoutData>
+							</Input>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+	</VBox>
+</core:FragmentDefinition>

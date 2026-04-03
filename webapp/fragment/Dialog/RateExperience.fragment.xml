@@ -1,0 +1,19 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<Dialog id="RateExpericeDialog" title="{i18n>RateExperience}" class="sapUiContentPadding">
+		<content>
+			<VBox>
+				<Text text="{i18n>RateDTDExperience}" class="sapUiSmallMarginBottom"/>
+				<Text text="{i18n>RateForCourier}" class="sapUiTinyMarginBottom dtd-bold-title"/>
+				<RatingIndicator id="CourieRating" maxValue="5" value="{RateCourier>/CourierRate}" class="sapUiSmallMarginBottom" iconSize="22px" tooltip="{i18n>RateForCourier}" />
+				<Text text="{i18n>CommentsOrSuggestions}" class="sapUiTinyMarginBottom dtd-bold-title"/>
+				<TextArea placeholder="{i18n>EnterCommentsOrSuggestions}" value="{RateCourier>/Remarks}" maxLength="50" width="100%" rows="2"/>
+			</VBox>
+		</content>
+		<buttons>
+			<Button tooltip="{i18n>CancelBtn}" text="{i18n>CancelBtn}" press="onCancelRateCourier"/>
+			<Button tooltip="{i18n>SubmitBtn}" text="{i18n>SubmitBtn}" type="Emphasized" press="onSubmitRateCourier"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>
